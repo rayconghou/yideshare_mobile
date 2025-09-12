@@ -9,11 +9,11 @@ import {
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useMobileAuth } from '../contexts/MobileAuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const { user, logout } = useMobileAuth();
+  const { user, yaliesData, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -35,7 +35,7 @@ const HomeScreen: React.FC = () => {
 
         <View style={styles.userInfo}>
           <Text style={[styles.welcomeText, isDarkMode && styles.darkText]}>
-            Hello, {user?.displayName || 'User'}!
+            Hello, {yaliesData?.preferred_name || yaliesData?.first_name || 'User'}!
           </Text>
           <Text style={[styles.successText, isDarkMode && styles.darkText]}>
             ✅ Successfully authenticated with Yale CAS
@@ -44,16 +44,26 @@ const HomeScreen: React.FC = () => {
             NetID: {user?.netid}
           </Text>
           <Text style={[styles.emailText, isDarkMode && styles.darkText]}>
-            {user?.email}
+            {yaliesData?.email || 'No email available'}
           </Text>
-          {user?.school && (
+          {yaliesData?.college && (
             <Text style={[styles.schoolText, isDarkMode && styles.darkText]}>
-              {user.school}
+              College: {yaliesData.college}
             </Text>
           )}
-          {user?.major && (
+          {yaliesData?.year && (
+            <Text style={[styles.schoolText, isDarkMode && styles.darkText]}>
+              Class Year: {yaliesData.year}
+            </Text>
+          )}
+          {yaliesData?.major && (
             <Text style={[styles.majorText, isDarkMode && styles.darkText]}>
-              {user.major}
+              Major: {yaliesData.major}
+            </Text>
+          )}
+          {yaliesData?.school && (
+            <Text style={[styles.schoolText, isDarkMode && styles.darkText]}>
+              School: {yaliesData.school}
             </Text>
           )}
         </View>
