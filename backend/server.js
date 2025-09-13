@@ -233,11 +233,11 @@ app.get('/api/auth/mobile/callback', async (req, res) => {
     
     console.log('💾 [MOBILE CALLBACK] Session stored for token:', token);
     
-    res.json({
-      success: true,
-      token: token,
-      user: userData
-    });
+    // Redirect to mobile app with success
+    const mobileAppUrl = `yideshare://auth/success?token=${encodeURIComponent(token)}&netid=${encodeURIComponent(userData.netid)}`;
+    console.log('📱 [MOBILE CALLBACK] Redirecting to mobile app:', mobileAppUrl);
+    
+    res.redirect(mobileAppUrl);
     
   } catch (error) {
     console.error('💥 [MOBILE CALLBACK] Error:', error);
