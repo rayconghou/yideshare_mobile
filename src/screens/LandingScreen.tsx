@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
+import { ImageBackground } from 'react-native';
 
 interface LandingScreenProps {
   onAuthSuccess: () => void;
@@ -41,46 +42,48 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
 
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
-      <View style={styles.content}>
-        <Text style={[styles.title, isDarkMode && styles.darkTitle]}>
-          Yideshare
-        </Text>
-        
-        <Text style={[styles.subtitle, isDarkMode && styles.darkSubtitle]}>
-          Ridesharing app for Yale students
-        </Text>
-
-        <TouchableOpacity
-          style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
-          onPress={handleLogin}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color="#FFFFFF" />
-              <Text style={styles.loginButtonText}>
-                {isPolling ? 'Authenticating...' : 'Opening browser...'}
-              </Text>
-            </View>
-          ) : (
-            <Text style={styles.loginButtonText}>Login with Yale CAS</Text>
-          )}
-        </TouchableOpacity>
-
-        <Text style={[styles.helpText, isDarkMode && styles.darkHelpText]}>
-          {isPolling 
-            ? "Complete authentication in your browser and return to the app"
-            : "You will be redirected to your browser to complete authentication"
-          }
-        </Text>
-
-        {/* Debug info */}
-        <View style={styles.debugContainer}>
-          <Text style={[styles.debugText, isDarkMode && styles.darkDebugText]}>
-            Debug: {isPolling ? 'Polling for auth...' : 'Ready to authenticate'}
+      <ImageBackground source={require('../assets/images/landing_page_background.png')} resizeMode="cover" style={styles.image}>
+        <View style={styles.content}>
+          <Text style={[styles.title, isDarkMode && styles.darkTitle]}>
+            Yideshare
           </Text>
+          
+          <Text style={[styles.subtitle, isDarkMode && styles.darkSubtitle]}>
+            Ridesharing app for Yale students
+          </Text>
+
+          <TouchableOpacity
+            style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="small" color="#FFFFFF" />
+                <Text style={styles.loginButtonText}>
+                  {isPolling ? 'Authenticating...' : 'Opening browser...'}
+                </Text>
+              </View>
+            ) : (
+              <Text style={styles.loginButtonText}>Login with Yale CAS</Text>
+            )}
+          </TouchableOpacity>
+
+          <Text style={[styles.helpText, isDarkMode && styles.darkHelpText]}>
+            {isPolling 
+              ? "Complete authentication in your browser and return to the app"
+              : "You will be redirected to your browser to complete authentication"
+            }
+          </Text>
+
+          {/* Debug info */}
+          <View style={styles.debugContainer}>
+            <Text style={[styles.debugText, isDarkMode && styles.darkDebugText]}>
+              Debug: {isPolling ? 'Polling for auth...' : 'Ready to authenticate'}
+            </Text>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -165,6 +168,10 @@ const styles = StyleSheet.create({
   },
   darkDebugText: {
     color: '#666666',
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 
