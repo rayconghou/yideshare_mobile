@@ -43,11 +43,11 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
       <View style={styles.content}>
         <Text style={[styles.title, isDarkMode && styles.darkTitle]}>
-          Welcome to Yideshare
+          Yideshare
         </Text>
         
         <Text style={[styles.subtitle, isDarkMode && styles.darkSubtitle]}>
-          Your sharing platform
+          Ridesharing app for Yale students
         </Text>
 
         <TouchableOpacity
@@ -101,9 +101,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontFamily: 'RighteousRegular',
+    fontFamily: 'Righteous-Regular',
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 8,
   },
@@ -120,20 +120,21 @@ const styles = StyleSheet.create({
     color: '#CCCCCC',
   },
   loginButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 8,
+    backgroundColor: '#CDE3DD',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 37,
     marginBottom: 20,
-    minWidth: 200,
+    minWidth: 167,
   },
   loginButtonDisabled: {
     backgroundColor: '#CCCCCC',
   },
   loginButtonText: {
-    color: '#FFFFFF',
+    color: '#397060',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '400',
+    fontFamily: 'Lexend-Regular',
     textAlign: 'center',
   },
   loadingContainer: {
