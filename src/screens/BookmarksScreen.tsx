@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, useColorScheme } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  useColorScheme,
+  ScrollView,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BookmarksScreen: React.FC = () => {
@@ -7,14 +14,23 @@ const BookmarksScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
-      <View style={styles.content}>
-        <Text style={[styles.title, isDarkMode && styles.darkText]}>
-          Bookmarks
-        </Text>
-        <Text style={[styles.subtitle, isDarkMode && styles.darkSubtext]}>
-          Your saved rides will appear here
-        </Text>
+      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+      
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Bookmarks</Text>
       </View>
+      
+      {/* Content */}
+      <ScrollView style={styles.content}>
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyIcon}>🔖</Text>
+          <Text style={styles.emptyTitle}>No bookmarked rides</Text>
+          <Text style={styles.emptySubtitle}>
+            Bookmark rides you're interested in to see them here
+          </Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -22,33 +38,49 @@ const BookmarksScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#ffffff',
   },
   darkContainer: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#000000',
+  },
+  header: {
+    backgroundColor: '#6B9080',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 60,
+  },
+  emptyIcon: {
+    fontSize: 64,
+    marginBottom: 20,
+  },
+  emptyTitle: {
+    fontSize: 20,
+    fontWeight: '600',
     color: '#333',
-    marginBottom: 8,
+    marginBottom: 10,
+    textAlign: 'center',
   },
-  darkText: {
-    color: '#fff',
-  },
-  subtitle: {
+  emptySubtitle: {
     fontSize: 16,
     color: '#666',
     textAlign: 'center',
-  },
-  darkSubtext: {
-    color: '#999',
+    lineHeight: 24,
+    paddingHorizontal: 20,
   },
 });
 

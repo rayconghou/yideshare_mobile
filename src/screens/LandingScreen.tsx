@@ -43,11 +43,11 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
       <View style={styles.content}>
         <Text style={[styles.title, isDarkMode && styles.darkTitle]}>
-          Welcome to Yideshare
+          Yideshare
         </Text>
         
         <Text style={[styles.subtitle, isDarkMode && styles.darkSubtitle]}>
-          Your sharing platform
+          Ridesharing app for Yale students
         </Text>
 
         <TouchableOpacity
@@ -63,23 +63,10 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
               </Text>
             </View>
           ) : (
-            <Text style={styles.loginButtonText}>Login with Yale CAS</Text>
+            <Text style={styles.loginButtonText}>Login to CAS</Text>
           )}
         </TouchableOpacity>
 
-        <Text style={[styles.helpText, isDarkMode && styles.darkHelpText]}>
-          {isPolling 
-            ? "Complete authentication in your browser and return to the app"
-            : "You will be redirected to your browser to complete authentication"
-          }
-        </Text>
-
-        {/* Debug info */}
-        <View style={styles.debugContainer}>
-          <Text style={[styles.debugText, isDarkMode && styles.darkDebugText]}>
-            Debug: {isPolling ? 'Polling for auth...' : 'Ready to authenticate'}
-          </Text>
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -139,30 +126,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  helpText: {
-    fontSize: 14,
-    color: '#666666',
-    textAlign: 'center',
-    lineHeight: 20,
-    paddingHorizontal: 20,
-  },
-  darkHelpText: {
-    color: '#CCCCCC',
-  },
-  debugContainer: {
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
-    right: 20,
-  },
-  debugText: {
-    fontSize: 12,
-    color: '#999999',
-    textAlign: 'center',
-  },
-  darkDebugText: {
-    color: '#666666',
   },
 });
 

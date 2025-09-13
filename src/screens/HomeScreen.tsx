@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,99 +7,135 @@ import {
   StatusBar,
   useColorScheme,
   ScrollView,
+  TextInput,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 
+// Mock ride data
+const mockRides = [
+  {
+    id: '1',
+    from: 'Branford College',
+    to: 'Hartford (BDL)',
+    date: '14 Dec',
+    time: '9:30 AM - 11:00 AM',
+    driver: {
+      name: 'Aspen Carder',
+      email: 'driver@yale.edu',
+      phone: '(123) 456-7890',
+      initials: 'AC',
+    },
+    seats: 2,
+    note: 'See note',
+  },
+  {
+    id: '2',
+    from: 'Branford College',
+    to: 'Hartford (BDL)',
+    date: '14 Dec',
+    time: '9:30 AM - 11:00 AM',
+    driver: {
+      name: 'Ruben Rosser',
+      email: 'driver@yale.edu',
+      phone: '(123) 456-7890',
+      initials: 'RR',
+    },
+    seats: 2,
+    note: 'See note',
+  },
+];
+
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { user, yaliesData, logout } = useAuth();
+  const [searchText, setSearchText] = useState('');
 
   const handleLogout = () => {
     logout();
   };
 
+  const renderRideCard = (ride: typeof mockRides[0]) => (
+    <View key={ride.id} style={styles.rideCard}>
+      <View style={styles.rideHeader}>
+        <View style={styles.routeInfo}>
+          <View style={styles.locationRow}>
+            <Text style={styles.pinIcon}>📍</Text>
+            <Text style={styles.locationText}>{ride.from}</Text>
+          </View>
+          <View style={styles.locationRow}>
+            <Text style={styles.pinIcon}>📍</Text>
+            <Text style={styles.locationText}>{ride.to}</Text>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.bookmarkButton}>
+          <Text style={styles.bookmarkIcon}>🔖</Text>
+        </TouchableOpacity>
+      </View>
+      
+      <View style={styles.rideDetails}>
+        <View style={styles.timeInfo}>
+          <Text style={styles.calendarIcon}>📅</Text>
+          <Text style={styles.dateText}>{ride.date}</Text>
+        </View>
+        <View style={styles.timeInfo}>
+          <Text style={styles.clockIcon}>🕘</Text>
+          <Text style={styles.timeText}>{ride.time}</Text>
+        </View>
+      </View>
+      
+      <View style={styles.driverInfo}>
+        <View style={styles.driverAvatar}>
+          <Text style={styles.driverInitials}>{ride.driver.initials}</Text>
+        </View>
+        <View style={styles.driverDetails}>
+          <Text style={styles.driverName}>{ride.driver.name}</Text>
+          <Text style={styles.driverEmail}>{ride.driver.email}</Text>
+          <Text style={styles.driverPhone}>{ride.driver.phone}</Text>
+        </View>
+      </View>
+      
+      <View style={styles.rideFooter}>
+        <TouchableOpacity style={styles.noteButton}>
+          <Text style={styles.noteText}>{ride.note}</Text>
+        </TouchableOpacity>
+        <Text style={styles.seatsText}>{ride.seats} open seats</Text>
+      </View>
+    </View>
+  );
+
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
       
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <Text style={[styles.title, isDarkMode && styles.darkText]}>
-            Welcome to Yideshare
-          </Text>
-          <Text style={[styles.subtitle, isDarkMode && styles.darkText]}>
-            Your sharing platform
-          </Text>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Yideshare</Text>
+        <View style={styles.searchContainer}>
+          <Text style={styles.searchIcon}>🔍</Text>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Where to?"
+            placeholderTextColor="#999"
+            value={searchText}
+            onChangeText={setSearchText}
+          />
         </View>
-
-        <View style={styles.userInfo}>
-          <Text style={[styles.welcomeText, isDarkMode && styles.darkText]}>
-            Hello, {yaliesData?.preferred_name || yaliesData?.first_name || 'User'}!
-          </Text>
-          <Text style={[styles.successText, isDarkMode && styles.darkText]}>
-            ✅ Successfully authenticated with Yale CAS
-          </Text>
-          <Text style={[styles.netIdText, isDarkMode && styles.darkText]}>
-            NetID: {user?.netid}
-          </Text>
-          <Text style={[styles.emailText, isDarkMode && styles.darkText]}>
-            {yaliesData?.email || 'No email available'}
-          </Text>
-          {yaliesData?.college && (
-            <Text style={[styles.schoolText, isDarkMode && styles.darkText]}>
-              College: {yaliesData.college}
-            </Text>
-          )}
-          {yaliesData?.year && (
-            <Text style={[styles.schoolText, isDarkMode && styles.darkText]}>
-              Class Year: {yaliesData.year}
-            </Text>
-          )}
-          {yaliesData?.major && (
-            <Text style={[styles.majorText, isDarkMode && styles.darkText]}>
-              Major: {yaliesData.major}
-            </Text>
-          )}
-          {yaliesData?.school && (
-            <Text style={[styles.schoolText, isDarkMode && styles.darkText]}>
-              School: {yaliesData.school}
-            </Text>
-          )}
+      </View>
+      
+      {/* Content */}
+      <ScrollView style={styles.content}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Explore rides</Text>
+          <TouchableOpacity style={styles.filterButton}>
+            <Text style={styles.filterIcon}>⚙️</Text>
+          </TouchableOpacity>
         </View>
-
-        <View style={styles.features}>
-          <Text style={[styles.sectionTitle, isDarkMode && styles.darkText]}>
-            Features
-          </Text>
-          
-          <View style={styles.featureItem}>
-            <Text style={[styles.featureText, isDarkMode && styles.darkText]}>
-              📱 Share content with Yale community
-            </Text>
-          </View>
-          
-          <View style={styles.featureItem}>
-            <Text style={[styles.featureText, isDarkMode && styles.darkText]}>
-              🔒 Secure authentication with Yale CAS
-            </Text>
-          </View>
-          
-          <View style={styles.featureItem}>
-            <Text style={[styles.featureText, isDarkMode && styles.darkText]}>
-              👥 Connect with fellow students
-            </Text>
-          </View>
-        </View>
-
-        <TouchableOpacity 
-          style={styles.logoutButton} 
-          onPress={handleLogout}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.logoutButtonText}>Logout</Text>
-        </TouchableOpacity>
+        
+        {mockRides.map(renderRideCard)}
       </ScrollView>
+      
     </SafeAreaView>
   );
 };
@@ -112,106 +148,179 @@ const styles = StyleSheet.create({
   darkContainer: {
     backgroundColor: '#000000',
   },
-  content: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
   header: {
-    alignItems: 'center',
-    marginBottom: 30,
+    backgroundColor: '#6B9080',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 32,
+  headerTitle: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#333333',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  darkText: {
     color: '#ffffff',
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#666666',
-    textAlign: 'center',
-  },
-  userInfo: {
-    backgroundColor: '#f8f9fa',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 30,
-  },
-  welcomeText: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  successText: {
-    fontSize: 14,
-    color: '#28a745',
-    fontWeight: '500',
-    marginBottom: 10,
-  },
-  netIdText: {
-    fontSize: 16,
-    color: '#666666',
-    marginBottom: 5,
-  },
-  emailText: {
-    fontSize: 14,
-    color: '#888888',
-  },
-  schoolText: {
-    fontSize: 14,
-    color: '#666666',
-    marginTop: 5,
-    fontWeight: '500',
-  },
-  majorText: {
-    fontSize: 12,
-    color: '#888888',
-    marginTop: 2,
-  },
-  features: {
-    marginBottom: 30,
-  },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333333',
     marginBottom: 15,
   },
-  featureItem: {
-    backgroundColor: '#e3f2fd',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  featureText: {
-    fontSize: 16,
-    color: '#333333',
-  },
-  logoutButton: {
-    backgroundColor: '#dc3545',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
     borderRadius: 25,
-    alignSelf: 'center',
-    elevation: 3,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  searchIcon: {
+    fontSize: 16,
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 15,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+  },
+  filterButton: {
+    padding: 5,
+  },
+  filterIcon: {
+    fontSize: 20,
+  },
+  rideCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.1,
     shadowRadius: 3.84,
+    elevation: 5,
   },
-  logoutButtonText: {
-    color: '#ffffff',
+  rideHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  routeInfo: {
+    flex: 1,
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  pinIcon: {
+    fontSize: 14,
+    marginRight: 8,
+  },
+  locationText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333',
+  },
+  bookmarkButton: {
+    padding: 5,
+  },
+  bookmarkIcon: {
     fontSize: 18,
+  },
+  rideDetails: {
+    flexDirection: 'row',
+    marginBottom: 12,
+  },
+  timeInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  calendarIcon: {
+    fontSize: 14,
+    marginRight: 6,
+  },
+  clockIcon: {
+    fontSize: 14,
+    marginRight: 6,
+  },
+  dateText: {
+    fontSize: 14,
+    color: '#666',
+  },
+  timeText: {
+    fontSize: 14,
+    color: '#666',
+  },
+  driverInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  driverAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#B0E0D0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  driverInitials: {
+    color: '#3D7A6A',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  driverDetails: {
+    flex: 1,
+  },
+  driverName: {
+    fontSize: 16,
     fontWeight: '600',
+    color: '#333',
+    marginBottom: 2,
+  },
+  driverEmail: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 2,
+  },
+  driverPhone: {
+    fontSize: 14,
+    color: '#666',
+  },
+  rideFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  noteButton: {
+    paddingVertical: 4,
+  },
+  noteText: {
+    fontSize: 14,
+    color: '#6B9080',
+    textDecorationLine: 'underline',
+  },
+  seatsText: {
+    fontSize: 14,
+    color: '#666',
+    fontWeight: '500',
   },
 });
 
