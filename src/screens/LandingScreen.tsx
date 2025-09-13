@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    fontFamily: 'RighteousRegular',
     fontWeight: 'bold',
     color: '#333333',
     textAlign: 'center',
