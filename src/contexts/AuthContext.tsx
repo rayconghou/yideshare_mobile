@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import CASService, { User } from '../services/CASService';
 import { YaliesPerson } from '../services/YaliesService';
+import { DeepLinkService, DeepLinkData } from '../services/DeepLinkService';
 
 interface AuthContextType {
   user: User | null;
@@ -38,6 +39,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const shouldPollRef = useRef(false);
 
   const casService = CASService.getInstance();
+  const deepLinkService = DeepLinkService.getInstance();
+
+  // Handle deep link authentication
+  useEffect(() => {
+    const handleDeepLink = (data: DeepLinkData) => {
+      console.log('🔗 [AUTH] Deep link received:', data);
+      
+      if (data.token && data.netid) {
+        // Authentication successful via deep link
+        console.log('✅ [AUTH] Deep link authentication successful:', data.netid);
+        
+        // Create user object from deep link data
+        const user: User = {
+          netid: data.netid,
+        };
+        
+        setUser(user);
+        stopPolling(); // Stop any ongoing polling
+        
+        // Fetch additional user data from Yalies
+        casService.getCurrentUserYaliesData().then(yaliesData => {
+          if (yaliesData) {
+            setYaliesData(yaliesData);
+          }
+        }).catch(error => {
+          console.error('❌ [AUTH] Error fetching Yalies data:', error);
+        });
+      } else if (data.error) {
+        console.error('❌ [AUTH] Deep link authentication failed:', data.error);
+        stopPolling();
+      }
+    };
+
+    deepLinkService.addListener(handleDeepLink);
+
+    return () => {
+      deepLinkService.removeListener(handleDeepLink);
+    };
+  }, []);
 
   // Check authentication status on app start
   useEffect(() => {
