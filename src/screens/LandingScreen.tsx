@@ -65,11 +65,12 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
                 </Text>
               </View>
             ) : (
-              <Text style={styles.loginButtonText}>Login to CAS</Text>
+              <Text style={styles.loginButtonText}>Log in with CAS</Text>
             )}
           </TouchableOpacity>
 
-      </View>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    color: '#666666',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 40,
   },
