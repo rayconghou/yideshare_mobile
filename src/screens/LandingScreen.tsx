@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, Animated } from 'react-native';
 
 interface LandingScreenProps {
   onAuthSuccess: () => void;
@@ -40,36 +40,77 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
 
   const isLoading = isAuthenticating || isPolling;
 
+  const textmove = useRef(new Animated.Value(0)).current;
+  const fadeOut = useRef(new Animated.Value(1)).current;
+  const animationDuration = 2500;
+
+  const moveTitle = () => {
+    Animated.timing(textmove,{
+      toValue: -70,
+      duration: animationDuration,
+      useNativeDriver: false,
+    }).start()
+  };
+  
+  const moveSubtitle = () => {
+    Animated.parallel([
+      Animated.timing(textmove,{
+        toValue: -70,
+        duration: animationDuration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(fadeOut,{
+        toValue: 0,
+        duration: animationDuration,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+
+  const fadeIn = useRef(new Animated.Value(0)).current;
+  const fadeButton = () => {
+    Animated.timing(fadeIn,{
+      toValue: 1,
+      duration: animationDuration,
+      useNativeDriver: false,
+    }).start();
+  }
+  useEffect(() => {
+    moveTitle();
+    moveSubtitle();
+    fadeButton();
+  },[]);
+
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
       <ImageBackground source={require('../assets/images/landing_page_background.png')} resizeMode="cover" style={styles.image}>
-        <View style={styles.content}>
-          <Text style={[styles.title, isDarkMode && styles.darkTitle]}>
+        <Animated.View style={styles.content}>
+          <Animated.Text style={[styles.title, isDarkMode && styles.darkTitle, {transform:[{translateY:textmove}]}]}>
             Yideshare
-          </Text>
+          </Animated.Text>
           
-          <Text style={[styles.subtitle, isDarkMode && styles.darkSubtitle]}>
+          <Animated.Text style={[styles.subtitle, isDarkMode && styles.darkSubtitle, {opacity:fadeOut}, {transform:[{translateY:textmove}]}]}>
             Ridesharing app for Yale students
-          </Text>
-
-          <TouchableOpacity
-            style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
-            onPress={handleLogin}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="small" color="#FFFFFF" />
-                <Text style={styles.loginButtonText}>
-                  {isPolling ? 'Authenticating...' : 'Opening browser...'}
-                </Text>
-              </View>
-            ) : (
-              <Text style={styles.loginButtonText}>Log in with CAS</Text>
-            )}
-          </TouchableOpacity>
-
-        </View>
+          </Animated.Text>
+          <Animated.View style={{opacity:fadeIn}}>
+            <TouchableOpacity
+              style={[styles.loginButton, isLoading && styles.loginButtonDisabled, {opacity:fadeIn}]}
+              onPress={handleLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Animated.View style={[styles.loadingContainer]}>
+                  <ActivityIndicator size="small" color="#FFFFFF" />
+                  <Text style={styles.loginButtonText}>
+                    {isPolling ? 'Authenticating...' : 'Opening browser...'}
+                  </Text>
+                </Animated.View>
+              ) : (
+                <Animated.Text style={[styles.loginButtonText]}>Log in with CAS</Animated.Text>
+              )}
+            </TouchableOpacity>
+          </Animated.View>
+        </Animated.View>
       </ImageBackground>
     </SafeAreaView>
   );
