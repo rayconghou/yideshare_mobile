@@ -7,6 +7,7 @@ import {
   Alert,
   ActivityIndicator,
   useColorScheme,
+  TurboModuleRegistry,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
@@ -75,10 +76,15 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
       useNativeDriver: false,
     }).start();
   }
+
+  const hasAnimated = useRef(false);
   useEffect(() => {
-    moveTitle();
-    moveSubtitle();
-    fadeButton();
+    if (!hasAnimated.current) {
+      moveTitle();
+      moveSubtitle();
+      fadeButton();
+      hasAnimated.current = true;
+    }
   },[]);
 
   return (
