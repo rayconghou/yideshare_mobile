@@ -140,6 +140,7 @@ const HomeScreen: React.FC = () => {
   );
 };
 
+const defaultFontFamily = 'Lexend-Regular'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     marginBottom: 15,
+    fontFamily: 'Righteous-Regular'
   },
   searchContainer: {
     flexDirection: 'row',
@@ -171,11 +173,13 @@ const styles = StyleSheet.create({
   searchIcon: {
     fontSize: 16,
     marginRight: 10,
+    fontFamily: defaultFontFamily,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
     color: '#333',
+    fontFamily: defaultFontFamily,
   },
   content: {
     flex: 1,
@@ -192,12 +196,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
+    fontFamily: defaultFontFamily,
   },
   filterButton: {
     padding: 5,
   },
   filterIcon: {
     fontSize: 20,
+    fontFamily: defaultFontFamily,
   },
   rideCard: {
     backgroundColor: '#ffffff',
@@ -230,17 +236,20 @@ const styles = StyleSheet.create({
   pinIcon: {
     fontSize: 14,
     marginRight: 8,
+    fontFamily: defaultFontFamily,
   },
   locationText: {
     fontSize: 16,
     fontWeight: '500',
     color: '#333',
+    fontFamily: defaultFontFamily,
   },
   bookmarkButton: {
     padding: 5,
   },
   bookmarkIcon: {
     fontSize: 18,
+    fontFamily: defaultFontFamily,
   },
   rideDetails: {
     flexDirection: 'row',
@@ -258,14 +267,17 @@ const styles = StyleSheet.create({
   clockIcon: {
     fontSize: 14,
     marginRight: 6,
+    fontFamily: defaultFontFamily,
   },
   dateText: {
     fontSize: 14,
     color: '#666',
+    fontFamily: defaultFontFamily,
   },
   timeText: {
     fontSize: 14,
     color: '#666',
+    fontFamily: defaultFontFamily,
   },
   driverInfo: {
     flexDirection: 'row',
@@ -285,6 +297,7 @@ const styles = StyleSheet.create({
     color: '#3D7A6A',
     fontWeight: 'bold',
     fontSize: 16,
+    fontFamily: defaultFontFamily,
   },
   driverDetails: {
     flex: 1,
@@ -294,15 +307,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     marginBottom: 2,
+    fontFamily: defaultFontFamily,
   },
   driverEmail: {
     fontSize: 14,
     color: '#666',
     marginBottom: 2,
+    fontFamily: defaultFontFamily,
   },
   driverPhone: {
     fontSize: 14,
     color: '#666',
+    fontFamily: defaultFontFamily,
   },
   rideFooter: {
     flexDirection: 'row',
@@ -316,11 +332,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#6B9080',
     textDecorationLine: 'underline',
+    fontFamily: defaultFontFamily,
   },
   seatsText: {
     fontSize: 14,
     color: '#666',
     fontWeight: '500',
+    fontFamily: defaultFontFamily,
   },
 });
 

@@ -58,6 +58,7 @@ const MyRidesScreen: React.FC = () => {
   );
 };
 
+const defaultFontFamily = 'Lexend-Regular'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ffffff',
+    fontFamily: 'Righteous-Regular'
   },
   content: {
     flex: 1,
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
   emptyIcon: {
     fontSize: 64,
     marginBottom: 20,
+    fontFamily: defaultFontFamily
   },
   emptyTitle: {
     fontSize: 20,
@@ -104,6 +107,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 24,
     paddingHorizontal: 20,
+    fontFamily: defaultFontFamily
   },
   bottomButtons: {
     alignItems: 'center',
