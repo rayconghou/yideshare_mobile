@@ -156,11 +156,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: 400,
     color: '#ffffff',
     marginBottom: 15,
-    fontFamily: 'Righteous-Regular'
+    fontFamily: 'Righteous-Regular',
+    textAlign: 'center'
   },
   searchContainer: {
     flexDirection: 'row',
@@ -193,10 +194,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#000000',
     fontFamily: defaultFontFamily,
+    textAlign: 'center',
+    flex: 1,
   },
   filterButton: {
     padding: 5,
@@ -240,7 +243,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '400',
     color: '#333',
     fontFamily: defaultFontFamily,
   },
@@ -258,7 +261,7 @@ const styles = StyleSheet.create({
   timeInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 20,
+    flex: 1,
   },
   calendarIcon: {
     fontSize: 14,
@@ -268,6 +271,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: 6,
     fontFamily: defaultFontFamily,
+    flex: 1,
+    textAlign: 'right'
   },
   dateText: {
     fontSize: 14,
@@ -278,6 +283,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     fontFamily: defaultFontFamily,
+    textAlign: 'right',
   },
   driverInfo: {
     flexDirection: 'row',
@@ -303,15 +309,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   driverName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: 14,
+    fontWeight: 400,
+    color: '#000000',
     marginBottom: 2,
     fontFamily: defaultFontFamily,
   },
   driverEmail: {
     fontSize: 14,
-    color: '#666',
+    fontWeight: 300,
+    color: '#000000',
     marginBottom: 2,
     fontFamily: defaultFontFamily,
   },
