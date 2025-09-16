@@ -62,7 +62,6 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>RighteousRegular.ttf</string>
 		<string>LexendBlack.ttf</string>
 		<string>LexendBold.ttf</string>
 		<string>LexendExtraBold.ttf</string>
@@ -72,6 +71,7 @@
 		<string>LexendRegular.ttf</string>
 		<string>LexendSemiBold.ttf</string>
 		<string>LexendThin.ttf</string>
+		<string>RighteousRegular.ttf</string>
 	</array>
 </dict>
 </plist>
