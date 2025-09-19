@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ffffff',
+    fontFamily: 'Righteous-Regular',
   },
   content: {
     flex: 1,
