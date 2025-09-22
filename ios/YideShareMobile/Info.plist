@@ -28,7 +28,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>yideshare-mobile</string>
+			<string>yideshare.auth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>yideshare</string>
@@ -60,19 +60,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>yideshare.auth</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>yideshare</string>
-			</array>
-		</dict>
-	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>LexendBlack.ttf</string>
+		<string>LexendBold.ttf</string>
+		<string>LexendExtraBold.ttf</string>
+		<string>LexendExtraLight.ttf</string>
+		<string>LexendLight.ttf</string>
+		<string>LexendMedium.ttf</string>
+		<string>LexendRegular.ttf</string>
+		<string>LexendSemiBold.ttf</string>
+		<string>LexendThin.ttf</string>
 		<string>RighteousRegular.ttf</string>
 	</array>
 </dict>

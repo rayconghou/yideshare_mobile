@@ -13,6 +13,7 @@ import LandingScreen from './src/screens/LandingScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import BookmarksScreen from './src/screens/BookmarksScreen';
 import MyRidesScreen from './src/screens/MyRidesScreen';
+import MessagesScreen from './src/screens/MessagesScreen';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading, isPolling, user } = useAuth();
@@ -44,6 +45,8 @@ const AppContent: React.FC = () => {
           return <BookmarksScreen />;
         case 'myrides':
           return <MyRidesScreen />;
+        case 'messages':
+          return <MessagesScreen />;
         default:
           return <HomeScreen />;
       }
@@ -59,6 +62,13 @@ const AppContent: React.FC = () => {
           >
             <Text style={[styles.navIcon, activeTab === 'home' && styles.activeNavIcon]}>🏠</Text>
             <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.navItem, activeTab === 'messages' && styles.activeNavItem]}
+            onPress={() => setActiveTab('messages')}
+          >
+            <Text style={[styles.navIcon, activeTab === 'messages' && styles.activeNavIcon]}>💬</Text>
+            <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>Chat</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'bookmarks' && styles.activeNavItem]}

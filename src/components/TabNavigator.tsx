@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, useColorScheme } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import BookmarksScreen from '../screens/BookmarksScreen';
 import MyRidesScreen from '../screens/MyRidesScreen';
+import MessagesScreen from '../screens/MessagesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,6 +31,17 @@ const TabNavigator: React.FC = () => {
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
               <Text style={[styles.icon, { color }]}>🏠</Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={MessagesScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <View style={styles.iconContainer}>
+              <Text style={[styles.icon, { color }]}>💬</Text>
             </View>
           ),
         }}
