@@ -5,10 +5,16 @@
  * This handles the CAS ticket validation and redirects back to the mobile app
  */
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const { XMLParser } = require('fast-xml-parser');
+
+// db connection and utilities
+const { RideDB, UserDB, BookmarkDB, healthCheck, disconnect } = require('./lib/database');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -630,10 +636,56 @@ app.get('/health', (req, res) => {
 /**
  * Start server
  */
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🚀 Backend server running on port ${PORT}`);
   console.log(`📱 Mobile auth endpoints available`);
   console.log(`🏥 Health check: http://localhost:${PORT}/health`);
+  console.log(`🗄️  Database test: http://localhost:${PORT}/test-db`);
+  console.log(`📚 API Documentation:`);
+  console.log(`   GET  /api/rides/search - Search rides`);
+  console.log(`   POST /api/rides - Create ride`);
+  console.log(`   GET  /api/rides/user - Get user rides`);
+  console.log(`   PUT  /api/rides/:id - Update ride`);
+  console.log(`   DELETE /api/rides/:id - Delete ride`);
+  console.log(`   GET  /api/bookmarks - Get bookmarks`);
+  console.log(`   POST /api/bookmarks/toggle - Toggle bookmark`);
+});
+
+/**
+ * Graceful shutdown
+ */
+process.on('SIGTERM', async () => {
+  console.log('🛑 SIGTERM received, shutting down gracefully...');
+  
+  server.close(() => {
+    console.log('📴 HTTP server closed.');
+  });
+  
+  try {
+    await disconnect();
+    console.log('🗄️  Database connection closed.');
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error during shutdown:', error);
+    process.exit(1);
+  }
+});
+
+process.on('SIGINT', async () => {
+  console.log('🛑 SIGINT received, shutting down gracefully...');
+  
+  server.close(() => {
+    console.log('📴 HTTP server closed.');
+  });
+  
+  try {
+    await disconnect();
+    console.log('🗄️  Database connection closed.');
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error during shutdown:', error);
+    process.exit(1);
+  }
 });
 
 module.exports = app;
