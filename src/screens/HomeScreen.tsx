@@ -13,6 +13,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 
+// icon imports
+import { PiCalendarDots } from "react-icons/pi";
+import { PiMapPinSimple } from "react-icons/pi";
+import { PiMapPinSimpleFill } from "react-icons/pi";
+import { LiaClockSolid } from "react-icons/lia";
+
 // Mock ride data
 const mockRides = [
   {
