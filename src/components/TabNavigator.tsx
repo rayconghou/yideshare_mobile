@@ -6,6 +6,12 @@ import BookmarksScreen from '../screens/BookmarksScreen';
 import MyRidesScreen from '../screens/MyRidesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 
+// Icon imports
+import { PiHouseFill } from "react-icons/pi";
+import { PiChatCircle } from "react-icons/pi";
+import { PiBell } from "react-icons/pi";
+import { PiUser } from "react-icons/pi";
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator: React.FC = () => {
@@ -30,7 +36,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>🏠</Text>
+              <Text style={[styles.icon, { color }]}><PiHouseFill/></Text>
             </View>
           ),
         }}
@@ -41,7 +47,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>💬</Text>
+              <Text style={[styles.icon, { color }]}><PiChatCircle/></Text>
             </View>
           ),
         }}
@@ -52,7 +58,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>🔖</Text>
+              <Text style={[styles.icon, { color }]}><PiBell/></Text>
             </View>
           ),
         }}
@@ -63,7 +69,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>🚗</Text>
+              <Text style={[styles.icon, { color }]}><PiUser></PiUser></Text>
             </View>
           ),
         }}
