@@ -67,6 +67,7 @@ const AppContent: React.FC = () => {
               size={24}
               color={activeTab === 'home' ? '#6B9080' : '#999'}
               style={styles.navIcon}
+              weight={activeTab === 'home' ? 'fill' : 'regular'}
             />
           </TouchableOpacity>
           <TouchableOpacity 
@@ -77,6 +78,7 @@ const AppContent: React.FC = () => {
               size={24}
               color={activeTab === 'messages' ? '#6B9080' : '#999'}
               style={styles.navIcon}
+              weight={activeTab === 'messages' ? 'fill' : 'regular'}
             />
           </TouchableOpacity>
           <TouchableOpacity 
@@ -87,6 +89,7 @@ const AppContent: React.FC = () => {
               size={24}
               color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
               style={styles.navIcon}
+              weight={activeTab === 'bookmarks' ? 'fill' : 'regular'}
             />
           </TouchableOpacity>
           <TouchableOpacity 
@@ -97,6 +100,7 @@ const AppContent: React.FC = () => {
               size={24}
               color={activeTab === 'myrides' ? '#6B9080' : '#999'}
               style={styles.navIcon}
+              weight={activeTab === 'myrides' ? 'fill' : 'regular'}
             />
           </TouchableOpacity>
         </View>
@@ -160,9 +164,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 4,
     color: '#999',
-  },
-  activeNavIcon: {
-    color: '#6B9080',
   },
   navLabel: {
     fontSize: 12,
