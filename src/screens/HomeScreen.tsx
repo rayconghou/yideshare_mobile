@@ -71,22 +71,22 @@ const HomeScreen: React.FC = () => {
       <View style={styles.rideHeader}>
         <View style={styles.routeInfo}>
           <View style={styles.locationRow}>
-            <MapPinSimpleIcon size={14} color="#666" style={styles.pinIcon} />
+            <MapPinSimpleIcon size={20} color="#666" style={styles.pinIcon} />
             <Text style={styles.locationText}>{ride.from}</Text>
           </View>
           <View style={styles.locationRow}>
-            <MapPinSimpleIcon size={14} color="#666" weight="fill" style={styles.pinIcon} />
+            <MapPinSimpleIcon size={20} color="#666" weight="fill" style={styles.pinIcon} />
             <Text style={styles.locationText}>{ride.to}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.bookmarkButton}>
-          <BookmarkSimpleIcon size={18} color="#666" />
+          <BookmarkSimpleIcon size={20} color="#666" />
         </TouchableOpacity>
       </View>
       
       <View style={styles.rideDetails}>
         <View style={styles.timeInfoLeft}>
-          <CalendarDotsIcon size={14} color="#666" style={styles.calendarIcon} />
+          <CalendarDotsIcon size={20} color="#666" style={styles.calendarIcon} />
           <Text style={styles.dateText}>{ride.date}</Text>
         </View>
         <View style={styles.timeInfoRight}>
@@ -94,7 +94,6 @@ const HomeScreen: React.FC = () => {
           <Text style={styles.timeText}>{ride.time}</Text>
         </View>
       </View>
-      
       <View style={styles.driverInfo}>
         <View style={styles.driverAvatar}>
           <Text style={styles.driverInitials}>{ride.driver.initials}</Text>
@@ -102,7 +101,6 @@ const HomeScreen: React.FC = () => {
         <View style={styles.driverDetails}>
           <Text style={styles.driverName}>{ride.driver.name}</Text>
           <Text style={styles.driverEmail}>{ride.driver.email}</Text>
-          <Text style={styles.driverPhone}>{ride.driver.phone}</Text>
         </View>
       </View>
       
@@ -139,7 +137,7 @@ const HomeScreen: React.FC = () => {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Explore rides</Text>
           <TouchableOpacity style={styles.filterButton}>
-            <SlidersHorizontalIcon size={20} color="#333" />
+            <SlidersHorizontalIcon size={32} color="#333" />
           </TouchableOpacity>
         </View>
         
@@ -214,17 +212,19 @@ const styles = StyleSheet.create({
   },
   rideCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 12,
+    borderRadius: 26,
     padding: 16,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderWidth: 1,
+    borderColor: '#839B94',
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 3.84,
+    // elevation: 5,
   },
   rideHeader: {
     flexDirection: 'row',
@@ -289,6 +289,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
+    borderTopColor: '#CDE3DD',
+    borderTopWidth: 1,
   },
   driverAvatar: {
     width: 40,
@@ -298,6 +300,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
+    marginTop: 8,
   },
   driverInitials: {
     color: '#3D7A6A',
@@ -307,6 +310,7 @@ const styles = StyleSheet.create({
   },
   driverDetails: {
     flex: 1,
+    marginTop: 8,
   },
   driverName: {
     fontSize: 14,
@@ -320,11 +324,6 @@ const styles = StyleSheet.create({
     fontWeight: 300,
     color: '#000000',
     marginBottom: 2,
-    fontFamily: defaultFontFamily,
-  },
-  driverPhone: {
-    fontSize: 14,
-    color: '#666',
     fontFamily: defaultFontFamily,
   },
   rideFooter: {
