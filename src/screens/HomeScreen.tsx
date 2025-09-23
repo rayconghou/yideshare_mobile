@@ -14,12 +14,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 
 // icon imports
-import { PiCalendarDots } from "react-icons/pi";
-import { PiMapPinSimple } from "react-icons/pi";
-import { PiMapPinSimpleFill } from "react-icons/pi";
-import { LiaClockSolid } from "react-icons/lia";
-import { PiSlidersHorizontal } from "react-icons/pi";
-import { PiMagnifyingGlass } from "react-icons/pi";
+import { 
+  CalendarDotsIcon,  
+  ClockIcon, 
+  SlidersHorizontalIcon, 
+  MagnifyingGlassIcon,
+  BookmarkSimpleIcon, 
+  MapPinSimpleIcon
+} from 'phosphor-react-native';
 
 // Mock ride data
 const mockRides = [
@@ -69,26 +71,26 @@ const HomeScreen: React.FC = () => {
       <View style={styles.rideHeader}>
         <View style={styles.routeInfo}>
           <View style={styles.locationRow}>
-            <Text style={styles.pinIcon}><PiMapPinSimple/></Text>
+            <MapPinSimpleIcon size={14} color="#666" style={styles.pinIcon} />
             <Text style={styles.locationText}>{ride.from}</Text>
           </View>
           <View style={styles.locationRow}>
-            <Text style={styles.pinIcon}><PiMapPinSimpleFill/></Text>
+            <MapPinSimpleIcon size={14} color="#666" weight="fill" style={styles.pinIcon} />
             <Text style={styles.locationText}>{ride.to}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.bookmarkButton}>
-          <Text style={styles.bookmarkIcon}>🔖</Text>
+          <BookmarkSimpleIcon size={18} color="#666" />
         </TouchableOpacity>
       </View>
       
       <View style={styles.rideDetails}>
         <View style={styles.timeInfo}>
-          <Text style={styles.calendarIcon}><PiCalendarDots/></Text>
+          <CalendarDotsIcon size={14} color="#666" style={styles.calendarIcon} />
           <Text style={styles.dateText}>{ride.date}</Text>
         </View>
         <View style={styles.timeInfo}>
-          <Text style={styles.clockIcon}><LiaClockSolid/></Text>
+          <ClockIcon size={14} color="#666" style={styles.clockIcon} />
           <Text style={styles.timeText}>{ride.time}</Text>
         </View>
       </View>
@@ -121,7 +123,7 @@ const HomeScreen: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Yideshare</Text>
         <View style={styles.searchContainer}>
-          <Text style={styles.searchIcon}><PiMagnifyingGlass/></Text>
+          <MagnifyingGlassIcon size={16} color="#999" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Where to?"
@@ -137,7 +139,7 @@ const HomeScreen: React.FC = () => {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Explore rides</Text>
           <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterIcon}><PiSlidersHorizontal/></Text>
+            <SlidersHorizontalIcon size={20} color="#333" />
           </TouchableOpacity>
         </View>
         
@@ -180,9 +182,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   searchIcon: {
-    fontSize: 16,
     marginRight: 10,
-    fontFamily: defaultFontFamily,
   },
   searchInput: {
     flex: 1,
@@ -211,10 +211,6 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 5,
-  },
-  filterIcon: {
-    fontSize: 20,
-    fontFamily: defaultFontFamily,
   },
   rideCard: {
     backgroundColor: '#ffffff',
@@ -245,9 +241,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   pinIcon: {
-    fontSize: 14,
     marginRight: 8,
-    fontFamily: defaultFontFamily,
   },
   locationText: {
     fontSize: 16,
@@ -257,10 +251,6 @@ const styles = StyleSheet.create({
   },
   bookmarkButton: {
     padding: 5,
-  },
-  bookmarkIcon: {
-    fontSize: 18,
-    fontFamily: defaultFontFamily,
   },
   rideDetails: {
     flexDirection: 'row',
@@ -272,15 +262,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   calendarIcon: {
-    fontSize: 14,
     marginRight: 6,
   },
   clockIcon: {
-    fontSize: 14,
     marginRight: 6,
-    fontFamily: defaultFontFamily,
-    flex: 1,
-    textAlign: 'right'
   },
   dateText: {
     fontSize: 14,

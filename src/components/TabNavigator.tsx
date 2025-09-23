@@ -1,16 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, useColorScheme } from 'react-native';
+import { View, StyleSheet, useColorScheme } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import BookmarksScreen from '../screens/BookmarksScreen';
 import MyRidesScreen from '../screens/MyRidesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 
-// Icon imports
-import { PiHouseFill } from "react-icons/pi";
-import { PiChatCircle } from "react-icons/pi";
-import { PiBell } from "react-icons/pi";
-import { PiUser } from "react-icons/pi";
+// Phosphor React Native icon imports
+import { HouseIcon, ChatCircleIcon, BellIcon, UserIcon } from 'phosphor-react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +33,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}><PiHouseFill/></Text>
+              <HouseIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -47,7 +44,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}><PiChatCircle/></Text>
+              <ChatCircleIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -58,7 +55,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}><PiBell/></Text>
+              <BellIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -69,7 +66,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}><PiUser></PiUser></Text>
+              <UserIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -94,10 +91,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  icon: {
-    fontSize: 20,
-    marginBottom: 4,
   },
   tabLabel: {
     fontSize: 12,

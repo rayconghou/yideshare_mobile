@@ -15,6 +15,9 @@ import BookmarksScreen from './src/screens/BookmarksScreen';
 import MyRidesScreen from './src/screens/MyRidesScreen';
 import MessagesScreen from './src/screens/MessagesScreen';
 
+// Import Phosphor icons
+import { HouseIcon, ChatCircleIcon, BellIcon, UserIcon } from 'phosphor-react-native';
+
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading, isPolling, user } = useAuth();
   const [activeTab, setActiveTab] = useState('home');
@@ -60,28 +63,44 @@ const AppContent: React.FC = () => {
             style={[styles.navItem, activeTab === 'home' && styles.activeNavItem]}
             onPress={() => setActiveTab('home')}
           >
-            <Text style={[styles.navIcon, activeTab === 'home' && styles.activeNavIcon]}>🏠</Text>
+            <HouseIcon
+              size={24}
+              color={activeTab === 'home' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+            />
             <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>Home</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'messages' && styles.activeNavItem]}
             onPress={() => setActiveTab('messages')}
           >
-            <Text style={[styles.navIcon, activeTab === 'messages' && styles.activeNavIcon]}>💬</Text>
+            <ChatCircleIcon
+              size={24}
+              color={activeTab === 'messages' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+            />
             <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>Chat</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'bookmarks' && styles.activeNavItem]}
             onPress={() => setActiveTab('bookmarks')}
           >
-            <Text style={[styles.navIcon, activeTab === 'bookmarks' && styles.activeNavIcon]}>🔖</Text>
+            <BellIcon
+              size={24}
+              color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+            />
             <Text style={[styles.navLabel, activeTab === 'bookmarks' && styles.activeNavLabel]}>Bookmarks</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'myrides' && styles.activeNavItem]}
             onPress={() => setActiveTab('myrides')}
           >
-            <Text style={[styles.navIcon, activeTab === 'myrides' && styles.activeNavIcon]}>🚗</Text>
+            <UserIcon
+              size={24}
+              color={activeTab === 'myrides' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+            />
             <Text style={[styles.navLabel, activeTab === 'myrides' && styles.activeNavLabel]}>My Rides</Text>
           </TouchableOpacity>
         </View>
