@@ -18,6 +18,8 @@ import { PiCalendarDots } from "react-icons/pi";
 import { PiMapPinSimple } from "react-icons/pi";
 import { PiMapPinSimpleFill } from "react-icons/pi";
 import { LiaClockSolid } from "react-icons/lia";
+import { PiSlidersHorizontal } from "react-icons/pi";
+import { PiMagnifyingGlass } from "react-icons/pi";
 
 // Mock ride data
 const mockRides = [
@@ -67,11 +69,11 @@ const HomeScreen: React.FC = () => {
       <View style={styles.rideHeader}>
         <View style={styles.routeInfo}>
           <View style={styles.locationRow}>
-            <Text style={styles.pinIcon}>📍</Text>
+            <Text style={styles.pinIcon}><PiMapPinSimple/></Text>
             <Text style={styles.locationText}>{ride.from}</Text>
           </View>
           <View style={styles.locationRow}>
-            <Text style={styles.pinIcon}>📍</Text>
+            <Text style={styles.pinIcon}><PiMapPinSimpleFill/></Text>
             <Text style={styles.locationText}>{ride.to}</Text>
           </View>
         </View>
@@ -82,11 +84,11 @@ const HomeScreen: React.FC = () => {
       
       <View style={styles.rideDetails}>
         <View style={styles.timeInfo}>
-          <Text style={styles.calendarIcon}>📅</Text>
+          <Text style={styles.calendarIcon}><PiCalendarDots/></Text>
           <Text style={styles.dateText}>{ride.date}</Text>
         </View>
         <View style={styles.timeInfo}>
-          <Text style={styles.clockIcon}>🕘</Text>
+          <Text style={styles.clockIcon}><LiaClockSolid/></Text>
           <Text style={styles.timeText}>{ride.time}</Text>
         </View>
       </View>
@@ -119,7 +121,7 @@ const HomeScreen: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Yideshare</Text>
         <View style={styles.searchContainer}>
-          <Text style={styles.searchIcon}>🔍</Text>
+          <Text style={styles.searchIcon}><PiMagnifyingGlass/></Text>
           <TextInput
             style={styles.searchInput}
             placeholder="Where to?"
@@ -135,7 +137,7 @@ const HomeScreen: React.FC = () => {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Explore rides</Text>
           <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterIcon}>⚙️</Text>
+            <Text style={styles.filterIcon}><PiSlidersHorizontal/></Text>
           </TouchableOpacity>
         </View>
         
