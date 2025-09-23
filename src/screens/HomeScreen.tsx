@@ -85,11 +85,11 @@ const HomeScreen: React.FC = () => {
       </View>
       
       <View style={styles.rideDetails}>
-        <View style={styles.timeInfo}>
+        <View style={styles.timeInfoLeft}>
           <CalendarDotsIcon size={14} color="#666" style={styles.calendarIcon} />
           <Text style={styles.dateText}>{ride.date}</Text>
         </View>
-        <View style={styles.timeInfo}>
+        <View style={styles.timeInfoRight}>
           <ClockIcon size={14} color="#666" style={styles.clockIcon} />
           <Text style={styles.timeText}>{ride.time}</Text>
         </View>
@@ -255,11 +255,18 @@ const styles = StyleSheet.create({
   rideDetails: {
     flexDirection: 'row',
     marginBottom: 12,
+    justifyContent: 'space-between',
   },
-  timeInfo: {
+  timeInfoLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+  },
+  timeInfoRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   calendarIcon: {
     marginRight: 6,
