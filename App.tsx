@@ -68,7 +68,6 @@ const AppContent: React.FC = () => {
               color={activeTab === 'home' ? '#6B9080' : '#999'}
               style={styles.navIcon}
             />
-            <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>Home</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'messages' && styles.activeNavItem]}
@@ -79,7 +78,6 @@ const AppContent: React.FC = () => {
               color={activeTab === 'messages' ? '#6B9080' : '#999'}
               style={styles.navIcon}
             />
-            <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>Chat</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'bookmarks' && styles.activeNavItem]}
@@ -90,7 +88,6 @@ const AppContent: React.FC = () => {
               color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
               style={styles.navIcon}
             />
-            <Text style={[styles.navLabel, activeTab === 'bookmarks' && styles.activeNavLabel]}>Bookmarks</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'myrides' && styles.activeNavItem]}
@@ -101,7 +98,6 @@ const AppContent: React.FC = () => {
               color={activeTab === 'myrides' ? '#6B9080' : '#999'}
               style={styles.navIcon}
             />
-            <Text style={[styles.navLabel, activeTab === 'myrides' && styles.activeNavLabel]}>My Rides</Text>
           </TouchableOpacity>
         </View>
       </View>
