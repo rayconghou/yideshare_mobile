@@ -94,13 +94,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   emptyState: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 60,
   },
   emptyIcon: {
-    fontSize: 64,
     marginBottom: 20,
     fontFamily: defaultFontFamily
   },
