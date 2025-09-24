@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
+import { lightColors, darkColors } from '../constants/colors';
 
 // icon imports
 import { 
@@ -60,6 +61,7 @@ const mockRides = [
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { user, yaliesData, logout } = useAuth();
+  const colors = isDarkMode ? darkColors : lightColors;
   const [searchText, setSearchText] = useState('');
 
   const handleLogout = () => {
@@ -103,13 +105,6 @@ const HomeScreen: React.FC = () => {
           <Text style={styles.driverEmail}>{ride.driver.email}</Text>
         </View>
       </View>
-      
-      <View style={styles.rideFooter}>
-        <TouchableOpacity style={styles.noteButton}>
-          <Text style={styles.noteText}>{ride.note}</Text>
-        </TouchableOpacity>
-        <Text style={styles.seatsText}>{ride.seats} open seats</Text>
-      </View>
     </View>
   );
 
@@ -149,6 +144,7 @@ const HomeScreen: React.FC = () => {
 };
 
 const defaultFontFamily = 'Lexend-Regular'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -158,7 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   header: {
-    backgroundColor: '#6B9080',
+    backgroundColor: lightColors.background,
     paddingTop: 20,
     paddingBottom: 20,
     paddingHorizontal: 20,
@@ -166,7 +162,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 400,
-    color: '#ffffff',
+    color: lightColors.titleText,
     marginBottom: 15,
     fontFamily: 'Righteous-Regular',
     textAlign: 'center'
@@ -185,7 +181,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: '#333',
+    color: lightColors.secondary,
     fontFamily: defaultFontFamily,
   },
   content: {
@@ -202,7 +198,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: '400',
-    color: '#000000',
+    color: lightColors.text,
     fontFamily: defaultFontFamily,
     textAlign: 'center',
     flex: 1,
@@ -216,15 +212,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#839B94',
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.1,
-    // shadowRadius: 3.84,
-    // elevation: 5,
+    borderColor: lightColors.secondary,
   },
   rideHeader: {
     flexDirection: 'row',
@@ -238,7 +226,7 @@ const styles = StyleSheet.create({
   locationRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   pinIcon: {
     marginRight: 8,
@@ -246,7 +234,7 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 16,
     fontWeight: '400',
-    color: '#333',
+    color: lightColors.text,
     fontFamily: defaultFontFamily,
   },
   bookmarkButton: {
@@ -276,12 +264,12 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 14,
-    color: '#666',
+    color: lightColors.text,
     fontFamily: defaultFontFamily,
   },
   timeText: {
     fontSize: 14,
-    color: '#666',
+    color: lightColors.text,
     fontFamily: defaultFontFamily,
     textAlign: 'right',
   },
@@ -289,7 +277,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
-    borderTopColor: '#CDE3DD',
+    borderTopColor: lightColors.primary,
     borderTopWidth: 1,
   },
   driverAvatar: {
@@ -315,35 +303,14 @@ const styles = StyleSheet.create({
   driverName: {
     fontSize: 14,
     fontWeight: 400,
-    color: '#000000',
+    color: lightColors.text,
     marginBottom: 2,
     fontFamily: defaultFontFamily,
   },
   driverEmail: {
     fontSize: 14,
     fontWeight: 300,
-    color: '#000000',
-    marginBottom: 2,
-    fontFamily: defaultFontFamily,
-  },
-  rideFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  noteButton: {
-    paddingVertical: 4,
-  },
-  noteText: {
-    fontSize: 14,
-    color: '#6B9080',
-    textDecorationLine: 'underline',
-    fontFamily: defaultFontFamily,
-  },
-  seatsText: {
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
+    color: lightColors.text,
     fontFamily: defaultFontFamily,
   },
 });
