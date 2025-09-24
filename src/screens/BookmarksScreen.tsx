@@ -17,6 +17,7 @@ import {
   CalendarDotsIcon,  
   ClockIcon, 
   BookmarkSimpleIcon, 
+  BookmarksSimpleIcon,
   MapPinSimpleIcon
 } from 'phosphor-react-native';
 
@@ -102,7 +103,7 @@ const BookmarksScreen: React.FC = () => {
           bookmarkedRides.map(renderRideCard)
         ) : (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyIcon}>🔖</Text>
+            <BookmarksSimpleIcon size={60} style={styles.emptyIcon} />
             <Text style={styles.emptyTitle}>No bookmarked rides</Text>
             <Text style={styles.emptySubtitle}>
               Bookmark rides you're interested in to see them here
@@ -159,7 +160,6 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
   },
   emptyIcon: {
-    fontSize: 64,
     marginBottom: 20,
     fontFamily: defaultFontFamily
   },
