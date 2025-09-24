@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
+import { lightColors, darkColors } from '../constants/colors';
+import { CarProfileIcon, PencilSimpleIcon } from 'phosphor-react-native';
 
 const MyRidesScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -35,31 +37,32 @@ const MyRidesScreen: React.FC = () => {
       </View>
       
       {/* Content */}
-      <ScrollView style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.emptyState}>
-          <Text style={styles.emptyIcon}>🚗</Text>
+          <CarProfileIcon size={60} style={styles.emptyIcon}/>
           <Text style={styles.emptyTitle}>No rides yet</Text>
           <Text style={styles.emptySubtitle}>
             Your created rides will appear here
           </Text>
         </View>
-        
-        {/* Bottom Buttons */}
-        <View style={styles.bottomButtons}>
-          <TouchableOpacity style={styles.feedbackButton} onPress={handleSendFeedback}>
-            <Text style={styles.feedbackIcon}>✏️</Text>
-            <Text style={styles.feedbackText}>Send Feedback</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Log Out</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
+      
+      {/* Bottom Buttons */}
+      <View style={styles.bottomButtons}>
+        <TouchableOpacity style={styles.feedbackButton} onPress={handleSendFeedback}>
+          <PencilSimpleIcon size={12.5} style={styles.feedbackIcon} />
+          <Text style={styles.feedbackText}>Send Feedback</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutText}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 
 const defaultFontFamily = 'Lexend-Regular'
+const buttonTextSize = 12
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -69,20 +72,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   header: {
-    backgroundColor: '#6B9080',
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    fontFamily: 'Righteous-Regular'
-  },
+      backgroundColor: '#ffffff',
+      paddingTop: 56,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    headerTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: lightColors.text,
+      fontFamily: 'Righteous-Regular',
+    },
   content: {
     flex: 1,
     paddingHorizontal: 20,
+  },
+  contentContainer: {
+    flexGrow: 1,
   },
   emptyState: {
     flex: 1,
@@ -101,6 +110,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 10,
     textAlign: 'center',
+    fontFamily: defaultFontFamily,
   },
   emptySubtitle: {
     fontSize: 16,
@@ -112,8 +122,9 @@ const styles = StyleSheet.create({
   },
   bottomButtons: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: 20,
     paddingHorizontal: 20,
+    backgroundColor: '#ffffff',
   },
   feedbackButton: {
     flexDirection: 'row',
@@ -127,21 +138,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   feedbackIcon: {
-    fontSize: 14,
     marginRight: 6,
-    color: '#6B9080',
+    color: lightColors.tertiary,
   },
   feedbackText: {
-    fontSize: 14,
-    color: '#6B9080',
+    fontSize: buttonTextSize,
+    color: lightColors.tertiary,
     fontWeight: '500',
   },
   logoutButton: {
     paddingVertical: 4,
   },
   logoutText: {
-    fontSize: 14,
-    color: '#6B9080',
+    fontSize: buttonTextSize,
+    color: lightColors.tertiary,
     fontWeight: '500',
   },
 });
