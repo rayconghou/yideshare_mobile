@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 10,
     textAlign: 'center',
+    fontFamily: defaultFontFamily,
   },
   emptySubtitle: {
     fontSize: 16,
