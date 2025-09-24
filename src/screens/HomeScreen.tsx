@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
+import { Ride } from '../services/RideService';
 import { lightColors, darkColors } from '../constants/colors';
 
 // icon imports
@@ -91,7 +92,7 @@ const HomeScreen: React.FC = () => {
           <Text style={styles.driverEmail}>{ride.driver.email}</Text>
         </View>
         <View style={styles.timeElapsed}>
-          <Text style={styles.timeElapsedText}>{ride.timeElapsed}</Text>
+          <Text style={styles.timeElapsedText}>placeholder</Text>
         </View>
       </View>
     </View>
