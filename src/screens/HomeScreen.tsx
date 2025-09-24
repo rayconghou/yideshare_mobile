@@ -40,6 +40,7 @@ const mockRides = [
     },
     seats: 2,
     note: 'See note',
+    timeElapsed: '1 day ago'
   },
   {
     id: '2',
@@ -55,13 +56,13 @@ const mockRides = [
     },
     seats: 2,
     note: 'See note',
+    timeElapsed: '1 day ago'
   },
 ];
 
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { user, yaliesData, logout } = useAuth();
-  const colors = isDarkMode ? darkColors : lightColors;
   const [searchText, setSearchText] = useState('');
 
   const handleLogout = () => {
@@ -73,26 +74,31 @@ const HomeScreen: React.FC = () => {
       <View style={styles.rideHeader}>
         <View style={styles.routeInfo}>
           <View style={styles.locationRow}>
-            <MapPinSimpleIcon size={20} color="#666" style={styles.pinIcon} />
+            <MapPinSimpleIcon size={iconSizeMedium} style={styles.pinIcon} />
             <Text style={styles.locationText}>{ride.from}</Text>
           </View>
           <View style={styles.locationRow}>
-            <MapPinSimpleIcon size={20} color="#666" weight="fill" style={styles.pinIcon} />
+            <MapPinSimpleIcon
+              size={iconSizeMedium}
+              color="#666"
+              weight="fill"
+              style={[styles.pinIcon, { transform: [{ rotate: '180deg' }] }]} // This flips the icon
+            />
             <Text style={styles.locationText}>{ride.to}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.bookmarkButton}>
-          <BookmarkSimpleIcon size={20} color="#666" />
+          <BookmarkSimpleIcon size={iconSizeMedium} style={styles.bookmarkIcon} />
         </TouchableOpacity>
       </View>
       
       <View style={styles.rideDetails}>
         <View style={styles.timeInfoLeft}>
-          <CalendarDotsIcon size={20} color="#666" style={styles.calendarIcon} />
+          <CalendarDotsIcon size={iconSizeSmall} style={styles.calendarIcon} />
           <Text style={styles.dateText}>{ride.date}</Text>
         </View>
         <View style={styles.timeInfoRight}>
-          <ClockIcon size={14} color="#666" style={styles.clockIcon} />
+          <ClockIcon size={iconSizeSmall} style={styles.clockIcon} />
           <Text style={styles.timeText}>{ride.time}</Text>
         </View>
       </View>
@@ -103,6 +109,9 @@ const HomeScreen: React.FC = () => {
         <View style={styles.driverDetails}>
           <Text style={styles.driverName}>{ride.driver.name}</Text>
           <Text style={styles.driverEmail}>{ride.driver.email}</Text>
+        </View>
+        <View style={styles.timeElapsed}>
+          <Text style={styles.timeElapsedText}>{ride.timeElapsed}</Text>
         </View>
       </View>
     </View>
@@ -116,7 +125,7 @@ const HomeScreen: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Yideshare</Text>
         <View style={styles.searchContainer}>
-          <MagnifyingGlassIcon size={16} color="#999" style={styles.searchIcon} />
+          <MagnifyingGlassIcon size={iconSizeSmall} color="#999" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Where to?"
@@ -132,7 +141,7 @@ const HomeScreen: React.FC = () => {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Explore rides</Text>
           <TouchableOpacity style={styles.filterButton}>
-            <SlidersHorizontalIcon size={32} color="#333" />
+            <SlidersHorizontalIcon size={iconSizeLarge} color={lightColors.text} style={styles.filterIcon} />
           </TouchableOpacity>
         </View>
         
@@ -143,7 +152,11 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-const defaultFontFamily = 'Lexend-Regular'
+const defaultFontFamily = 'Lexend-Regular';
+const defaultTextSize = 16;
+const iconSizeSmall = 16;
+const iconSizeMedium = 20;
+const iconSizeLarge = 32;
 
 const styles = StyleSheet.create({
   container: {
@@ -155,15 +168,14 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: lightColors.background,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
+    paddingVertical: 64,
+    paddingHorizontal: 16,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 400,
     color: lightColors.titleText,
-    marginBottom: 15,
+    marginBottom: 16,
     fontFamily: 'Righteous-Regular',
     textAlign: 'center'
   },
@@ -171,12 +183,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    borderRadius: 8,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
   },
   searchIcon: {
     marginRight: 10,
+    color: lightColors.secondary,
   },
   searchInput: {
     flex: 1,
@@ -205,6 +218,9 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 5,
+  },
+  filterIcon: {
+    // No size needed here since we use size prop
   },
   rideCard: {
     backgroundColor: '#ffffff',
@@ -240,6 +256,9 @@ const styles = StyleSheet.create({
   bookmarkButton: {
     padding: 5,
   },
+  bookmarkIcon: {
+    // No size needed here since we use size prop
+  },
   rideDetails: {
     flexDirection: 'row',
     marginBottom: 12,
@@ -263,20 +282,22 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   dateText: {
-    fontSize: 14,
+    fontSize: defaultTextSize,
     color: lightColors.text,
+    fontWeight: 300, 
     fontFamily: defaultFontFamily,
   },
   timeText: {
-    fontSize: 14,
+    fontSize: defaultTextSize,
     color: lightColors.text,
     fontFamily: defaultFontFamily,
     textAlign: 'right',
+    fontWeight: 300,
   },
   driverInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    paddingTop: 12,
     borderTopColor: lightColors.primary,
     borderTopWidth: 1,
   },
@@ -288,7 +309,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
-    marginTop: 8,
   },
   driverInitials: {
     color: '#3D7A6A',
@@ -298,7 +318,6 @@ const styles = StyleSheet.create({
   },
   driverDetails: {
     flex: 1,
-    marginTop: 8,
   },
   driverName: {
     fontSize: 14,
@@ -313,6 +332,18 @@ const styles = StyleSheet.create({
     color: lightColors.text,
     fontFamily: defaultFontFamily,
   },
+  timeElapsed: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  timeElapsedText: {
+    textAlign: 'right',
+    fontSize: 14,
+    fontWeight: 300,
+    color: lightColors.text,
+    fontFamily: defaultFontFamily,
+  }
 });
 
 export default HomeScreen;
