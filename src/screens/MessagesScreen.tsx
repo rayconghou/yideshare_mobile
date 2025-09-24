@@ -8,6 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { lightColors } from '../constants/colors';
+import { NotePencilIcon } from 'phosphor-react-native';
 
 // Mock message data
 const mockChats = [
@@ -18,6 +20,7 @@ const mockChats = [
     date: '14 Dec',
     preview: 'This is an example of a message',
     read: true,
+    initials: 'JD',
   },
   {
     id: '2',
@@ -26,21 +29,33 @@ const mockChats = [
     date: '14 Dec',
     preview: 'This is another example of a message',
     read: true,
+    initials: 'JD',
   },
 ];
+
+const defaultFontFamily = 'Lexend-Regular';
+const iconSizeMedium = 20;
 
 const MessagesScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const renderChatCard = (chat: typeof mockChats[0]) => (
       <View key={chat.id} style={styles.chatCard}>
-        <View style={styles.chatHeader}>
-            <Text style={styles.chatName}>{chat.from}</Text>
-            <Text style={styles.chatTime}>{chat.time}</Text>
-        </View>
+        <View style={styles.chatContent}>
+          <View style={styles.chatAvatar}>
+            <Text style={styles.chatInitials}>{chat.initials}</Text>
+          </View>
+          
+          <View style={styles.chatInfo}>
+            <View style={styles.chatHeader}>
+                <Text style={styles.chatName}>{chat.from}</Text>
+                <Text style={styles.chatTime}>{chat.time}</Text>
+            </View>
 
-        <View style={styles.chatPreview}>
-          <Text style={styles.chatPreviewText}>{chat.preview}</Text>
+            <View style={styles.chatPreview}>
+              <Text style={styles.chatPreviewText}>{chat.preview}</Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -52,24 +67,17 @@ const MessagesScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Messages</Text>
+        <NotePencilIcon size={iconSizeMedium} color={lightColors.stone}/>
       </View>
       
       {/* Content */}
       <ScrollView style={styles.content}>
-        {/* <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Explore rides</Text>
-          <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterIcon}>⚙️</Text>
-          </TouchableOpacity>
-        </View>
-         */}
         {mockChats.map(renderChatCard)}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const defaultFontFamily = 'Lexend-Regular';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -79,16 +87,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   header: {
-    backgroundColor: '#6B9080',
-    paddingTop: 20,
+    backgroundColor: '#ffffff',
+    paddingTop: 56,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: lightColors.text,
     fontFamily: 'Righteous-Regular',
+  },
+  newMessageIcon: {
+    color: lightColors.stone,
   },
   content: {
     flex: 1,
@@ -96,17 +110,16 @@ const styles = StyleSheet.create({
   },
   chatCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
+    // paddingHorizontal: 16,
+    paddingVertical: 12,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+  },
+  chatContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  chatInfo: {
+    flex: 1,
   },
   chatHeader: {
     flexDirection: 'row',
@@ -115,14 +128,15 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   chatName: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '400',
     color: '#333',
     fontFamily: defaultFontFamily,
   },
   chatTime: {
     fontSize: 14,
-    color: '#666',
+    fontWeight: 300,
+    color: lightColors.text,
     fontFamily: defaultFontFamily,
     textAlign: 'right',
   },
@@ -130,9 +144,24 @@ const styles = StyleSheet.create({
 
   },
   chatPreviewText: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: '#333',
+    fontSize: 16,
+    fontWeight: '300',
+    color: lightColors.text,
+    fontFamily: defaultFontFamily,
+  },
+  chatAvatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#D9D9D9',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  chatInitials: {
+    color: '#918f8fff',
+    fontWeight: 'bold',
+    fontSize: 24,
     fontFamily: defaultFontFamily,
   },
   emptyState: {

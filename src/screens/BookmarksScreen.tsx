@@ -11,6 +11,15 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { Ride } from '../services/RideService';
+import { lightColors, darkColors } from '../constants/colors';
+import { rideCardStyles } from '../styles/RideCardStyles';
+import { 
+  CalendarDotsIcon,  
+  ClockIcon, 
+  BookmarkSimpleIcon, 
+  BookmarksSimpleIcon,
+  MapPinSimpleIcon
+} from 'phosphor-react-native';
 
 const BookmarksScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,58 +30,60 @@ const BookmarksScreen: React.FC = () => {
   };
 
   const renderRideCard = (ride: Ride) => (
-    <View key={ride.id} style={styles.rideCard}>
-      <View style={styles.rideHeader}>
-        <View style={styles.routeInfo}>
-          <View style={styles.locationRow}>
-            <Text style={styles.pinIcon}>📍</Text>
-            <Text style={styles.locationText}>{ride.from}</Text>
+    <View key={ride.id} style={rideCardStyles.rideCard}>
+      <View style={rideCardStyles.rideHeader}>
+        <View style={rideCardStyles.routeInfo}>
+          <View style={rideCardStyles.locationRow}>
+            <MapPinSimpleIcon size={20} style={styles.pinIcon} />
+            <Text style={rideCardStyles.locationText}>{ride.from}</Text>
           </View>
-          <View style={styles.locationRow}>
-            <Text style={styles.pinIcon}>📍</Text>
-            <Text style={styles.locationText}>{ride.to}</Text>
+          <View style={rideCardStyles.locationRow}>
+            <MapPinSimpleIcon size={20} color="#666" weight="fill" style={[styles.pinIcon, { transform: [{ rotate: '180deg' }] }]} />
+            <Text style={rideCardStyles.locationText}>{ride.to}</Text>
           </View>
         </View>
         <TouchableOpacity 
-          style={styles.bookmarkButton} 
+          style={rideCardStyles.bookmarkButton} 
           onPress={() => handleBookmarkToggle(ride.id)}
         >
-          <Text style={[
-            styles.bookmarkIcon,
-            ride.isBookmarked && styles.bookmarkIconActive
-          ]}>
-            {ride.isBookmarked ? '⭐' : '☆'}
-          </Text>
+          <BookmarkSimpleIcon size={24} weight={ride.isBookmarked ? 'fill' : 'regular'} style={[
+            rideCardStyles.bookmarkIcon,
+            ride.isBookmarked && rideCardStyles.bookmarkIconActive
+          ]}/>
         </TouchableOpacity>
       </View>
       
-      <View style={styles.rideDetails}>
-        <View style={styles.timeInfo}>
-          <Text style={styles.calendarIcon}>📅</Text>
-          <Text style={styles.dateText}>{ride.date}</Text>
+      <View style={rideCardStyles.rideDetails}>
+        <View style={rideCardStyles.timeInfoLeft}>
+          <CalendarDotsIcon size={16} style={styles.calendarIcon} />
+          <Text style={rideCardStyles.dateText}>{ride.date}</Text>
         </View>
-        <View style={styles.timeInfo}>
-          <Text style={styles.clockIcon}>🕘</Text>
-          <Text style={styles.timeText}>{ride.time}</Text>
-        </View>
-      </View>
-      
-      <View style={styles.driverInfo}>
-        <View style={styles.driverAvatar}>
-          <Text style={styles.driverInitials}>{ride.driver.initials}</Text>
-        </View>
-        <View style={styles.driverDetails}>
-          <Text style={styles.driverName}>{ride.driver.name}</Text>
-          <Text style={styles.driverEmail}>{ride.driver.email}</Text>
-          <Text style={styles.driverPhone}>{ride.driver.phone}</Text>
+        <View style={rideCardStyles.timeInfoRight}>
+          <ClockIcon size={16} style={styles.clockIcon} />
+          <Text style={rideCardStyles.timeText}>{ride.time}</Text>
         </View>
       </View>
       
-      <View style={styles.rideFooter}>
-        <TouchableOpacity style={styles.noteButton}>
-          <Text style={styles.noteText}>{ride.note}</Text>
+      <View style={rideCardStyles.driverInfo}>
+        <View style={rideCardStyles.driverAvatar}>
+          <Text style={rideCardStyles.driverInitials}>{ride.driver.initials}</Text>
+        </View>
+        <View style={rideCardStyles.driverDetails}>
+          <View style={rideCardStyles.driverNameRow}>
+            <Text style={rideCardStyles.driverName}>{ride.driver.name}</Text>
+            <Text style={rideCardStyles.driverEmail}>{ride.driver.email}</Text>
+          </View>
+        </View>
+        <View style={rideCardStyles.driverPhone}>
+          <Text style={rideCardStyles.driverPhoneText}>{ride.driver.phone}</Text>
+        </View>
+      </View>
+      
+      <View style={rideCardStyles.rideFooter}>
+        <TouchableOpacity>
+          <Text style={rideCardStyles.seeNoteText}>{ride.note}</Text>
         </TouchableOpacity>
-        <Text style={styles.seatsText}>{ride.seats} open seats</Text>
+        <Text style={rideCardStyles.seatsText}>{ride.seats} open seats</Text>
       </View>
     </View>
   );
@@ -92,7 +103,7 @@ const BookmarksScreen: React.FC = () => {
           bookmarkedRides.map(renderRideCard)
         ) : (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyIcon}>🔖</Text>
+            <BookmarksSimpleIcon size={60} style={styles.emptyIcon} />
             <Text style={styles.emptyTitle}>No bookmarked rides</Text>
             <Text style={styles.emptySubtitle}>
               Bookmark rides you're interested in to see them here
@@ -114,163 +125,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   header: {
-    backgroundColor: '#6B9080',
-    paddingTop: 20,
+    backgroundColor: '#ffffff',
+    paddingTop: 56,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#ffffff',
-    fontFamily: 'Righteous-Regular'
+    color: lightColors.text,
+    fontFamily: 'Righteous-Regular',
   },
   content: {
     flex: 1,
     paddingHorizontal: 20,
-  },
-  rideCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  rideHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 12,
-  },
-  routeInfo: {
-    flex: 1,
-  },
-  locationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
+    paddingVertical: 12,
   },
   pinIcon: {
-    fontSize: 14,
     marginRight: 8,
-    fontFamily: defaultFontFamily,
-  },
-  locationText: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#333',
-    fontFamily: defaultFontFamily,
-  },
-  bookmarkButton: {
-    padding: 5,
-  },
-  bookmarkIcon: {
-    fontSize: 18,
-    fontFamily: defaultFontFamily,
-    opacity: 0.6,
-  },
-  bookmarkIconActive: {
-    opacity: 1,
-  },
-  rideDetails: {
-    flexDirection: 'row',
-    marginBottom: 12,
-  },
-  timeInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
   },
   calendarIcon: {
-    fontSize: 14,
     marginRight: 6,
   },
   clockIcon: {
-    fontSize: 14,
     marginRight: 6,
-    fontFamily: defaultFontFamily,
-    flex: 1,
-    textAlign: 'right'
-  },
-  dateText: {
-    fontSize: 14,
-    color: '#666',
-    fontFamily: defaultFontFamily,
-  },
-  timeText: {
-    fontSize: 14,
-    color: '#666',
-    fontFamily: defaultFontFamily,
-    textAlign: 'right',
-  },
-  driverInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  driverAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#B0E0D0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  driverInitials: {
-    color: '#3D7A6A',
-    fontWeight: 'bold',
-    fontSize: 16,
-    fontFamily: defaultFontFamily,
-  },
-  driverDetails: {
-    flex: 1,
-  },
-  driverName: {
-    fontSize: 14,
-    fontWeight: 400,
-    color: '#000000',
-    marginBottom: 2,
-    fontFamily: defaultFontFamily,
-  },
-  driverEmail: {
-    fontSize: 14,
-    fontWeight: 300,
-    color: '#000000',
-    marginBottom: 2,
-    fontFamily: defaultFontFamily,
-  },
-  driverPhone: {
-    fontSize: 14,
-    color: '#666',
-    fontFamily: defaultFontFamily,
-  },
-  rideFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  noteButton: {
-    paddingVertical: 4,
-  },
-  noteText: {
-    fontSize: 14,
-    color: '#6B9080',
-    textDecorationLine: 'underline',
-    fontFamily: defaultFontFamily,
-  },
-  seatsText: {
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
-    fontFamily: defaultFontFamily,
   },
   emptyState: {
     flex: 1,
@@ -279,7 +160,6 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
   },
   emptyIcon: {
-    fontSize: 64,
     marginBottom: 20,
     fontFamily: defaultFontFamily
   },
@@ -289,6 +169,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 10,
     textAlign: 'center',
+    fontFamily: defaultFontFamily,
   },
   emptySubtitle: {
     fontSize: 16,

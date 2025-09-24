@@ -15,6 +15,10 @@ import BookmarksScreen from './src/screens/BookmarksScreen';
 import MyRidesScreen from './src/screens/MyRidesScreen';
 import MessagesScreen from './src/screens/MessagesScreen';
 
+// Import Phosphor icons
+import { HouseIcon, ChatCircleIcon, BookmarkSimpleIcon, UserIcon } from 'phosphor-react-native';
+import { lightColors, darkColors } from './src/constants/colors';
+
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading, isPolling, user } = useAuth();
   const [activeTab, setActiveTab] = useState('home');
@@ -51,7 +55,7 @@ const AppContent: React.FC = () => {
           return <HomeScreen />;
       }
     };
-
+    const navBarIconSize = 32;
     return (
       <View style={styles.appContainer}>
         {renderScreen()}
@@ -60,29 +64,57 @@ const AppContent: React.FC = () => {
             style={[styles.navItem, activeTab === 'home' && styles.activeNavItem]}
             onPress={() => setActiveTab('home')}
           >
-            <Text style={[styles.navIcon, activeTab === 'home' && styles.activeNavIcon]}>🏠</Text>
-            <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>Home</Text>
+            <HouseIcon
+              size={navBarIconSize}
+              color={activeTab === 'home' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+              weight={activeTab === 'home' ? 'fill' : 'regular'}
+            />
+            <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>
+              Home
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'messages' && styles.activeNavItem]}
             onPress={() => setActiveTab('messages')}
           >
-            <Text style={[styles.navIcon, activeTab === 'messages' && styles.activeNavIcon]}>💬</Text>
-            <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>Chat</Text>
+            <ChatCircleIcon
+              size={navBarIconSize}
+              color={activeTab === 'messages' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+              weight={activeTab === 'messages' ? 'fill' : 'regular'}
+            />
+            <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>
+              Messages
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'bookmarks' && styles.activeNavItem]}
             onPress={() => setActiveTab('bookmarks')}
           >
-            <Text style={[styles.navIcon, activeTab === 'bookmarks' && styles.activeNavIcon]}>🔖</Text>
-            <Text style={[styles.navLabel, activeTab === 'bookmarks' && styles.activeNavLabel]}>Bookmarks</Text>
+            <BookmarkSimpleIcon
+              size={navBarIconSize}
+              color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+              weight={activeTab === 'bookmarks' ? 'fill' : 'regular'}
+            />
+            <Text style={[styles.navLabel, activeTab === 'bookmarks' && styles.activeNavLabel]}>
+              Bookmarks
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'myrides' && styles.activeNavItem]}
             onPress={() => setActiveTab('myrides')}
           >
-            <Text style={[styles.navIcon, activeTab === 'myrides' && styles.activeNavIcon]}>🚗</Text>
-            <Text style={[styles.navLabel, activeTab === 'myrides' && styles.activeNavLabel]}>My Rides</Text>
+            <UserIcon
+              size={navBarIconSize}
+              color={activeTab === 'myrides' ? '#6B9080' : '#999'}
+              style={styles.navIcon}
+              weight={activeTab === 'myrides' ? 'fill' : 'regular'}
+            />
+            <Text style={[styles.navLabel, activeTab === 'myrides' && styles.activeNavLabel]}>
+              My Rides
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -127,9 +159,10 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: lightColors.backgroundBlue,
+    paddingTop: 12,
+    paddingBottom: 48,
+    paddingHorizontal: 16,
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
   },
@@ -142,21 +175,17 @@ const styles = StyleSheet.create({
     // Add any active state styling if needed
   },
   navIcon: {
-    fontSize: 20,
     marginBottom: 4,
-    color: '#999',
-  },
-  activeNavIcon: {
-    color: '#6B9080',
+    color: lightColors.text,
   },
   navLabel: {
     fontSize: 12,
-    color: '#999',
-    fontWeight: '500',
+    color: lightColors.text,
+    fontFamily: 'Lexend-Regular'
   },
   activeNavLabel: {
-    color: '#6B9080',
-  },
+    color: lightColors.text,
+  }
 });
 
 export default App;
