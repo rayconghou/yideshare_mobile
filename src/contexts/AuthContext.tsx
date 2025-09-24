@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useRef, ReactNod
 import CASService, { User } from '../services/CASService';
 import { YaliesPerson } from '../services/YaliesService';
 import { DeepLinkService, DeepLinkData } from '../services/DeepLinkService';
+import RideService, { Ride } from '../services/RideService';
 
 interface AuthContextType {
   user: User | null;
@@ -9,10 +10,15 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   isPolling: boolean;
+  rides: Ride[];
+  bookmarkedRides: Ride[];
   login: () => Promise<{ success: boolean; message: string }>;
   logout: () => Promise<void>;
   startPolling: () => void;
   stopPolling: () => void;
+  fetchRides: () => Promise<void>;
+  fetchBookmarkedRides: () => Promise<void>;
+  toggleBookmark: (rideId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,10 +42,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isPolling, setIsPolling] = useState(false);
   const [pollingInterval, setPollingInterval] = useState<ReturnType<typeof setInterval> | null>(null);
   const [pollingTimeout, setPollingTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const [rides, setRides] = useState<Ride[]>([]);
+  const [bookmarkedRides, setBookmarkedRides] = useState<Ride[]>([]);
   const shouldPollRef = useRef(false);
 
   const casService = CASService.getInstance();
   const deepLinkService = DeepLinkService.getInstance();
+  const rideService = RideService.getInstance();
 
   // Handle deep link authentication
   useEffect(() => {
@@ -105,6 +114,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuthStatus();
   }, []);
 
+  // Fetch rides when user is authenticated
+  useEffect(() => {
+    if (user) {
+      fetchRides();
+      fetchBookmarkedRides();
+    }
+  }, [user]);
+
   const login = async (): Promise<{ success: boolean; message: string }> => {
     try {
       console.log('🚀 [LOGIN] Starting authentication process');
@@ -136,9 +153,60 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await casService.logout();
       setUser(null);
       setYaliesData(null);
+      setRides([]);
+      setBookmarkedRides([]);
       console.log('✅ [LOGOUT] Completed');
     } catch (error) {
       console.error('❌ [LOGOUT] Error:', error);
+    }
+  };
+
+  const fetchRides = async (): Promise<void> => {
+    if (!user) return;
+    
+    try {
+      console.log('🚗 [RIDES] Fetching rides with bookmark status');
+      const ridesWithBookmarkStatus = await rideService.getRidesWithBookmarkStatus(user);
+      setRides(ridesWithBookmarkStatus);
+      console.log('✅ [RIDES] Fetched', ridesWithBookmarkStatus.length, 'rides');
+    } catch (error) {
+      console.error('❌ [RIDES] Error fetching rides:', error);
+    }
+  };
+
+  const fetchBookmarkedRides = async (): Promise<void> => {
+    if (!user) return;
+    
+    try {
+      console.log('🔖 [BOOKMARKS] Fetching bookmarked rides');
+      const bookmarkedRides = await rideService.getBookmarkedRides(user);
+      setBookmarkedRides(bookmarkedRides);
+      console.log('✅ [BOOKMARKS] Fetched', bookmarkedRides.length, 'bookmarked rides');
+    } catch (error) {
+      console.error('❌ [BOOKMARKS] Error fetching bookmarked rides:', error);
+    }
+  };
+
+  const toggleBookmark = async (rideId: string): Promise<void> => {
+    if (!user) return;
+    
+    try {
+      console.log('🔖 [BOOKMARKS] Toggling bookmark for ride:', rideId);
+      const result = await rideService.toggleBookmark(user, rideId);
+      
+      if (result.success) {
+        // Refresh both arrays from server to ensure consistency
+        await Promise.all([
+          fetchRides(),
+          fetchBookmarkedRides()
+        ]);
+        
+        console.log('✅ [BOOKMARKS] Bookmark toggled successfully:', result.isBookmarked);
+      } else {
+        console.error('❌ [BOOKMARKS] Failed to toggle bookmark:', result.message);
+      }
+    } catch (error) {
+      console.error('❌ [BOOKMARKS] Error toggling bookmark:', error);
     }
   };
 
@@ -232,10 +300,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated: !!user,
     isLoading,
     isPolling,
+    rides,
+    bookmarkedRides,
     login,
     logout,
     startPolling,
     stopPolling,
+    fetchRides,
+    fetchBookmarkedRides,
+    toggleBookmark,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

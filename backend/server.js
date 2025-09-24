@@ -29,6 +29,73 @@ const SESSIONS = {};
 // Store pending authentication states for polling
 const PENDING_AUTH = {};
 
+// In-memory ride and bookmark storage (in production, use database)
+const RIDES = {};
+const BOOKMARKS = {}; // userNetid -> Set of rideIds
+
+// Initialize with some sample rides
+const initializeSampleRides = () => {
+  const sampleRides = [
+    {
+      id: 'ride_1',
+      driver: {
+        name: 'Aspen Carder',
+        email: 'aspen.carder@yale.edu',
+        phone: '(123) 456-7890',
+        initials: 'AC',
+      },
+      from: 'Branford College',
+      to: 'Hartford (BDL)',
+      date: '14 Dec',
+      time: '9:30 AM - 11:00 AM',
+      seats: 2,
+      note: 'See note',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'ride_2',
+      driver: {
+        name: 'Ruben Rosser',
+        email: 'ruben.rosser@yale.edu',
+        phone: '(123) 456-7890',
+        initials: 'RR',
+      },
+      from: 'Branford College',
+      to: 'Hartford (BDL)',
+      date: '14 Dec',
+      time: '9:30 AM - 11:00 AM',
+      seats: 2,
+      note: 'See note',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'ride_3',
+      driver: {
+        name: 'Sarah Johnson',
+        email: 'sarah.johnson@yale.edu',
+        phone: '(555) 123-4567',
+        initials: 'SJ',
+      },
+      from: 'New Haven Union Station',
+      to: 'JFK Airport',
+      date: '15 Dec',
+      time: '2:00 PM - 4:30 PM',
+      seats: 3,
+      note: 'Direct to terminal',
+      createdAt: new Date().toISOString()
+    }
+  ];
+  
+  sampleRides.forEach(ride => {
+    RIDES[ride.id] = ride;
+  });
+  
+  console.log('🚗 [INIT] Initialized with', sampleRides.length, 'sample rides');
+};
+
+// Initialize sample data
+initializeSampleRides();
+
 /**
  * Validate CAS ticket with Yale CAS server
  */
@@ -366,6 +433,189 @@ app.post('/api/auth/mobile/logout', (req, res) => {
   } catch (error) {
     console.error('💥 [MOBILE LOGOUT] Error:', error);
     res.json({ success: false, error: 'logout_failed' });
+  }
+});
+
+/**
+ * Ride Management Endpoints
+ */
+
+// Get all rides
+app.get('/api/rides', (req, res) => {
+  try {
+    const rides = Object.values(RIDES);
+    res.json({
+      success: true,
+      rides: rides
+    });
+  } catch (error) {
+    console.error('💥 [RIDES] Error fetching rides:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch rides',
+      message: error.message
+    });
+  }
+});
+
+// Create a new ride
+app.post('/api/rides', (req, res) => {
+  try {
+    const { driver, from, to, date, time, seats, note } = req.body;
+    
+    if (!driver || !from || !to || !date || !time) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields',
+        message: 'Driver, from, to, date, and time are required'
+      });
+    }
+    
+    const rideId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const ride = {
+      id: rideId,
+      driver,
+      from,
+      to,
+      date,
+      time,
+      seats: seats || 1,
+      note: note || '',
+      createdAt: new Date().toISOString()
+    };
+    
+    RIDES[rideId] = ride;
+    
+    console.log('🚗 [RIDES] Created new ride:', rideId);
+    
+    res.json({
+      success: true,
+      ride: ride
+    });
+  } catch (error) {
+    console.error('💥 [RIDES] Error creating ride:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to create ride',
+      message: error.message
+    });
+  }
+});
+
+/**
+ * Bookmark Management Endpoints
+ */
+
+// Get user's bookmarked rides
+app.get('/api/bookmarks', (req, res) => {
+  try {
+    const { netid } = req.query;
+    
+    if (!netid) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing netid',
+        message: 'User netid is required'
+      });
+    }
+    
+    const userBookmarks = BOOKMARKS[netid] || new Set();
+    const bookmarkedRides = Array.from(userBookmarks).map(rideId => RIDES[rideId]).filter(Boolean);
+    
+    res.json({
+      success: true,
+      rides: bookmarkedRides
+    });
+  } catch (error) {
+    console.error('💥 [BOOKMARKS] Error fetching bookmarks:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch bookmarks',
+      message: error.message
+    });
+  }
+});
+
+// Toggle bookmark for a ride
+app.post('/api/bookmarks/toggle', (req, res) => {
+  try {
+    const { netid, rideId } = req.body;
+    
+    if (!netid || !rideId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields',
+        message: 'User netid and ride ID are required'
+      });
+    }
+    
+    if (!RIDES[rideId]) {
+      return res.status(404).json({
+        success: false,
+        error: 'Ride not found',
+        message: 'The specified ride does not exist'
+      });
+    }
+    
+    // Initialize user's bookmarks if not exists
+    if (!BOOKMARKS[netid]) {
+      BOOKMARKS[netid] = new Set();
+    }
+    
+    const userBookmarks = BOOKMARKS[netid];
+    let isBookmarked = false;
+    
+    if (userBookmarks.has(rideId)) {
+      userBookmarks.delete(rideId);
+      console.log('🔖 [BOOKMARKS] Removed bookmark for ride:', rideId, 'by user:', netid);
+    } else {
+      userBookmarks.add(rideId);
+      isBookmarked = true;
+      console.log('🔖 [BOOKMARKS] Added bookmark for ride:', rideId, 'by user:', netid);
+    }
+    
+    res.json({
+      success: true,
+      isBookmarked: isBookmarked,
+      message: isBookmarked ? 'Ride bookmarked' : 'Bookmark removed'
+    });
+  } catch (error) {
+    console.error('💥 [BOOKMARKS] Error toggling bookmark:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to toggle bookmark',
+      message: error.message
+    });
+  }
+});
+
+// Check if a ride is bookmarked by user
+app.get('/api/bookmarks/check', (req, res) => {
+  try {
+    const { netid, rideId } = req.query;
+    
+    if (!netid || !rideId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields',
+        message: 'User netid and ride ID are required'
+      });
+    }
+    
+    const userBookmarks = BOOKMARKS[netid] || new Set();
+    const isBookmarked = userBookmarks.has(rideId);
+    
+    res.json({
+      success: true,
+      isBookmarked: isBookmarked
+    });
+  } catch (error) {
+    console.error('💥 [BOOKMARKS] Error checking bookmark:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to check bookmark',
+      message: error.message
+    });
   }
 });
 

@@ -24,6 +24,7 @@ const MyRidesScreen: React.FC = () => {
     console.log('Send feedback pressed');
   };
 
+
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
       <StatusBar barStyle="light-content" backgroundColor="#6B9080" />
@@ -39,7 +40,7 @@ const MyRidesScreen: React.FC = () => {
           <Text style={styles.emptyIcon}>🚗</Text>
           <Text style={styles.emptyTitle}>No rides yet</Text>
           <Text style={styles.emptySubtitle}>
-            Your created rides and bookings will appear here
+            Your created rides will appear here
           </Text>
         </View>
         
