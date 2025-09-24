@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,51 +12,27 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
+import { Ride } from '../services/RideService';
 
-// Mock ride data
-const mockRides = [
-  {
-    id: '1',
-    from: 'Branford College',
-    to: 'Hartford (BDL)',
-    date: '14 Dec',
-    time: '9:30 AM - 11:00 AM',
-    driver: {
-      name: 'Aspen Carder',
-      email: 'driver@yale.edu',
-      phone: '(123) 456-7890',
-      initials: 'AC',
-    },
-    seats: 2,
-    note: 'See note',
-  },
-  {
-    id: '2',
-    from: 'Branford College',
-    to: 'Hartford (BDL)',
-    date: '14 Dec',
-    time: '9:30 AM - 11:00 AM',
-    driver: {
-      name: 'Ruben Rosser',
-      email: 'driver@yale.edu',
-      phone: '(123) 456-7890',
-      initials: 'RR',
-    },
-    seats: 2,
-    note: 'See note',
-  },
-];
 
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const { user, yaliesData, logout } = useAuth();
+  const { user, yaliesData, logout, rides, toggleBookmark, fetchRides } = useAuth();
   const [searchText, setSearchText] = useState('');
 
   const handleLogout = () => {
     logout();
   };
 
-  const renderRideCard = (ride: typeof mockRides[0]) => (
+  const handleBookmarkToggle = async (rideId: string) => {
+    await toggleBookmark(rideId);
+  };
+
+  const handleRefresh = () => {
+    fetchRides();
+  };
+
+  const renderRideCard = (ride: Ride) => (
     <View key={ride.id} style={styles.rideCard}>
       <View style={styles.rideHeader}>
         <View style={styles.routeInfo}>
@@ -69,8 +45,16 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.locationText}>{ride.to}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.bookmarkButton}>
-          <Text style={styles.bookmarkIcon}>🔖</Text>
+        <TouchableOpacity 
+          style={styles.bookmarkButton} 
+          onPress={() => handleBookmarkToggle(ride.id)}
+        >
+          <Text style={[
+            styles.bookmarkIcon,
+            ride.isBookmarked && styles.bookmarkIconActive
+          ]}>
+            {ride.isBookmarked ? '⭐' : '☆'}
+          </Text>
         </TouchableOpacity>
       </View>
       
@@ -133,7 +117,7 @@ const HomeScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
         
-        {mockRides.map(renderRideCard)}
+        {rides.map(renderRideCard)}
       </ScrollView>
       
     </SafeAreaView>
@@ -253,6 +237,10 @@ const styles = StyleSheet.create({
   bookmarkIcon: {
     fontSize: 18,
     fontFamily: defaultFontFamily,
+    opacity: 0.6,
+  },
+  bookmarkIconActive: {
+    opacity: 1,
   },
   rideDetails: {
     flexDirection: 'row',
