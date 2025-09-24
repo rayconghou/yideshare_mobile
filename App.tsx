@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: lightColors.background,
+    backgroundColor: lightColors.backgroundBlue,
     paddingTop: 12,
     paddingBottom: 48,
     paddingHorizontal: 16,
