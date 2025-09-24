@@ -17,6 +17,7 @@ import MessagesScreen from './src/screens/MessagesScreen';
 
 // Import Phosphor icons
 import { HouseIcon, ChatCircleIcon, BellIcon, UserIcon } from 'phosphor-react-native';
+import { lightColors, darkColors } from './src/constants/colors';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading, isPolling, user } = useAuth();
@@ -54,7 +55,7 @@ const AppContent: React.FC = () => {
           return <HomeScreen />;
       }
     };
-
+    const navBarIconSize = 32;
     return (
       <View style={styles.appContainer}>
         {renderScreen()}
@@ -64,7 +65,7 @@ const AppContent: React.FC = () => {
             onPress={() => setActiveTab('home')}
           >
             <HouseIcon
-              size={24}
+              size={navBarIconSize}
               color={activeTab === 'home' ? '#6B9080' : '#999'}
               style={styles.navIcon}
               weight={activeTab === 'home' ? 'fill' : 'regular'}
@@ -75,7 +76,7 @@ const AppContent: React.FC = () => {
             onPress={() => setActiveTab('messages')}
           >
             <ChatCircleIcon
-              size={24}
+              size={navBarIconSize}
               color={activeTab === 'messages' ? '#6B9080' : '#999'}
               style={styles.navIcon}
               weight={activeTab === 'messages' ? 'fill' : 'regular'}
@@ -86,7 +87,7 @@ const AppContent: React.FC = () => {
             onPress={() => setActiveTab('bookmarks')}
           >
             <BellIcon
-              size={24}
+              size={navBarIconSize}
               color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
               style={styles.navIcon}
               weight={activeTab === 'bookmarks' ? 'fill' : 'regular'}
@@ -97,7 +98,7 @@ const AppContent: React.FC = () => {
             onPress={() => setActiveTab('myrides')}
           >
             <UserIcon
-              size={24}
+              size={navBarIconSize}
               color={activeTab === 'myrides' ? '#6B9080' : '#999'}
               style={styles.navIcon}
               weight={activeTab === 'myrides' ? 'fill' : 'regular'}
@@ -146,9 +147,10 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: lightColors.background,
+    paddingTop: 12,
+    paddingBottom: 48,
+    paddingHorizontal: 16,
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
   },
@@ -161,18 +163,9 @@ const styles = StyleSheet.create({
     // Add any active state styling if needed
   },
   navIcon: {
-    fontSize: 20,
     marginBottom: 4,
-    color: '#999',
-  },
-  navLabel: {
-    fontSize: 12,
-    color: '#999',
-    fontWeight: '500',
-  },
-  activeNavLabel: {
-    color: '#6B9080',
-  },
+    color: lightColors.text,
+  }
 });
 
 export default App;
