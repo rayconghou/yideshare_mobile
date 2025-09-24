@@ -60,17 +60,6 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.locationText}>{ride.to}</Text>
           </View>
         </View>
-        <TouchableOpacity 
-          style={styles.bookmarkButton} 
-          onPress={() => handleBookmarkToggle(ride.id)}
-        >
-          <Text style={[
-            styles.bookmarkIcon,
-            ride.isBookmarked && styles.bookmarkIconActive
-          ]}>
-            {ride.isBookmarked ? '⭐' : '☆'}
-          </Text>
-        </TouchableOpacity>
       </View>
       
       <View style={styles.rideDetails}>
@@ -88,12 +77,27 @@ const HomeScreen: React.FC = () => {
           <Text style={styles.driverInitials}>{ride.driver.initials}</Text>
         </View>
         <View style={styles.driverDetails}>
-          <Text style={styles.driverName}>{ride.driver.name}</Text>
-          <Text style={styles.driverEmail}>{ride.driver.email}</Text>
+          <View style={styles.driverNameRow}>
+            <Text style={styles.driverName}>{ride.driver.name}</Text>
+            <Text style={styles.driverEmail}>{ride.driver.email}</Text>
+          </View>
         </View>
-        <View style={styles.timeElapsed}>
-          <Text style={styles.timeElapsedText}>placeholder</Text>
+        <View style={styles.driverPhone}>
+          <Text style={styles.driverPhoneText}>{ride.driver.phone}</Text>
         </View>
+      </View>
+      
+      <View style={styles.rideFooter}>
+        <TouchableOpacity>
+          <Text style={styles.seeNoteText}>See note</Text>
+        </TouchableOpacity>
+        <Text style={styles.seatsText}>{ride.seats} open seats</Text>
+        <TouchableOpacity style={styles.bookmarkButton} 
+          onPress={() => handleBookmarkToggle(ride.id)}>
+          <BookmarkSimpleIcon size={24} weight={ride.isBookmarked ? 'fill' : 'regular'} style={[
+            styles.bookmarkIcon,
+            ride.isBookmarked && styles.bookmarkIconActive]}/>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -135,6 +139,7 @@ const HomeScreen: React.FC = () => {
 
 const defaultFontFamily = 'Lexend-Regular';
 const defaultTextSize = 16;
+const smallTextSize = 12;
 const iconSizeSmall = 16;
 const iconSizeMedium = 20;
 const iconSizeLarge = 32;
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
   locationRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   pinIcon: {
     marginRight: 8,
@@ -286,15 +291,18 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     borderTopColor: lightColors.primary,
     borderTopWidth: 1,
+    marginBottom: 12,
+    fontFamily: defaultFontFamily,
+    fontSize: smallTextSize,
   },
   driverAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 32,
+    height: 32,
+    borderRadius: 38,
     backgroundColor: '#B0E0D0',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: 8,
   },
   driverInitials: {
     color: '#3D7A6A',
@@ -305,18 +313,53 @@ const styles = StyleSheet.create({
   driverDetails: {
     flex: 1,
   },
+  driverNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   driverName: {
-    fontSize: 14,
+    fontSize: smallTextSize,
     fontWeight: 400,
     color: lightColors.text,
-    marginBottom: 2,
     fontFamily: defaultFontFamily,
+    textAlign: 'left',
   },
   driverEmail: {
-    fontSize: 14,
+    fontSize: smallTextSize,
     fontWeight: 300,
     color: lightColors.text,
     fontFamily: defaultFontFamily,
+    textAlign: 'center',
+    flex: 10,
+  },
+  driverPhone: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  driverPhoneText: {
+    fontSize: smallTextSize,
+    fontWeight: 300,
+    color: lightColors.text,
+    fontFamily: defaultFontFamily,
+    textAlign: 'right',
+  },
+  rideFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  seeNoteText: {
+    fontSize: 14,
+    color: lightColors.tertiary,
+    fontFamily: defaultFontFamily,
+    textDecorationLine: 'underline',
+  },
+  seatsText: {
+    fontSize: 14,
+    color: lightColors.text,
+    fontFamily: defaultFontFamily,
+    fontWeight: 300,
   },
   timeElapsed: {
     flex: 1,

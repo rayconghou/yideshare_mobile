@@ -16,7 +16,7 @@ import MyRidesScreen from './src/screens/MyRidesScreen';
 import MessagesScreen from './src/screens/MessagesScreen';
 
 // Import Phosphor icons
-import { HouseIcon, ChatCircleIcon, BellIcon, UserIcon } from 'phosphor-react-native';
+import { HouseIcon, ChatCircleIcon, BookmarkSimpleIcon, UserIcon } from 'phosphor-react-native';
 import { lightColors, darkColors } from './src/constants/colors';
 
 const AppContent: React.FC = () => {
@@ -70,6 +70,9 @@ const AppContent: React.FC = () => {
               style={styles.navIcon}
               weight={activeTab === 'home' ? 'fill' : 'regular'}
             />
+            <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>
+              Home
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'messages' && styles.activeNavItem]}
@@ -81,17 +84,23 @@ const AppContent: React.FC = () => {
               style={styles.navIcon}
               weight={activeTab === 'messages' ? 'fill' : 'regular'}
             />
+            <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>
+              Messages
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'bookmarks' && styles.activeNavItem]}
             onPress={() => setActiveTab('bookmarks')}
           >
-            <BellIcon
+            <BookmarkSimpleIcon
               size={navBarIconSize}
               color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
               style={styles.navIcon}
               weight={activeTab === 'bookmarks' ? 'fill' : 'regular'}
             />
+            <Text style={[styles.navLabel, activeTab === 'bookmarks' && styles.activeNavLabel]}>
+              Bookmarks
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.navItem, activeTab === 'myrides' && styles.activeNavItem]}
@@ -103,6 +112,9 @@ const AppContent: React.FC = () => {
               style={styles.navIcon}
               weight={activeTab === 'myrides' ? 'fill' : 'regular'}
             />
+            <Text style={[styles.navLabel, activeTab === 'myrides' && styles.activeNavLabel]}>
+              My Rides
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -164,6 +176,14 @@ const styles = StyleSheet.create({
   },
   navIcon: {
     marginBottom: 4,
+    color: lightColors.text,
+  },
+  navLabel: {
+    fontSize: 12,
+    color: lightColors.text,
+    fontFamily: 'Lexend-Regular'
+  },
+  activeNavLabel: {
     color: lightColors.text,
   }
 });
