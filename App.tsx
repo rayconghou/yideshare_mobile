@@ -6,17 +6,13 @@
  */
 
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import LandingScreen from './src/screens/LandingScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import BookmarksScreen from './src/screens/BookmarksScreen';
-import MyRidesScreen from './src/screens/MyRidesScreen';
-import MessagesScreen from './src/screens/MessagesScreen';
+import { RootNavigator } from './src/components/RootNavigator';
+import { NavigationContainer } from '@react-navigation/native';
 
-// Import Phosphor icons
-import { HouseIcon, ChatCircleIcon, BookmarkSimpleIcon, UserIcon } from 'phosphor-react-native';
 import { lightColors, darkColors } from './src/constants/colors';
 
 const AppContent: React.FC = () => {
@@ -42,85 +38,32 @@ const AppContent: React.FC = () => {
     );
   }
 
-  if (isAuthenticated) {
-    const renderScreen = () => {
-      switch (activeTab) {
-        case 'bookmarks':
-          return <BookmarksScreen />;
-        case 'myrides':
-          return <MyRidesScreen />;
-        case 'messages':
-          return <MessagesScreen />;
-        default:
-          return <HomeScreen />;
-      }
-    };
-    const navBarIconSize = 32;
-    return (
-      <View style={styles.appContainer}>
-        {renderScreen()}
-        <View style={styles.bottomNav}>
-          <TouchableOpacity 
-            style={[styles.navItem, activeTab === 'home' && styles.activeNavItem]}
-            onPress={() => setActiveTab('home')}
-          >
-            <HouseIcon
-              size={navBarIconSize}
-              color={activeTab === 'home' ? '#6B9080' : '#999'}
-              style={styles.navIcon}
-              weight={activeTab === 'home' ? 'fill' : 'regular'}
-            />
-            <Text style={[styles.navLabel, activeTab === 'home' && styles.activeNavLabel]}>
-              Home
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.navItem, activeTab === 'messages' && styles.activeNavItem]}
-            onPress={() => setActiveTab('messages')}
-          >
-            <ChatCircleIcon
-              size={navBarIconSize}
-              color={activeTab === 'messages' ? '#6B9080' : '#999'}
-              style={styles.navIcon}
-              weight={activeTab === 'messages' ? 'fill' : 'regular'}
-            />
-            <Text style={[styles.navLabel, activeTab === 'messages' && styles.activeNavLabel]}>
-              Messages
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.navItem, activeTab === 'bookmarks' && styles.activeNavItem]}
-            onPress={() => setActiveTab('bookmarks')}
-          >
-            <BookmarkSimpleIcon
-              size={navBarIconSize}
-              color={activeTab === 'bookmarks' ? '#6B9080' : '#999'}
-              style={styles.navIcon}
-              weight={activeTab === 'bookmarks' ? 'fill' : 'regular'}
-            />
-            <Text style={[styles.navLabel, activeTab === 'bookmarks' && styles.activeNavLabel]}>
-              Bookmarks
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.navItem, activeTab === 'myrides' && styles.activeNavItem]}
-            onPress={() => setActiveTab('myrides')}
-          >
-            <UserIcon
-              size={navBarIconSize}
-              color={activeTab === 'myrides' ? '#6B9080' : '#999'}
-              style={styles.navIcon}
-              weight={activeTab === 'myrides' ? 'fill' : 'regular'}
-            />
-            <Text style={[styles.navLabel, activeTab === 'myrides' && styles.activeNavLabel]}>
-              My Rides
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
+  // if (isAuthenticated) {
+  //   const renderScreen = () => {
+  //     switch (activeTab) {
+  //       case 'bookmarks':
+  //         return <BookmarksScreen />;
+  //       case 'myrides':
+  //         return <MyRidesScreen />;
+  //       case 'messages':
+  //         return <MessagesScreen />;
+  //       case 'search':
+  //         return <SearchScreen />;
+  //       default:
+  //         return <HomeScreen />;
+  //     }
+  //   };
+  //   const navBarIconSize = 32;
+  //   return (
+  //     <View style={styles.appContainer}>
+  //       {renderScreen()}
+  //     </View>
+  //   );
+  // }
 
+  if (isAuthenticated) {
+    return <RootNavigator />;
+  }
   return <LandingScreen onAuthSuccess={() => {}} />;
 };
 
@@ -128,7 +71,9 @@ function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
+      <NavigationContainer>
         <AppContent />
+      </NavigationContainer>
       </AuthProvider>
     </SafeAreaProvider>
   );

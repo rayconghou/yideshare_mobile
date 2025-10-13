@@ -9,6 +9,7 @@ import {
   ScrollView,
   TextInput,
   Image,
+  Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
@@ -41,6 +42,10 @@ const HomeScreen: React.FC = () => {
 
   const handleRefresh = () => {
     fetchRides();
+  };
+  
+  const handleNavSearch = () => {
+    
   };
 
   const renderRideCard = (ride: Ride) => (
@@ -110,7 +115,7 @@ const HomeScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Yideshare</Text>
-        <View style={styles.searchContainer}>
+        <Pressable style={styles.searchContainer} onPress={handleNavSearch}>
           <MagnifyingGlassIcon size={iconSizeSmall} color="#999" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
@@ -119,7 +124,7 @@ const HomeScreen: React.FC = () => {
             value={searchText}
             onChangeText={setSearchText}
           />
-        </View>
+        </Pressable>
       </View>
       
       {/* Content */}
