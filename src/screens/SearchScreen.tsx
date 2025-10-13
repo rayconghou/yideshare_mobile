@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,11 @@ import {
   TextInput,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAuth } from '../contexts/AuthContext';
-import { Ride } from '../services/RideService';
 import { lightColors, darkColors } from '../constants/colors';
-import { rideCardStyles } from '../styles/RideCardStyles';
+
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../components/RootNavigator';
 
 // icon imports
 import { 
@@ -22,19 +23,16 @@ import {
     CaretLeftIcon,
 } from 'phosphor-react-native';
 
+// type SearchScreenNavigationProp = 
+
 const SearchScreen: React.FC = () => {
 	const isDarkMode = useColorScheme() === 'dark';
-	const { user, yaliesData, logout, rides, toggleBookmark, fetchRides } = useAuth();
 	const [searchText, setSearchText] = useState('');
 	const insets = useSafeAreaInsets();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'search'>>();
 	
-	const [activeTab, setActiveTab] = useState('search');
-
-	const handleRefresh = () => {
-		fetchRides();
-	};
 	const handleNavBack = () => {
-
+		navigation.goBack();
 	};
 
   	return (

@@ -8,10 +8,13 @@ import {
   useColorScheme,
   ScrollView,
   TextInput,
-  Image,
   Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../components/RootNavigator';
+
 import { useAuth } from '../contexts/AuthContext';
 import { Ride } from '../services/RideService';
 import { lightColors, darkColors } from '../constants/colors';
@@ -27,10 +30,13 @@ import {
   MapPinSimpleIcon
 } from 'phosphor-react-native';
 
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'main'>;
+
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { user, yaliesData, logout, rides, toggleBookmark, fetchRides } = useAuth();
   const [searchText, setSearchText] = useState('');
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const handleLogout = () => {
     logout();
@@ -45,7 +51,7 @@ const HomeScreen: React.FC = () => {
   };
   
   const handleNavSearch = () => {
-    
+    navigation.navigate('search');
   };
 
   const renderRideCard = (ride: Ride) => (
@@ -123,6 +129,8 @@ const HomeScreen: React.FC = () => {
             placeholderTextColor="#999"
             value={searchText}
             onChangeText={setSearchText}
+            editable={false}
+            pointerEvents="none"
           />
         </Pressable>
       </View>
@@ -153,7 +161,7 @@ const iconSizeLarge = 32;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.backgroundBlue,
   },
   darkContainer: {
     backgroundColor: '#000000',
@@ -192,6 +200,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor:'#ffffff'
   },
   sectionHeader: {
     flexDirection: 'row',
