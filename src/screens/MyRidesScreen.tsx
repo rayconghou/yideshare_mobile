@@ -66,13 +66,13 @@ const buttonTextSize = 12
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
   },
   darkContainer: {
     backgroundColor: '#000000',
   },
   header: {
-      backgroundColor: '#ffffff',
+      backgroundColor: lightColors.white,
       paddingTop: 56,
       paddingBottom: 20,
       paddingHorizontal: 20,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
     paddingHorizontal: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
   },
   feedbackButton: {
     flexDirection: 'row',

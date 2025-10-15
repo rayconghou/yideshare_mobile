@@ -47,7 +47,7 @@ const SearchScreen: React.FC = () => {
 			{/* Header */}
 			<View style={[styles.header, { paddingTop: insets.top + 15 }]}>
 				<TouchableOpacity style={styles.headerBackButton} onPress={handleNavBack}>
-					<CaretLeftIcon size={16.5} color={lightColors.titleText} style={styles.headerBackButtonIcon} />
+					<CaretLeftIcon size={16.5} color={lightColors.tertiary} style={styles.headerBackButtonIcon} />
 				</TouchableOpacity>
 				<Text style={styles.headerTitle}>Search</Text>
 				<View style={styles.headerPlaceholder} />
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: defaultTextSize,
     fontWeight: 400,
-    color: lightColors.titleText,
+    color: lightColors.tertiary,
     fontFamily: 'Righteous-Regular',
     textAlign: 'center',
     flex: 1,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     borderRadius: 8,
     paddingHorizontal: 24,
     paddingVertical: 12,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   },
   footerPostRideText: {
     fontSize: buttonTextSize,
-	color: '#ffffff',
+	color: lightColors.white,
 	fontWeight: '600',
 	fontFamily: defaultFontFamily,
   },

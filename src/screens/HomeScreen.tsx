@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 400,
-    color: lightColors.titleText,
+    color: lightColors.tertiary,
     marginBottom: 16,
     fontFamily: 'Righteous-Regular',
     textAlign: 'center'
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     borderRadius: 8,
     paddingHorizontal: 24,
     paddingVertical: 12,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
-    backgroundColor:'#ffffff'
+    backgroundColor: lightColors.white
   },
   sectionHeader: {
     flexDirection: 'row',

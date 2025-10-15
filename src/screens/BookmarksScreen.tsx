@@ -119,13 +119,13 @@ const defaultFontFamily = 'Lexend-Regular'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
   },
   darkContainer: {
     backgroundColor: '#000000',
   },
   header: {
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     paddingTop: 56,
     paddingBottom: 20,
     paddingHorizontal: 20,

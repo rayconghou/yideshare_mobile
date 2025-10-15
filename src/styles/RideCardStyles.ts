@@ -7,7 +7,7 @@ const smallTextSize = 12;
 
 export const rideCardStyles = StyleSheet.create({
   rideCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     borderRadius: 26,
     padding: 16,
     marginBottom: 12,

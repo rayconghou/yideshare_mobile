@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     paddingHorizontal: 24,
     paddingVertical: 12,
     margin: 16,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     padding: 12,
     // marginVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#CDE3DD'
+    borderBottomColor: lightColors.primary
   },
   locationIcon: {
     marginRight: 12,
