@@ -7,6 +7,7 @@ import {
   StatusBar,
   useColorScheme,
   TextInput,
+  Pressable,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { lightColors, darkColors } from '../constants/colors';
@@ -34,6 +35,11 @@ const SearchScreen: React.FC = () => {
 	const handleNavBack = () => {
 		navigation.goBack();
 	};
+	const handleLocationSearch = (screen: string) => {
+		navigation.navigate('locationSelect', {
+			screen: screen,
+		})
+	};
 
   	return (
 		<View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -49,7 +55,7 @@ const SearchScreen: React.FC = () => {
 
 			{/* Content */}
 			<View style={styles.content}>
-				<View style={styles.searchContainer}>
+				<Pressable style={styles.searchContainer} onPress={() => handleLocationSearch("leaving")}>
 					<MapPinIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
 					<TextInput
 					style={styles.searchInput}
@@ -57,9 +63,11 @@ const SearchScreen: React.FC = () => {
 					placeholderTextColor={lightColors.secondary}
 					value={searchText}
 					onChangeText={setSearchText}
+					editable={false}
+					pointerEvents="none"
 					/>
-				</View>
-				<View style={styles.searchContainer}>
+				</Pressable>
+				<Pressable style={styles.searchContainer} onPress={() => handleLocationSearch("going")}>
 					<MapPinIcon size={iconSizeSmall} color={lightColors.placeholder_gray} style={styles.searchIcon} />
 					<TextInput
 					style={styles.searchInput}
@@ -67,8 +75,10 @@ const SearchScreen: React.FC = () => {
 					placeholderTextColor={lightColors.secondary}
 					value={searchText}
 					onChangeText={setSearchText}
+					editable={false}
+					pointerEvents="none"
 					/>
-				</View>
+				</Pressable>
 				<View style={styles.searchContainer}>
 					<CalendarDotsIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
 					<TextInput
