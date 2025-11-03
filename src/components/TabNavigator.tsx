@@ -1,10 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, useColorScheme } from 'react-native';
+import { View, StyleSheet, useColorScheme } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import BookmarksScreen from '../screens/BookmarksScreen';
 import MyRidesScreen from '../screens/MyRidesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
+
+// Phosphor React Native icon imports
+import { HouseIcon, ChatCircleIcon, BellIcon, UserIcon } from 'phosphor-react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +33,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>🏠</Text>
+              <HouseIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -41,7 +44,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>💬</Text>
+              <ChatCircleIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -52,7 +55,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>🔖</Text>
+              <BellIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -63,7 +66,7 @@ const TabNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <View style={styles.iconContainer}>
-              <Text style={[styles.icon, { color }]}>🚗</Text>
+              <UserIcon size={size} color={color} weight="fill" />
             </View>
           ),
         }}
@@ -88,10 +91,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  icon: {
-    fontSize: 20,
-    marginBottom: 4,
   },
   tabLabel: {
     fontSize: 12,
