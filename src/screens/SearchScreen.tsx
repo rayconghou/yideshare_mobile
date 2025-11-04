@@ -40,6 +40,9 @@ const SearchScreen: React.FC = () => {
 			screen: screen,
 		})
 	};
+	const handleCalendarClick = () => {
+		navigation.navigate('calendar')
+	}
 
   	return (
 		<View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -79,16 +82,17 @@ const SearchScreen: React.FC = () => {
 					pointerEvents="none"
 					/>
 				</Pressable>
-				<View style={styles.searchContainer}>
+				<Pressable style={styles.searchContainer} onPress={() => handleCalendarClick()}>
 					<CalendarDotsIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
 					<TextInput
 					style={styles.searchInput}
 					placeholder="Date"
 					placeholderTextColor={lightColors.secondary}
 					value={searchText}
-					onChangeText={setSearchText}
+					editable={false}
+					pointerEvents="none"
 					/>
-				</View>
+				</Pressable>
 				<View style={styles.searchContainer}>
 					<ClockIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
 					<TextInput

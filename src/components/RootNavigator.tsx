@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from './TabNavigator'
 import SearchScreen from '../screens/SearchScreen';
 import LocationSelectScreen from '../screens/LocationSelectScreen';
+import CalendarScreen from '../screens/CalendarScreen';
 
 export type RootStackParamList = {
   main: undefined;
@@ -12,6 +13,7 @@ export type RootStackParamList = {
   locationSelect: {
     screen: string,
   };
+  calendar: undefined;
   // Add more screens as needed
 };
 
@@ -28,6 +30,14 @@ export const RootNavigator = () => {
             <Stack.Screen 
                 name ="locationSelect" 
                 component={LocationSelectScreen}
+                options={{
+                    presentation: 'modal',
+                    animation: 'slide_from_bottom',
+                }}
+            />
+            <Stack.Screen 
+                name ="calendar" 
+                component={CalendarScreen}
                 options={{
                     presentation: 'modal',
                     animation: 'slide_from_bottom',
