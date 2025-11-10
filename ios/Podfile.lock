@@ -5,9 +5,9 @@ PODS:
   - FBLazyVector (0.81.5)
   - fmt (11.0.2)
   - glog (0.3.5)
-  - hermes-engine (0.81.1):
-    - hermes-engine/Pre-built (= 0.81.1)
-  - hermes-engine/Pre-built (0.81.1)
+  - hermes-engine (0.81.5):
+    - hermes-engine/Pre-built (= 0.81.5)
+  - hermes-engine/Pre-built (0.81.5)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -2823,7 +2823,7 @@ SPEC CHECKSUMS:
   FBLazyVector: 5beb8028d5a2e75dd9634917f23e23d3a061d2aa
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
-  hermes-engine: 4f8246b1f6d79f625e0d99472d1f3a71da4d28ca
+  hermes-engine: 9f4dfe93326146a1c99eb535b1cb0b857a3cd172
   RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
   RCTDeprecation: 5eb1d2eeff5fb91151e8a8eef45b6c7658b6c897
   RCTRequired: cebcf9442fc296c9b89ac791dfd463021d9f6f23
@@ -2895,8 +2895,8 @@ SPEC CHECKSUMS:
   RNScreens: 0bbf16c074ae6bb1058a7bf2d1ae017f4306797c
   RNSVG: 6c39befcfad06eec55b40c19a030b2d9eca63334
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  Yoga: 728df40394d49f3f471688747cf558158b3a3bd1
+  Yoga: d7064c22f7ba5890471d32dd95e72c77ec911f26
 
 PODFILE CHECKSUM: 1f7c8e46744d2ef069e0422ad2c989f3925310fe
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2

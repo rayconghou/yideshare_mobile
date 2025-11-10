@@ -4,6 +4,23 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
+## Prerequisites
+
+1. **Backend Server**: The mobile app requires a backend server for CAS authentication. Make sure to start it before testing authentication features.
+
+   ```sh
+   # Install backend dependencies (first time only)
+   cd backend
+   npm install
+   
+   # Start the backend server
+   npm start
+   ```
+
+   The backend will run on `http://localhost:3001`. Verify it's running by visiting `http://localhost:3001/health`.
+
+2. **iOS Configuration**: For iOS development, ensure `Info.plist` has proper App Transport Security settings (already configured). See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for details.
+
 ## Step 1: Start Metro
 
 First, you will need to run **Metro**, the JavaScript build tool for React Native.
@@ -85,6 +102,110 @@ You've successfully run and modified your React Native App. :partying_face:
 # Troubleshooting
 
 If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+
+## Common Issues
+
+### Network Request Failed Error
+
+If you encounter "Network request failed" errors when trying to authenticate:
+
+1. **Ensure backend server is running**: `cd backend && npm start`
+2. **Check iOS Info.plist configuration**: The `Info.plist` must have `NSExceptionDomains` for localhost to allow HTTP connections
+3. **Verify backend URL**: Check `src/config/backend.ts` matches your setup
+
+**iOS Info.plist Configuration Required:**
+The `ios/YideShareMobile/Info.plist` file must include `NSExceptionDomains` for localhost:
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <false/>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>localhost</key>
+        <dict>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+        </dict>
+        <key>127.0.0.1</key>
+        <dict>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+    </dict>
+</dict>
+```
+
+### iOS Build Failed (Error Code 65)
+
+If you encounter "Failed to build ios project. xcodebuild exited with error code '65'" or see errors about missing script files:
+
+**Solution - Clean and Reinstall Pods:**
+
+1. **Remove old Pods installation:**
+   ```sh
+   cd ios
+   rm -rf Pods Podfile.lock
+   ```
+
+2. **Reinstall CocoaPods dependencies:**
+   ```sh
+   export LANG=en_US.UTF-8  # Fixes encoding issues
+   bundle exec pod install
+   ```
+
+3. **Clean the Xcode build:**
+   ```sh
+   xcodebuild clean -workspace YideShareMobile.xcworkspace -scheme YideShareMobile
+   ```
+
+4. **Rebuild the app:**
+   ```sh
+   cd ..
+   npm run ios
+   ```
+
+**Why this happens:**
+CocoaPods generates build scripts that can become corrupted or point to incorrect paths. Removing and reinstalling Pods regenerates these scripts with the correct configuration.
+
+**If the issue persists:**
+- Check that `REACT_NATIVE_PATH` in Xcode build settings is set to `${SRCROOT}/../node_modules/react-native` (or `${PODS_ROOT}/../../node_modules/react-native`)
+- Verify Node.js is accessible: `which node`
+- Ensure you're using the correct React Native version
+- Try cleaning Xcode DerivedData: `rm -rf ~/Library/Developer/Xcode/DerivedData`
+
+## Development Workflow
+
+### Starting Everything
+
+1. **Terminal 1 - Backend Server**:
+   ```sh
+   npm run backend
+   # or for development with auto-reload:
+   npm run backend:dev
+   ```
+
+2. **Terminal 2 - Metro Bundler**:
+   ```sh
+   npm start
+   ```
+
+3. **Terminal 3 - Run iOS App**:
+   ```sh
+   npm run ios
+   ```
+
+### Quick Commands
+
+- `npm run backend` - Start backend server
+- `npm run backend:dev` - Start backend with auto-reload
+- `npm start` - Start Metro bundler
+- `npm run ios` - Build and run iOS app
+- `npm run android` - Build and run Android app
 
 # Learn More
 

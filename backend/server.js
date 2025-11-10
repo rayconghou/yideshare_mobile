@@ -25,8 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Yale CAS Configuration
-const YALE_CAS_BASE_URL = 'https://secure.its.yale.edu';
-const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/cas/serviceValidate`;
+// For local development, use the test CAS server which supports localhost service registry
+const YALE_CAS_BASE_URL = 'https://secure-tst.its.yale.edu/cas';
+const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/serviceValidate`;
 
 
 // In-memory session storage (in production, use Redis or database)
@@ -222,7 +223,7 @@ app.get('/api/auth/mobile/login', (req, res) => {
   try {
     const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const serviceUrl = `${req.protocol}://${req.get('host')}/api/auth/mobile/callback?state=${state}`;
-    const casLoginUrl = `${YALE_CAS_BASE_URL}/cas/login?service=${encodeURIComponent(serviceUrl)}`;
+    const casLoginUrl = `${YALE_CAS_BASE_URL}/login?service=${encodeURIComponent(serviceUrl)}`;
     
     // Store pending authentication state
     PENDING_AUTH[state] = {
@@ -635,57 +636,17 @@ app.get('/health', (req, res) => {
 
 /**
  * Start server
+ * Listens on all interfaces (0.0.0.0) to allow connections from mobile devices
  */
-const server = app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Backend server running on port ${PORT}`);
   console.log(`📱 Mobile auth endpoints available`);
   console.log(`🏥 Health check: http://localhost:${PORT}/health`);
-  console.log(`🗄️  Database test: http://localhost:${PORT}/test-db`);
-  console.log(`📚 API Documentation:`);
-  console.log(`   GET  /api/rides/search - Search rides`);
-  console.log(`   POST /api/rides - Create ride`);
-  console.log(`   GET  /api/rides/user - Get user rides`);
-  console.log(`   PUT  /api/rides/:id - Update ride`);
-  console.log(`   DELETE /api/rides/:id - Delete ride`);
-  console.log(`   GET  /api/bookmarks - Get bookmarks`);
-  console.log(`   POST /api/bookmarks/toggle - Toggle bookmark`);
-});
-
-/**
- * Graceful shutdown
- */
-process.on('SIGTERM', async () => {
-  console.log('🛑 SIGTERM received, shutting down gracefully...');
-  
-  server.close(() => {
-    console.log('📴 HTTP server closed.');
-  });
-  
-  try {
-    await disconnect();
-    console.log('🗄️  Database connection closed.');
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Error during shutdown:', error);
-    process.exit(1);
-  }
-});
-
-process.on('SIGINT', async () => {
-  console.log('🛑 SIGINT received, shutting down gracefully...');
-  
-  server.close(() => {
-    console.log('📴 HTTP server closed.');
-  });
-  
-  try {
-    await disconnect();
-    console.log('🗄️  Database connection closed.');
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Error during shutdown:', error);
-    process.exit(1);
-  }
+  console.log(`🌐 CAS Base URL: ${YALE_CAS_BASE_URL}`);
+  console.log(`\n💡 For physical device testing, use your machine's IP address:`);
+  console.log(`   iOS Simulator: http://localhost:${PORT}`);
+  console.log(`   Android Emulator: http://10.0.2.2:${PORT}`);
+  console.log(`   Physical Device: http://<your-ip>:${PORT}`);
 });
 
 module.exports = app;
