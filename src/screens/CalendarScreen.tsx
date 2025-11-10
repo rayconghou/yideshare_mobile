@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
-  StatusBar,
   useColorScheme,
-  TextInput,
-  Pressable,
 } from 'react-native';
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -43,7 +39,7 @@ LocaleConfig.locales['us'] = {
 };
 LocaleConfig.defaultLocale = 'us';
 
-const SearchScreen: React.FC = () => {
+const CalendarScreen: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
     const [searchText, setSearchText] = useState('');
     const insets = useSafeAreaInsets();
@@ -138,6 +134,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: lightColors.white,
+    paddingTop: 19,
     paddingBottom: 100,
     paddingHorizontal: 16,
     flexDirection: 'row',
@@ -169,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default CalendarScreen;

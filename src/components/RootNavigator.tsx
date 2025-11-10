@@ -6,6 +6,7 @@ import TabNavigator from './TabNavigator'
 import SearchScreen from '../screens/SearchScreen';
 import LocationSelectScreen from '../screens/LocationSelectScreen';
 import CalendarScreen from '../screens/CalendarScreen';
+import TimeSelectScreen from '../screens/TimeSelectScreen';
 
 export type RootStackParamList = {
   main: undefined;
@@ -13,7 +14,8 @@ export type RootStackParamList = {
   locationSelect: {
     screen: string,
   };
-  calendar: undefined;
+  calendar: undefined,
+  timeSelect: undefined,
   // Add more screens as needed
 };
 
@@ -38,6 +40,14 @@ export const RootNavigator = () => {
             <Stack.Screen 
                 name ="calendar" 
                 component={CalendarScreen}
+                options={{
+                    presentation: 'modal',
+                    animation: 'slide_from_bottom',
+                }}
+            />
+            <Stack.Screen 
+                name ="timeSelect" 
+                component={TimeSelectScreen}
                 options={{
                     presentation: 'modal',
                     animation: 'slide_from_bottom',
