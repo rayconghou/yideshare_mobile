@@ -215,6 +215,25 @@ CocoaPods generates build scripts that can become corrupted or point to incorrec
 
 ## Development Workflow
 
+### Pre-Commit Checks
+
+**Before committing your changes, always run these checks to ensure code quality:**
+
+```sh
+# Quick check (TypeScript + ESLint)
+npm run build:check
+
+# Or run individually:
+npm run type-check  # Check TypeScript types
+npm run lint        # Check code style and errors
+```
+
+**Why this matters:**
+- Prevents TypeScript errors from breaking the build
+- Catches linting issues before they reach the codebase
+- Ensures consistent code quality across the team
+- Avoids breaking the development environment for other developers
+
 ### Starting Everything
 
 1. **Terminal 1 - Backend Server**:
@@ -228,6 +247,24 @@ CocoaPods generates build scripts that can become corrupted or point to incorrec
    ```sh
    npm start
    ```
+
+### Build Commands
+
+For testing full builds:
+
+```sh
+# Check TypeScript types only
+npm run type-check
+
+# Full build check (TypeScript + Linting)
+npm run build:check
+
+# Build iOS app (requires Xcode)
+npm run build:ios
+
+# Build Android app (requires Android SDK)
+npm run build:android
+```
 
 3. **Terminal 3 - Run iOS App**:
    ```sh

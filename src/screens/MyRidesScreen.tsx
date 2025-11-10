@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 import { CarProfileIcon, PencilSimpleIcon } from 'phosphor-react-native';
 
 const MyRidesScreen: React.FC = () => {

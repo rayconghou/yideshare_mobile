@@ -11,7 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { Ride } from '../services/RideService';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 import { rideCardStyles } from '../styles/RideCardStyles';
 import { 
   CalendarDotsIcon,  

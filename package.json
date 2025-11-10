@@ -10,7 +10,11 @@
     "test": "jest",
     "backend": "cd backend && npm start",
     "backend:dev": "cd backend && npm run dev",
-    "postinstall": "cd ios && pod install"
+    "postinstall": "cd ios && pod install",
+    "type-check": "tsc --noEmit",
+    "build:check": "npm run type-check && npm run lint",
+    "build:ios": "cd ios && xcodebuild -workspace YideShareMobile.xcworkspace -scheme YideShareMobile -configuration Debug -sdk iphonesimulator build",
+    "build:android": "cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",

@@ -1,24 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  View,
   Text,
   TouchableOpacity,
   StyleSheet,
   Alert,
   ActivityIndicator,
   useColorScheme,
-  TurboModuleRegistry,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { ImageBackground, Animated } from 'react-native';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 
 interface LandingScreenProps {
   onAuthSuccess: () => void;
 }
 
-const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
+const LandingScreen: React.FC<LandingScreenProps> = () => {
   const { login, isPolling } = useAuth();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const isDarkMode = useColorScheme() === 'dark';
@@ -86,7 +84,8 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
       fadeButton();
       hasAnimated.current = true;
     }
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>

@@ -4,13 +4,11 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  StatusBar,
   useColorScheme,
   TextInput,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -50,7 +48,6 @@ const mockLocations = [
 const LocationSelectScreen: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
     const [searchText, setSearchText] = useState('');
-    const insets = useSafeAreaInsets();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'locationSelect'>>();
     const route = useRoute<RouteProp<RootStackParamList, 'locationSelect'>>();
 
