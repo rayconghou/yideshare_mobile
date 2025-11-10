@@ -25,9 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Yale CAS Configuration
-// For local development, use the test CAS server which supports localhost service registry
-const YALE_CAS_BASE_URL = 'https://secure-tst.its.yale.edu/cas';
-const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/serviceValidate`;
+// const YALE_CAS_BASE_URL = 'https://secure.its.yale.edu';
+const YALE_CAS_BASE_URL = 'https://secure-tst.its.yale.edu';
+const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/cas/serviceValidate`;
 
 
 // In-memory session storage (in production, use Redis or database)

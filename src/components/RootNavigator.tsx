@@ -7,6 +7,7 @@ import SearchScreen from '../screens/SearchScreen';
 import LocationSelectScreen from '../screens/LocationSelectScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import TimeSelectScreen from '../screens/TimeSelectScreen';
+import PostRideScreen from '../screens/PostRidesScreen';
 
 export type RootStackParamList = {
   main: undefined;
@@ -16,6 +17,13 @@ export type RootStackParamList = {
   };
   calendar: undefined,
   timeSelect: undefined,
+//   postRide: {
+//     from: string;
+//     to: string;
+//     date: string;
+//     time: string;
+//   }
+  postRide: undefined,
   // Add more screens as needed
 };
 
@@ -48,6 +56,14 @@ export const RootNavigator = () => {
             <Stack.Screen 
                 name ="timeSelect" 
                 component={TimeSelectScreen}
+                options={{
+                    presentation: 'modal',
+                    animation: 'slide_from_bottom',
+                }}
+            />
+            <Stack.Screen
+                name="postRide"
+                component={PostRideScreen}
                 options={{
                     presentation: 'modal',
                     animation: 'slide_from_bottom',

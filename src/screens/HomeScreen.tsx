@@ -59,7 +59,7 @@ const HomeScreen: React.FC = () => {
       <View style={rideCardStyles.rideHeader}>
         <View style={rideCardStyles.routeInfo}>
           <View style={rideCardStyles.locationRow}>
-            <MapPinSimpleIcon size={iconSizeMedium} style={styles.pinIcon} />
+            <MapPinSimpleIcon size={iconSizeMedium} style={rideCardStyles.pinIcon} />
             <Text style={rideCardStyles.locationText}>{ride.from}</Text>
           </View>
           <View style={rideCardStyles.locationRow}>
@@ -67,7 +67,7 @@ const HomeScreen: React.FC = () => {
               size={iconSizeMedium}
               color="#666"
               weight="fill"
-              style={[styles.pinIcon, { transform: [{ rotate: '180deg' }] }]}
+              style={[rideCardStyles.pinIcon, { transform: [{ rotate: '180deg' }] }]}
             />
             <Text style={rideCardStyles.locationText}>{ride.to}</Text>
           </View>
@@ -76,11 +76,11 @@ const HomeScreen: React.FC = () => {
       
       <View style={rideCardStyles.rideDetails}>
         <View style={rideCardStyles.timeInfoLeft}>
-          <CalendarDotsIcon size={iconSizeSmall} style={styles.calendarIcon} />
+          <CalendarDotsIcon size={iconSizeSmall} style={rideCardStyles.calendarIcon} />
           <Text style={rideCardStyles.dateText}>{ride.date}</Text>
         </View>
         <View style={rideCardStyles.timeInfoRight}>
-          <ClockIcon size={iconSizeSmall} style={styles.clockIcon} />
+          <ClockIcon size={iconSizeSmall} style={rideCardStyles.clockIcon} />
           <Text style={rideCardStyles.timeText}>{ride.time}</Text>
         </View>
       </View>
@@ -222,15 +222,6 @@ const styles = StyleSheet.create({
   },
   filterIcon: {
     // No size needed here since we use size prop
-  },
-  pinIcon: {
-    marginRight: 8,
-  },
-  calendarIcon: {
-    marginRight: 6,
-  },
-  clockIcon: {
-    marginRight: 6,
   },
 });
 

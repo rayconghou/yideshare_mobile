@@ -150,4 +150,13 @@ export const rideCardStyles = StyleSheet.create({
     fontFamily: defaultFontFamily,
     fontWeight: 300,
   },
+  pinIcon: {
+    marginRight: 8,
+  },
+  calendarIcon: {
+    marginRight: 6,
+  },
+  clockIcon: {
+    marginRight: 6,
+  },
 });
