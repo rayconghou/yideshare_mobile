@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { ImageBackground, Animated } from 'react-native';
+import { lightColors, darkColors } from '../constants/colors';
 
 interface LandingScreenProps {
   onAuthSuccess: () => void;
@@ -106,7 +107,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
             >
               {isLoading ? (
                 <Animated.View style={[styles.loadingContainer]}>
-                  <ActivityIndicator size="small" color="#FFFFFF" />
+                  <ActivityIndicator size="small" color={lightColors.white} />
                   <Text style={styles.loginButtonText}>
                     {isPolling ? 'Authenticating...' : 'Opening browser...'}
                   </Text>
@@ -125,7 +126,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAuthSuccess }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: lightColors.white,
   },
   darkContainer: {
     backgroundColor: '#000000',
@@ -140,16 +141,16 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: 'Righteous-Regular',
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: lightColors.white,
     textAlign: 'center',
     marginBottom: 8,
   },
   darkTitle: {
-    color: '#FFFFFF',
+    color: lightColors.white,
   },
   subtitle: {
     fontSize: 18,
-    color: '#FFFFFF',
+    color: lightColors.white,
     textAlign: 'center',
     marginBottom: 40,
   },
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     color: '#CCCCCC',
   },
   loginButton: {
-    backgroundColor: '#CDE3DD',
+    backgroundColor: lightColors.primary,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 37,
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCCCCC',
   },
   loginButtonText: {
-    color: '#397060',
+    color: lightColors.tertiary,
     fontSize: 16,
     fontWeight: '400',
     fontFamily: 'Lexend-Regular',

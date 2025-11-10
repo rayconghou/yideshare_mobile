@@ -7,7 +7,7 @@ const smallTextSize = 12;
 
 export const rideCardStyles = StyleSheet.create({
   rideCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     borderRadius: 26,
     padding: 16,
     marginBottom: 12,
@@ -149,5 +149,14 @@ export const rideCardStyles = StyleSheet.create({
     color: lightColors.text,
     fontFamily: defaultFontFamily,
     fontWeight: 300,
+  },
+  pinIcon: {
+    marginRight: 8,
+  },
+  calendarIcon: {
+    marginRight: 6,
+  },
+  clockIcon: {
+    marginRight: 6,
   },
 });

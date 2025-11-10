@@ -81,13 +81,13 @@ const MessagesScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
   },
   darkContainer: {
     backgroundColor: '#000000',
   },
   header: {
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     paddingTop: 56,
     paddingBottom: 20,
     paddingHorizontal: 20,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   chatCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     // paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 12,

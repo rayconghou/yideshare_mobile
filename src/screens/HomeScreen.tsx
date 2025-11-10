@@ -8,9 +8,13 @@ import {
   useColorScheme,
   ScrollView,
   TextInput,
-  Image,
+  Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../components/RootNavigator';
+
 import { useAuth } from '../contexts/AuthContext';
 import { Ride } from '../services/RideService';
 import { lightColors, darkColors } from '../constants/colors';
@@ -26,10 +30,13 @@ import {
   MapPinSimpleIcon
 } from 'phosphor-react-native';
 
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'main'>;
+
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { user, yaliesData, logout, rides, toggleBookmark, fetchRides } = useAuth();
   const [searchText, setSearchText] = useState('');
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const handleLogout = () => {
     logout();
@@ -42,13 +49,17 @@ const HomeScreen: React.FC = () => {
   const handleRefresh = () => {
     fetchRides();
   };
+  
+  const handleNavSearch = () => {
+    navigation.navigate('search');
+  };
 
   const renderRideCard = (ride: Ride) => (
     <View key={ride.id} style={rideCardStyles.rideCard}>
       <View style={rideCardStyles.rideHeader}>
         <View style={rideCardStyles.routeInfo}>
           <View style={rideCardStyles.locationRow}>
-            <MapPinSimpleIcon size={iconSizeMedium} style={styles.pinIcon} />
+            <MapPinSimpleIcon size={iconSizeMedium} style={rideCardStyles.pinIcon} />
             <Text style={rideCardStyles.locationText}>{ride.from}</Text>
           </View>
           <View style={rideCardStyles.locationRow}>
@@ -56,7 +67,7 @@ const HomeScreen: React.FC = () => {
               size={iconSizeMedium}
               color="#666"
               weight="fill"
-              style={[styles.pinIcon, { transform: [{ rotate: '180deg' }] }]}
+              style={[rideCardStyles.pinIcon, { transform: [{ rotate: '180deg' }] }]}
             />
             <Text style={rideCardStyles.locationText}>{ride.to}</Text>
           </View>
@@ -65,11 +76,11 @@ const HomeScreen: React.FC = () => {
       
       <View style={rideCardStyles.rideDetails}>
         <View style={rideCardStyles.timeInfoLeft}>
-          <CalendarDotsIcon size={iconSizeSmall} style={styles.calendarIcon} />
+          <CalendarDotsIcon size={iconSizeSmall} style={rideCardStyles.calendarIcon} />
           <Text style={rideCardStyles.dateText}>{ride.date}</Text>
         </View>
         <View style={rideCardStyles.timeInfoRight}>
-          <ClockIcon size={iconSizeSmall} style={styles.clockIcon} />
+          <ClockIcon size={iconSizeSmall} style={rideCardStyles.clockIcon} />
           <Text style={rideCardStyles.timeText}>{ride.time}</Text>
         </View>
       </View>
@@ -110,7 +121,7 @@ const HomeScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Yideshare</Text>
-        <View style={styles.searchContainer}>
+        <Pressable style={styles.searchContainer} onPress={handleNavSearch}>
           <MagnifyingGlassIcon size={iconSizeSmall} color="#999" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
@@ -118,8 +129,10 @@ const HomeScreen: React.FC = () => {
             placeholderTextColor="#999"
             value={searchText}
             onChangeText={setSearchText}
+            editable={false}
+            pointerEvents="none"
           />
-        </View>
+        </Pressable>
       </View>
       
       {/* Content */}
@@ -148,7 +161,7 @@ const iconSizeLarge = 32;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.backgroundBlue,
   },
   darkContainer: {
     backgroundColor: '#000000',
@@ -161,7 +174,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 400,
-    color: lightColors.titleText,
+    color: lightColors.tertiary,
     marginBottom: 16,
     fontFamily: 'Righteous-Regular',
     textAlign: 'center'
@@ -169,7 +182,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: lightColors.white,
     borderRadius: 8,
     paddingHorizontal: 24,
     paddingVertical: 12,
@@ -187,6 +200,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: lightColors.white
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -208,15 +222,6 @@ const styles = StyleSheet.create({
   },
   filterIcon: {
     // No size needed here since we use size prop
-  },
-  pinIcon: {
-    marginRight: 8,
-  },
-  calendarIcon: {
-    marginRight: 6,
-  },
-  clockIcon: {
-    marginRight: 6,
   },
 });
 
