@@ -55,8 +55,52 @@ For production, you'll need to:
 5. Add proper error handling and logging
 6. Implement rate limiting and security measures
 
+## CAS Configuration
+
+The backend uses Yale CAS for authentication. By default, it uses the **test CAS environment** for local development.
+
+### CAS Environments
+
+- **Test (Default)**: `https://secure-tst.its.yale.edu/cas`
+- **Production**: `https://secure.its.yale.edu/cas`
+
+### Switching CAS Environments
+
+To switch between test and production CAS, set the `YALE_CAS_BASE_URL` environment variable:
+
+```bash
+# Use test CAS (default)
+YALE_CAS_BASE_URL=https://secure-tst.its.yale.edu/cas npm start
+
+# Use production CAS
+YALE_CAS_BASE_URL=https://secure.its.yale.edu/cas npm start
+```
+
+Or create a `.env` file in the `backend` directory:
+
+```env
+YALE_CAS_BASE_URL=https://secure.its.yale.edu/cas
+```
+
+### MFA Provider Unavailable Error
+
+If you encounter "MFA Provider Unavailable" error when trying to authenticate:
+
+1. **Test CAS Environment**: The test CAS server may have MFA enabled and the MFA provider might be unavailable. This is a server-side issue with Yale's test CAS environment.
+
+2. **Solutions**:
+   - **Option 1**: Switch to production CAS (see above). Production CAS may work better for local development.
+   - **Option 2**: Wait for Yale IT to fix the test CAS MFA provider issue.
+   - **Option 3**: Contact Yale IT to register your localhost service URL with the test CAS environment.
+
+3. **Test CAS Connectivity**: 
+   ```bash
+   curl http://localhost:3001/api/test-cas
+   ```
+   This will tell you if the CAS server is reachable and if there's an MFA error.
+
 ## Testing
 
 You can test the CAS integration by visiting:
-- `http://localhost:3001/health` - Should return `{"status":"OK"}`
-- `http://localhost:3001/api/test-cas` - Tests CAS server connectivity
+- `http://localhost:3001/health` - Should return `{"status":"OK"}` with CAS configuration
+- `http://localhost:3001/api/test-cas` - Tests CAS server connectivity and checks for MFA errors

@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { lightColors, darkColors } from '../constants/colors';
 import { CarProfileIcon, PencilSimpleIcon } from 'phosphor-react-native';
@@ -16,6 +16,7 @@ import { CarProfileIcon, PencilSimpleIcon } from 'phosphor-react-native';
 const MyRidesScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { logout } = useAuth();
+  const insets = useSafeAreaInsets();
 
   const handleLogout = () => {
     logout();
@@ -28,11 +29,11 @@ const MyRidesScreen: React.FC = () => {
 
 
   return (
-    <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
+    <View style={[styles.container, isDarkMode && styles.darkContainer]}>
       <StatusBar barStyle="light-content" backgroundColor="#6B9080" />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 15 }]}>
         <Text style={styles.headerTitle}>My Rides</Text>
       </View>
       
@@ -57,7 +58,7 @@ const MyRidesScreen: React.FC = () => {
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -72,14 +73,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   header: {
-      backgroundColor: lightColors.white,
-      paddingTop: 56,
-      paddingBottom: 20,
-      paddingHorizontal: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
+    backgroundColor: lightColors.white,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
     headerTitle: {
       fontSize: 20,
       fontWeight: 'bold',

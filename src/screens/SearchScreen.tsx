@@ -9,8 +9,8 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors, darkColors } from '../constants/colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { lightColors } from '../constants/colors';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -113,7 +113,7 @@ const SearchScreen: React.FC = () => {
 				</Pressable>
 			</View>
 			{/* Footer */}
-			<View style={styles.footer}>
+			<View style={[styles.footer, { paddingBottom: Math.max(insets.bottom + 20, 32) }]}>
 				<TouchableOpacity style={styles.footerSearchRideButton} onPress={handleNavBack}>
 					<Text style={styles.footerSearchRideText}>Search Rides</Text>
 				</TouchableOpacity>
@@ -127,11 +127,8 @@ const SearchScreen: React.FC = () => {
 
 const defaultFontFamily = 'Lexend-Regular';
 const defaultTextSize = 16;
-const smallTextSize = 12;
 const buttonTextSize = 14;
 const iconSizeSmall = 16;
-const iconSizeMedium = 20;
-const iconSizeLarge = 32;
 
 const styles = StyleSheet.create({
   container: {
@@ -170,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
 	backgroundColor: lightColors.backgroundBlue,
-	paddingBottom: 0,
+	paddingBottom: 24,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -196,8 +193,8 @@ const styles = StyleSheet.create({
 	flexDirection: 'row',
 	alignItems: 'center',
 	justifyContent: 'space-between',
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 24,
+    paddingBottom: 32,
     paddingHorizontal: 20,
 	gap: 12,
 	backgroundColor: lightColors.backgroundBlue,

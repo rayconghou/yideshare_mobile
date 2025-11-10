@@ -8,13 +8,12 @@ import MessagesScreen from '../screens/MessagesScreen';
 
 // Phosphor React Native icon imports
 import { lightColors } from '../constants/colors';
-import { HouseIcon, ChatCircleIcon, BellIcon, UserIcon, BookmarkSimpleIcon } from 'phosphor-react-native';
+import { HouseIcon, ChatCircleIcon, UserIcon, BookmarkSimpleIcon } from 'phosphor-react-native';
 
 const Tab = createBottomTabNavigator();
-const TabNavigator: React.FC = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+const navBarIconSize = 32;
 
-  const navBarIconSize = 32;
+const TabNavigator: React.FC = () => {
 
   return (
     <Tab.Navigator

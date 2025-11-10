@@ -140,6 +140,41 @@ The `ios/YideShareMobile/Info.plist` file must include `NSExceptionDomains` for 
 </dict>
 ```
 
+### MFA Provider Unavailable Error
+
+If you see "MFA Provider Unavailable" when trying to authenticate with Yale CAS:
+
+**Problem**: The Yale CAS test environment has MFA (Multi-Factor Authentication) enabled, but the MFA provider service is unavailable. This is a server-side issue with Yale's test CAS environment.
+
+**Solutions**:
+
+1. **Switch to Production CAS** (Recommended for local development):
+   ```bash
+   cd backend
+   # Create .env file or set environment variable
+   echo "YALE_CAS_BASE_URL=https://secure.its.yale.edu/cas" > .env
+   npm start
+   ```
+   
+   **Note**: Production CAS may also have restrictions on localhost service URLs. If you get a "Service not authorized" error, you may need to use a public URL (see option 3).
+
+2. **Test CAS Connectivity**:
+   ```bash
+   curl http://localhost:3001/api/test-cas
+   ```
+   This will show if the CAS server is reachable and if there's an MFA error.
+
+3. **Use a Public URL for Local Development**:
+   - Use a tool like [ngrok](https://ngrok.com/) to create a public tunnel to your local backend
+   - Update the backend to use the ngrok URL as the service URL
+   - This allows CAS to redirect back to your local server
+
+4. **Contact Yale IT**:
+   - Request to register your localhost service URL with the test CAS environment
+   - Or request MFA to be disabled for your test service URL
+
+**For more details**, see `backend/README.md` section on "CAS Configuration" and "MFA Provider Unavailable Error".
+
 ### iOS Build Failed (Error Code 65)
 
 If you encounter "Failed to build ios project. xcodebuild exited with error code '65'" or see errors about missing script files:
