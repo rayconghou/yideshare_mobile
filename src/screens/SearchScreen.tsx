@@ -41,10 +41,13 @@ const SearchScreen: React.FC = () => {
 		})
 	};
 	const handleCalendarClick = () => {
-		navigation.navigate('calendar')
+		navigation.navigate('calendar');
 	}
 	const handleTimeSelect = () => {
-		navigation.navigate('timeSelect')
+		navigation.navigate('timeSelect');
+	}
+	const handlePostRide = () => {
+		navigation.navigate('postRide');
 	}
 
   	return (
@@ -114,7 +117,7 @@ const SearchScreen: React.FC = () => {
 				<TouchableOpacity style={styles.footerSearchRideButton} onPress={handleNavBack}>
 					<Text style={styles.footerSearchRideText}>Search Rides</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.footerPostRideButton} onPress={handleNavBack}>
+				<TouchableOpacity style={styles.footerPostRideButton} onPress={handlePostRide}>
 					<Text style={styles.footerPostRideText}>Post Ride</Text>
 				</TouchableOpacity>
 			</View>
