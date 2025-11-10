@@ -25,7 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Yale CAS Configuration
-const YALE_CAS_BASE_URL = 'https://secure.its.yale.edu';
+// const YALE_CAS_BASE_URL = 'https://secure.its.yale.edu';
+const YALE_CAS_BASE_URL = 'https://secure-tst.its.yale.edu';
 const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/cas/serviceValidate`;
 
 
