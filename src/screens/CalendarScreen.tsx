@@ -39,74 +39,70 @@ LocaleConfig.locales.us = {
 LocaleConfig.defaultLocale = 'us';
 
 const CalendarScreen: React.FC = () => {
-    const isDarkMode = useColorScheme() === 'dark';
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'search'>>();
-    
-    const handleNavBack = () => {
-        console.log("back");
-        navigation.goBack();
-    };
+  const isDarkMode = useColorScheme() === 'dark';
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'search'>>();
+  
+  // Handles clicking "X" button
+  const handleNavBack = () => {
+    console.log("back");
+    navigation.goBack();
+  };
 
-    // Calendar selection
-    const [selected, setSelected] = useState('');
-    const handleDayPress = (day: DateData) => {
-        // TODO get actual day
-        console.log(day);
-        setSelected(day.dateString);
-        // navigation.goBack();
-    };
+  // Handles selecting a date on calendar
+  const [selected, setSelected] = useState('');
+  const handleDayPress = (day: DateData) => {
+    // TODO get actual day
+    console.log(day);
+    setSelected(day.dateString);
+    // navigation.goBack();
+  };
 
-    return (
-        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
-            {/* <StatusBar barStyle="light-content" backgroundColor="#4A90E2" /> */}
-            {/* Header */}
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.headerBackButton} onPress={handleNavBack}>
-                    <XIcon size={24} color={lightColors.stone} style={styles.headerBackButtonIcon} />
-                </TouchableOpacity>
-            </View>
+  return (
+    <View style={[styles.container, isDarkMode && styles.darkContainer]}>
+      {/* Header */}
+      <View style={styles.header}>
+          <TouchableOpacity style={styles.headerBackButton} onPress={handleNavBack}>
+              <XIcon size={24} color={lightColors.stone} style={styles.headerBackButtonIcon} />
+          </TouchableOpacity>
+      </View>
 
-            {/* Content */}
-            <View style={styles.content}>
-                <Calendar
-                    // showSixWeeks={true}
-                    onDayPress={handleDayPress}
-                    markedDates={{
-                        [selected]: {selected: true, disableTouchEvent: true}
-                    }}
-                    headerStyle={styles.calendarHeader}
-                    theme = {{
-                        backgroundColor: lightColors.white,
-                        calendarBackground: lightColors.white,
-                        textSectionTitleColor: lightColors.text,
-                        selectedDayBackgroundColor: lightColors.secondary,
-                        selectedDayTextColor: lightColors.text,
-                        todayTextColor: lightColors.text,
-                        
-                        arrowColor: lightColors.text,
-                        disabledArrowColor: lightColors.placeholder_gray,
-                        
-                        textDayFontFamily: defaultFontFamily,
-                        textDayFontWeight: 400,
-                        textDayFontSize: 13,
-                        dayTextColor: lightColors.text,
+      {/* Content */}
+      <View style={styles.content}>
+        <Calendar
+          onDayPress={handleDayPress}
+          markedDates={{ [selected]: {selected: true, disableTouchEvent: true} }}
+          headerStyle = {{ rowGap: 48 }}
+          theme = {{
+            backgroundColor: lightColors.white,
+            calendarBackground: lightColors.white,
+            textSectionTitleColor: lightColors.text,
+            selectedDayBackgroundColor: lightColors.secondary,
+            selectedDayTextColor: lightColors.text,
+            todayTextColor: lightColors.text,
+            
+            arrowColor: lightColors.text,
+            disabledArrowColor: lightColors.placeholder_gray,
+            
+            textDayFontFamily: defaultFontFamily,
+            textDayFontWeight: 400,
+            textDayFontSize: 13,
+            dayTextColor: lightColors.text,
 
-                        textMonthFontFamily: defaultFontFamily,
-                        textMonthFontWeight: 600,
-                        textMonthFontSize: 16,
-                        monthTextColor: lightColors.text,
-                        
-                        textDayHeaderFontFamily: defaultFontFamily,
-                        textDayHeaderFontWeight: 300,
-                        textDayHeaderFontSize: 13,
-       
-                        // dotColor: lightColors.secondary,
-                        // selectedDotColor: lightColors.secondary
-                        // indicatorColor: lightColors.placeholder_gray, 
-                    }}
-                />
-            </View>
-        </View>
+            textMonthFontFamily: defaultFontFamily,
+            textMonthFontWeight: 600,
+            textMonthFontSize: 16,
+            monthTextColor: lightColors.text,
+            
+            textDayHeaderFontFamily: defaultFontFamily,
+            textDayHeaderFontWeight: 300,
+            textDayHeaderFontSize: 13,
+            // dotColor: lightColors.secondary,
+            // selectedDotColor: lightColors.secondary
+            // indicatorColor: lightColors.placeholder_gray, 
+          }}
+        />
+      </View>
+    </View>
   );
 };
 

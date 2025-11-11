@@ -40,26 +40,31 @@ const MessagesScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const insets = useSafeAreaInsets();
 
+  // Renders individual chats
   const renderChatCard = (chat: typeof mockChats[0]) => (
-      <View key={chat.id} style={styles.chatCard}>
-        <View style={styles.chatContent}>
-          <View style={styles.chatAvatar}>
-            <Text style={styles.chatInitials}>{chat.initials}</Text>
+    <View key={chat.id} style={styles.chatCard}>
+      <View style={styles.chatContent}>
+        {/* Avatar, initials default */}
+        <View style={styles.chatAvatar}>
+          <Text style={styles.chatInitials}>{chat.initials}</Text>
+        </View>
+        
+        {/* Text */}
+        <View style={styles.chatInfo}>
+          {/* Person name and time */}
+          <View style={styles.chatHeader}>
+              <Text style={styles.chatName}>{chat.from}</Text>
+              <Text style={styles.chatTime}>{chat.time}</Text>
           </View>
-          
-          <View style={styles.chatInfo}>
-            <View style={styles.chatHeader}>
-                <Text style={styles.chatName}>{chat.from}</Text>
-                <Text style={styles.chatTime}>{chat.time}</Text>
-            </View>
 
-            <View style={styles.chatPreview}>
-              <Text style={styles.chatPreviewText}>{chat.preview}</Text>
-            </View>
+          {/* Preview of chat*/}
+          <View style={styles.chatPreview}>
+            <Text style={styles.chatPreviewText}>{chat.preview}</Text>
           </View>
         </View>
       </View>
-    );
+    </View>
+  );
 
   return (
     <View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -112,11 +117,12 @@ const styles = StyleSheet.create({
     backgroundColor: lightColors.white,
     // paddingHorizontal: 16,
     paddingVertical: 12,
-    marginBottom: 12,
+    gap: 12, 
   },
   chatContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
   },
   chatInfo: {
     flex: 1,
@@ -125,7 +131,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
   },
   chatName: {
     fontSize: 20,
@@ -156,7 +161,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
   },
   chatInitials: {
     color: '#918f8fff',

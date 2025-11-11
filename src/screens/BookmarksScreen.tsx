@@ -30,64 +30,72 @@ const BookmarksScreen: React.FC = () => {
     await toggleBookmark(rideId);
   };
 
+  {/* Renders each individual ride */}
   const renderRideCard = (ride: Ride) => (
-    <View key={ride.id} style={rideCardStyles.rideCard}>
-      <View style={rideCardStyles.rideHeader}>
-        <View style={rideCardStyles.routeInfo}>
-          <View style={rideCardStyles.locationRow}>
-            <MapPinSimpleIcon size={20} style={styles.pinIcon} />
-            <Text style={rideCardStyles.locationText}>{ride.from}</Text>
+      <View key={ride.id} style={rideCardStyles.rideCard}>
+        {/* Location */}
+        <View style={rideCardStyles.rideHeader}>
+          <View style={rideCardStyles.routeInfo}>
+            <View style={rideCardStyles.locationRow}>
+              <MapPinSimpleIcon size={iconSizeMedium} />
+              <Text style={rideCardStyles.locationText}>{ride.from}</Text>
+            </View>
+            <View style={rideCardStyles.locationRow}>
+              <MapPinSimpleIcon
+                size={iconSizeMedium}
+                color="#666"
+                weight="fill"
+                style={{ transform: [{ rotate: '180deg' }] }}
+              />
+              <Text style={rideCardStyles.locationText}>{ride.to}</Text>
+            </View>
           </View>
-          <View style={rideCardStyles.locationRow}>
-            <MapPinSimpleIcon size={20} color="#666" weight="fill" style={[styles.pinIcon, { transform: [{ rotate: '180deg' }] }]} />
-            <Text style={rideCardStyles.locationText}>{ride.to}</Text>
-          </View>
-        </View>
-        <TouchableOpacity 
-          style={rideCardStyles.bookmarkButton} 
-          onPress={() => handleBookmarkToggle(ride.id)}
-        >
-          <BookmarkSimpleIcon size={24} weight={ride.isBookmarked ? 'fill' : 'regular'} style={[
-            rideCardStyles.bookmarkIcon,
-            ride.isBookmarked && rideCardStyles.bookmarkIconActive
-          ]}/>
-        </TouchableOpacity>
-      </View>
-      
-      <View style={rideCardStyles.rideDetails}>
-        <View style={rideCardStyles.timeInfoLeft}>
-          <CalendarDotsIcon size={16} style={styles.calendarIcon} />
-          <Text style={rideCardStyles.dateText}>{ride.date}</Text>
-        </View>
-        <View style={rideCardStyles.timeInfoRight}>
-          <ClockIcon size={16} style={styles.clockIcon} />
-          <Text style={rideCardStyles.timeText}>{ride.time}</Text>
-        </View>
-      </View>
-      
-      <View style={rideCardStyles.driverInfo}>
-        <View style={rideCardStyles.driverAvatar}>
-          <Text style={rideCardStyles.driverInitials}>{ride.driver.initials}</Text>
-        </View>
-        <View style={rideCardStyles.driverDetails}>
-          <View style={rideCardStyles.driverNameRow}>
-            <Text style={rideCardStyles.driverName}>{ride.driver.name}</Text>
-            <Text style={rideCardStyles.driverEmail}>{ride.driver.email}</Text>
+          {/* Date and time */}
+          <View style={rideCardStyles.rideDetails}>
+            <View style={rideCardStyles.timeInfoLeft}>
+              <CalendarDotsIcon size={iconSizeMedium} />
+              <Text style={rideCardStyles.dateText}>{ride.date}</Text>
+            </View>
+            <View style={rideCardStyles.timeInfoRight}>
+              <ClockIcon size={iconSizeMedium} />
+              <Text style={rideCardStyles.timeText}>{ride.time}</Text>
+            </View>
           </View>
         </View>
-        <View style={rideCardStyles.driverPhone}>
-          <Text style={rideCardStyles.driverPhoneText}>{ride.driver.phone}</Text>
+  
+        {/* Driver info */}
+        <View style={rideCardStyles.cardContent}>
+          <View style={rideCardStyles.driverInfo}>
+            <View style={rideCardStyles.driverAvatar}>
+              <Text style={rideCardStyles.driverInitials}>{ride.driver.initials}</Text>
+            </View>
+            <View style={rideCardStyles.driverDetails}>
+              <View style={rideCardStyles.driverNameRow}>
+                <Text style={rideCardStyles.driverName}>{ride.driver.name}</Text>
+                <Text style={rideCardStyles.driverEmail}>{ride.driver.email}</Text>
+              </View>
+            </View>
+            <View style={rideCardStyles.driverPhone}>
+              <Text style={rideCardStyles.driverPhoneText}>{ride.driver.phone}</Text>
+            </View>
+          </View>
+          
+          {/* Note, seats, bookmark */}
+          <View style={rideCardStyles.rideFooter}>
+            <TouchableOpacity>
+              <Text style={rideCardStyles.seeNoteText}>See note</Text>
+            </TouchableOpacity>
+            <Text style={rideCardStyles.seatsText}>{ride.seats} open seats</Text>
+            <TouchableOpacity 
+              onPress={() => handleBookmarkToggle(ride.id)}>
+              <BookmarkSimpleIcon size={24} weight={ride.isBookmarked ? 'fill' : 'regular'} style={[
+                rideCardStyles.bookmarkIcon,
+                ride.isBookmarked && rideCardStyles.bookmarkIconActive]}/>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-      
-      <View style={rideCardStyles.rideFooter}>
-        <TouchableOpacity>
-          <Text style={rideCardStyles.seeNoteText}>{ride.note}</Text>
-        </TouchableOpacity>
-        <Text style={rideCardStyles.seatsText}>{ride.seats} open seats</Text>
-      </View>
-    </View>
-  );
+    );
 
   return (
     <View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -117,17 +125,20 @@ const BookmarksScreen: React.FC = () => {
 };
 
 const defaultFontFamily = 'Lexend-Regular'
+const iconSizeMedium = 20;
+const iconSizeSmall = 14; 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: lightColors.white,
+    gap: 32,
   },
   darkContainer: {
     backgroundColor: '#000000',
   },
   header: {
     backgroundColor: lightColors.white,
-    paddingBottom: 20,
     paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -141,17 +152,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingVertical: 12,
-  },
-  pinIcon: {
-    marginRight: 8,
-  },
-  calendarIcon: {
-    marginRight: 6,
-  },
-  clockIcon: {
-    marginRight: 6,
+    gap: 12,
   },
   emptyState: {
     flex: 1,

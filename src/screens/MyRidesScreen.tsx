@@ -18,15 +18,16 @@ const MyRidesScreen: React.FC = () => {
   const { logout } = useAuth();
   const insets = useSafeAreaInsets();
 
+  // Handles clicking "X" button
   const handleLogout = () => {
     logout();
   };
 
+  // TODO: actually handle sending feedback
   const handleSendFeedback = () => {
     // TODO: Implement feedback functionality
     console.log('Send feedback pressed');
   };
-
 
   return (
     <View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -50,10 +51,13 @@ const MyRidesScreen: React.FC = () => {
       
       {/* Bottom Buttons */}
       <View style={styles.bottomButtons}>
+        {/* Send Feedback */}
         <TouchableOpacity style={styles.feedbackButton} onPress={handleSendFeedback}>
-          <PencilSimpleIcon size={12.5} style={styles.feedbackIcon} />
+          <PencilSimpleIcon size={12.5} color={lightColors.tertiary} />
           <Text style={styles.feedbackText}>Send Feedback</Text>
         </TouchableOpacity>
+        
+        {/* Log out */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
@@ -123,6 +127,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: lightColors.white,
+    gap: 12,
   },
   feedbackButton: {
     flexDirection: 'row',
@@ -132,12 +137,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    marginBottom: 12,
     backgroundColor: 'transparent',
-  },
-  feedbackIcon: {
-    marginRight: 6,
-    color: lightColors.tertiary,
+    gap: 6, 
   },
   feedbackText: {
     fontSize: buttonTextSize,

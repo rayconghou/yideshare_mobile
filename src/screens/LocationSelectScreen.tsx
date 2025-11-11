@@ -51,27 +51,29 @@ const LocationSelectScreen: React.FC = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'locationSelect'>>();
     const route = useRoute<RouteProp<RootStackParamList, 'locationSelect'>>();
 
+    // Checks whether it is from or to selection
     const { screen } = route.params;
 
+    // Handle clicking "X" button
     const handleNavBack = () => {
         navigation.goBack();
     };
 
+    // Individual locations
     const renderLocationCard = (location: typeof mockLocations[0]) => (
-          <View key={location.id} style={styles.locationCard}>
-            <View style={styles.locationIcon}>
-                <AirplaneTiltIcon size={24} color={lightColors.text}/>
-            </View>
-            <View style={styles.locationInfo}>
-                <Text style={styles.locationNameText}>{location.name}</Text>
-                <Text style={styles.locationAddressText}>{location.address}</Text>
-            </View>
-        </View>
-        );
+    <View key={location.id} style={styles.locationCard}>
+      <View>
+          <AirplaneTiltIcon size={24} color={lightColors.text}/>
+      </View>
+      <View>
+          <Text style={styles.locationNameText}>{location.name}</Text>
+          <Text style={styles.locationAddressText}>{location.address}</Text>
+      </View>
+    </View>
+  );
 
     return (
         <View style={[styles.container, isDarkMode && styles.darkContainer]}>
-            {/* <StatusBar barStyle="light-content" backgroundColor="#4A90E2" /> */}
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity style={styles.headerBackButton} onPress={handleNavBack}>
@@ -81,7 +83,7 @@ const LocationSelectScreen: React.FC = () => {
 
             {/* Search Bar */}
             <View style={styles.searchContainer}>
-                <MapPinIcon size={iconSizeSmall} color={lightColors.tertiary} style={styles.searchIcon} weight="fill"/>
+                <MapPinIcon size={iconSizeSmall} color={lightColors.tertiary} weight="fill"/>
                 <TextInput
                     style={styles.searchInput}
                     placeholder={screen === 'leaving' ? "Leaving from" : "Going to"}
@@ -133,9 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: lightColors.tertiary,
     borderWidth: 1,
-  },
-  searchIcon: {
-    marginRight: 10,
+    gap: 12,
   },
   searchInput: {
     flex: 1,
@@ -153,15 +153,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 12,
-    // marginVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: lightColors.primary
-  },
-  locationIcon: {
-    marginRight: 12,
-  },
-  locationInfo: {
-    
+    borderBottomColor: lightColors.primary,
+    gap: 12,
   },
   locationNameText: {
     fontFamily: defaultFontFamily,

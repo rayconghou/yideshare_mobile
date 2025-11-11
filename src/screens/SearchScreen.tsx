@@ -24,28 +24,35 @@ import {
     CaretLeftIcon,
 } from 'phosphor-react-native';
 
-// type SearchScreenNavigationProp = 
-
 const SearchScreen: React.FC = () => {
 	const isDarkMode = useColorScheme() === 'dark';
 	const [searchText, setSearchText] = useState('');
 	const insets = useSafeAreaInsets();
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'search'>>();
 	
+	// Handles clicking "X" button
 	const handleNavBack = () => {
 		navigation.goBack();
 	};
+
+	// Handles redirect to location selection screen
 	const handleLocationSearch = (screen: string) => {
 		navigation.navigate('locationSelect', {
 			screen: screen,
 		})
 	};
+	
+	// Handles redirection to date selection screen
 	const handleCalendarClick = () => {
 		navigation.navigate('calendar');
 	}
+
+	// Handles redirection to time selection screen
 	const handleTimeSelect = () => {
 		navigation.navigate('timeSelect');
 	}
+
+	// Handles redirection to post new ride screen
 	const handlePostRide = () => {
 		navigation.navigate('postRide');
 	}
@@ -65,7 +72,7 @@ const SearchScreen: React.FC = () => {
 			{/* Content */}
 			<View style={styles.content}>
 				<Pressable style={styles.searchContainer} onPress={() => handleLocationSearch("leaving")}>
-					<MapPinIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
+					<MapPinIcon size={iconSizeMedium} color={lightColors.secondary} weight="fill" />
 					<TextInput
 					style={styles.searchInput}
 					placeholder="Leaving from"
@@ -77,7 +84,7 @@ const SearchScreen: React.FC = () => {
 					/>
 				</Pressable>
 				<Pressable style={styles.searchContainer} onPress={() => handleLocationSearch("going")}>
-					<MapPinIcon size={iconSizeSmall} color={lightColors.placeholder_gray} style={styles.searchIcon} />
+					<MapPinIcon size={iconSizeMedium} color={lightColors.placeholder_gray} weight="fill" />
 					<TextInput
 					style={styles.searchInput}
 					placeholder="Going to"
@@ -89,7 +96,7 @@ const SearchScreen: React.FC = () => {
 					/>
 				</Pressable>
 				<Pressable style={styles.searchContainer} onPress={() => handleCalendarClick()}>
-					<CalendarDotsIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
+					<CalendarDotsIcon size={iconSizeMedium} color={lightColors.secondary} />
 					<TextInput
 					style={styles.searchInput}
 					placeholder="Date"
@@ -100,7 +107,7 @@ const SearchScreen: React.FC = () => {
 					/>
 				</Pressable>
 				<Pressable style={styles.searchContainer} onPress={() => handleTimeSelect()}>
-					<ClockIcon size={iconSizeSmall} color={lightColors.secondary} style={styles.searchIcon} />
+					<ClockIcon size={iconSizeMedium} color={lightColors.secondary} />
 					<TextInput
 					style={styles.searchInput}
 					placeholder="Time range"
@@ -112,6 +119,7 @@ const SearchScreen: React.FC = () => {
 					/>
 				</Pressable>
 			</View>
+			
 			{/* Footer */}
 			<View style={[styles.footer, { paddingBottom: Math.max(insets.bottom + 20, 32) }]}>
 				<TouchableOpacity style={styles.footerSearchRideButton} onPress={handleNavBack}>
@@ -129,6 +137,7 @@ const defaultFontFamily = 'Lexend-Regular';
 const defaultTextSize = 16;
 const buttonTextSize = 14;
 const iconSizeSmall = 16;
+const iconSizeMedium = 20;
 
 const styles = StyleSheet.create({
   container: {
@@ -167,7 +176,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
 	backgroundColor: lightColors.backgroundBlue,
-	paddingBottom: 24,
+	paddingBottom: 0,
+	gap: 12,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -176,11 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 24,
     paddingVertical: 12,
-	marginTop: 12,
-  },
-  searchIcon: {
-    marginRight: 10,
-    color: lightColors.secondary,
+	gap: 12,
   },
   searchInput: {
     flex: 1,

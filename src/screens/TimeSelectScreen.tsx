@@ -16,7 +16,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../components/RootNavigator';
 
 // icon imports
-import { XIcon, CaretDownIcon, CaretUpIcon } from 'phosphor-react-native';
+import { XIcon, CaretDownIcon, CaretUpIcon, MinusIcon } from 'phosphor-react-native';
 
 const TimeSelectScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -78,6 +78,9 @@ const TimeSelectScreen: React.FC = () => {
                   <Text style={styles.dropdownButtonText}>{formattedStartTime}</Text>
                   {startShown ? <CaretUpIcon size={20}/> : <CaretDownIcon size={20}/>}
               </TouchableOpacity>
+              <View style={styles.minusWrap}>
+                <MinusIcon size={23} color={lightColors.text} />
+              </View>
               
               {/* End time */}
               <TouchableOpacity style={endShown ? styles.dropdownButtonActive : styles.dropdownButton} onPress={() => togglePicker(false)}>
@@ -159,6 +162,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: lightColors.white,
     paddingBottom: 0,
+    gap: 32,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   instruction: {
     fontFamily: defaultFontFamily,
@@ -168,19 +174,26 @@ const styles = StyleSheet.create({
   buttonRow: {
     justifyContent: 'center',
     flexDirection: 'row',
+    gap: 32,
+    marginBottom: 12,
   },
   dropdownButton: {
     borderRadius: 12,
+    width: 132,
+    gap: 10,
     padding: 12,
-    margin: 11,
+    margin: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: lightColors.primary,
   },
   dropdownButtonActive: {
     borderRadius: 12,
+    width: 132,
+    gap: 10,
     padding: 12,
-    margin: 10,
     flexDirection: 'row',
+    justifyContent: 'center',
     borderColor: lightColors.secondary,
     borderWidth: 1,
     backgroundColor: lightColors.white,
@@ -188,6 +201,10 @@ const styles = StyleSheet.create({
   dropdownButtonText: {
     fontFamily: defaultFontFamily,
     fontSize: defaultTextSize,
+  },
+  minusWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   timePicker: {
     

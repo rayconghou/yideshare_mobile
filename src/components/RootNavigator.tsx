@@ -9,6 +9,7 @@ import CalendarScreen from '../screens/CalendarScreen';
 import TimeSelectScreen from '../screens/TimeSelectScreen';
 import PostRideScreen from '../screens/PostRidesScreen';
 
+// Defines parameters passed from screen to screen
 export type RootStackParamList = {
   main: undefined;
   search: undefined;
