@@ -1,4 +1,5 @@
 import { User } from './CASService';
+import { BACKEND_URL } from '../config/backend';
 
 export interface Ride {
   id: string;
@@ -31,7 +32,7 @@ export interface RidesResponse {
 
 class RideService {
   private static instance: RideService;
-  private baseUrl = 'http://localhost:3001/api';
+  private baseUrl = `${BACKEND_URL}/api`;
 
   static getInstance(): RideService {
     if (!RideService.instance) {

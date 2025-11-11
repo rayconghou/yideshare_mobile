@@ -6,8 +6,7 @@ import {
   useColorScheme,
 } from 'react-native';
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -17,7 +16,7 @@ import { RootStackParamList } from '../components/RootNavigator';
 import { XIcon } from 'phosphor-react-native';
 
 // Calendar config
-LocaleConfig.locales['us'] = {
+LocaleConfig.locales.us = {
   monthNames: [
     'January',
     'February',
@@ -41,8 +40,6 @@ LocaleConfig.defaultLocale = 'us';
 
 const CalendarScreen: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
-    const [searchText, setSearchText] = useState('');
-    const insets = useSafeAreaInsets();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'search'>>();
     
     const handleNavBack = () => {
@@ -77,10 +74,7 @@ const CalendarScreen: React.FC = () => {
                     markedDates={{
                         [selected]: {selected: true, disableTouchEvent: true}
                     }}
-                    headerStyle = {{
-                        rowGap: 48,
-                    
-                    }}
+                    headerStyle={styles.calendarHeader}
                     theme = {{
                         backgroundColor: lightColors.white,
                         calendarBackground: lightColors.white,
@@ -118,16 +112,14 @@ const CalendarScreen: React.FC = () => {
 
 const defaultFontFamily = 'Lexend-Regular';
 const defaultTextSize = 16;
-const smallTextSize = 12;
-const buttonTextSize = 14;
-const iconSizeSmall = 16;
-const iconSizeMedium = 20;
-const iconSizeLarge = 32;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: lightColors.white,
+  },
+  calendarHeader: {
+    rowGap: 48,
   },
   darkContainer: {
     backgroundColor: '#000000',

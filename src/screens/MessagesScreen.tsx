@@ -7,7 +7,7 @@ import {
   useColorScheme,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { lightColors } from '../constants/colors';
 import { NotePencilIcon } from 'phosphor-react-native';
 
@@ -38,6 +38,7 @@ const iconSizeMedium = 20;
 
 const MessagesScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const insets = useSafeAreaInsets();
 
   const renderChatCard = (chat: typeof mockChats[0]) => (
       <View key={chat.id} style={styles.chatCard}>
@@ -61,11 +62,11 @@ const MessagesScreen: React.FC = () => {
     );
 
   return (
-    <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
+    <View style={[styles.container, isDarkMode && styles.darkContainer]}>
       <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 15 }]}>
         <Text style={styles.headerTitle}>Messages</Text>
         <NotePencilIcon size={iconSizeMedium} color={lightColors.stone}/>
       </View>
@@ -74,7 +75,7 @@ const MessagesScreen: React.FC = () => {
       <ScrollView style={styles.content}>
         {mockChats.map(renderChatCard)}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -88,7 +89,6 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: lightColors.white,
-    paddingTop: 56,
     paddingBottom: 20,
     paddingHorizontal: 20,
     flexDirection: 'row',

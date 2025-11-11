@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,14 +10,14 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../components/RootNavigator';
 
 import { useAuth } from '../contexts/AuthContext';
 import { Ride } from '../services/RideService';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 import { rideCardStyles } from '../styles/RideCardStyles';
 
 // icon imports
@@ -34,20 +34,13 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'm
 
 const HomeScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const { user, yaliesData, logout, rides, toggleBookmark, fetchRides } = useAuth();
+  const { rides, toggleBookmark } = useAuth();
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation<HomeScreenNavigationProp>();
-
-  const handleLogout = () => {
-    logout();
-  };
+  const insets = useSafeAreaInsets();
 
   const handleBookmarkToggle = async (rideId: string) => {
     await toggleBookmark(rideId);
-  };
-
-  const handleRefresh = () => {
-    fetchRides();
   };
   
   const handleNavSearch = () => {
@@ -115,11 +108,11 @@ const HomeScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
+    <View style={[styles.container, isDarkMode && styles.darkContainer]}>
       <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 15 }]}>
         <Text style={styles.headerTitle}>Yideshare</Text>
         <Pressable style={styles.searchContainer} onPress={handleNavSearch}>
           <MagnifyingGlassIcon size={iconSizeSmall} color="#999" style={styles.searchIcon} />
@@ -147,13 +140,11 @@ const HomeScreen: React.FC = () => {
         {rides.map(renderRideCard)}
       </ScrollView>
       
-    </SafeAreaView>
+    </View>
   );
 };
 
 const defaultFontFamily = 'Lexend-Regular';
-const defaultTextSize = 16;
-const smallTextSize = 12;
 const iconSizeSmall = 16;
 const iconSizeMedium = 20;
 const iconSizeLarge = 32;
@@ -168,7 +159,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: lightColors.backgroundBlue,
-    paddingVertical: 64,
+    paddingBottom: 16,
     paddingHorizontal: 16,
   },
   headerTitle: {

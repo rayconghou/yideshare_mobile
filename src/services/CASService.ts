@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Linking } from 'react-native';
 import YaliesService, { YaliesPerson } from './YaliesService';
-
-const BACKEND_URL = 'http://localhost:3001';
+import { BACKEND_URL } from '../config/backend';
 
 // Simple user interface - only netid
 export interface User {
@@ -41,6 +40,7 @@ class MobileCASService {
   async initiateLogin(): Promise<{ success: boolean; message: string }> {
     try {
       console.log('📱 [MOBILE CAS] Initiating mobile CAS authentication');
+      console.log(`🌐 [MOBILE CAS] Backend URL: ${BACKEND_URL}`);
       
       // Get login URL from backend
       const response = await fetch(`${BACKEND_URL}/api/auth/mobile/login`, {
@@ -48,6 +48,16 @@ class MobileCASService {
         headers: {
           'Content-Type': 'application/json',
         },
+      }).catch((fetchError) => {
+        // Network request failed - backend is likely not running
+        console.error('❌ [MOBILE CAS] Network request failed:', fetchError);
+        if (fetchError.message && fetchError.message.includes('Network request failed')) {
+          throw new Error(
+            `Cannot connect to backend server at ${BACKEND_URL}. ` +
+            `Please ensure the backend is running: cd backend && npm start`
+          );
+        }
+        throw fetchError;
       });
 
       if (!response.ok) {
@@ -107,6 +117,16 @@ class MobileCASService {
         headers: {
           'Content-Type': 'application/json',
         },
+      }).catch((fetchError) => {
+        // Network request failed - backend is likely not running
+        console.error('❌ [MOBILE CAS] Network request failed during poll:', fetchError);
+        if (fetchError.message && fetchError.message.includes('Network request failed')) {
+          throw new Error(
+            `Cannot connect to backend server at ${BACKEND_URL}. ` +
+            `Please ensure the backend is running: cd backend && npm start`
+          );
+        }
+        throw fetchError;
       });
 
       if (!response.ok) {

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -48,7 +48,7 @@ const TimeSelectScreen: React.FC = () => {
     }
   }
 
-  const onChange = (event: any) => {
+  const onChange = (_event: any) => {
     // unfortunately the only maintained package only supports inline implementation on ios, android only has modal
     if (Platform.OS === 'android') {
       setShowPicker(false);
@@ -91,7 +91,7 @@ const TimeSelectScreen: React.FC = () => {
                 value={startShown ? startDate : endDate}
                 mode={'time'}
                 testID="dateTimePicker"
-                display={Platform.OS == 'ios' ? 'spinner' : 'default'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 style={styles.timePicker}
                 onChange={onChange}
               />
@@ -99,14 +99,14 @@ const TimeSelectScreen: React.FC = () => {
 
             {/* Now button */}
             {showPicker && 
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
+              <View style={styles.nowButtonContainer}>
                 <TouchableOpacity
                   onPress={() => {
                     const now = new Date();
                     if (startShown) setStartDate(now);
                     if (endShown) setEndDate(now);
                   }}
-                  style={[styles.dropdownButton, { paddingHorizontal: 16 }]}
+                  style={[styles.dropdownButton, styles.nowButton]}
                 >
                   <Text style={styles.dropdownButtonText}>Now</Text>
                 </TouchableOpacity>
@@ -119,11 +119,6 @@ const TimeSelectScreen: React.FC = () => {
 
 const defaultFontFamily = 'Lexend-Regular';
 const defaultTextSize = 16;
-const smallTextSize = 12;
-const buttonTextSize = 14;
-const iconSizeSmall = 16;
-const iconSizeMedium = 20;
-const iconSizeLarge = 32;
 
 const styles = StyleSheet.create({
   container: {
@@ -196,6 +191,14 @@ const styles = StyleSheet.create({
   },
   timePicker: {
     
+  },
+  nowButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 8,
+  },
+  nowButton: {
+    paddingHorizontal: 16,
   },
 });
 

@@ -25,9 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Yale CAS Configuration
-// const YALE_CAS_BASE_URL = 'https://secure.its.yale.edu';
-const YALE_CAS_BASE_URL = 'https://secure-tst.its.yale.edu';
-const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/cas/serviceValidate`;
+// For local development, use test CAS environment
+// For production, use: 'https://secure.its.yale.edu/cas'
+const YALE_CAS_BASE_URL = process.env.YALE_CAS_BASE_URL || 'https://secure-tst.its.yale.edu/cas';
+// Note: YALE_CAS_BASE_URL already includes /cas, so we just append /serviceValidate
+const YALE_CAS_VALIDATE_URL = `${YALE_CAS_BASE_URL}/serviceValidate`;
 
 
 // In-memory session storage (in production, use Redis or database)
@@ -210,6 +212,7 @@ function generateToken(userData) {
   };
   
   // Simple base64 encoding (in production, use proper JWT)
+  // eslint-disable-next-line no-undef
   return Buffer.from(JSON.stringify(payload)).toString('base64');
 }
 
@@ -223,7 +226,7 @@ app.get('/api/auth/mobile/login', (req, res) => {
   try {
     const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const serviceUrl = `${req.protocol}://${req.get('host')}/api/auth/mobile/callback?state=${state}`;
-    const casLoginUrl = `${YALE_CAS_BASE_URL}/cas/login?service=${encodeURIComponent(serviceUrl)}`;
+    const casLoginUrl = `${YALE_CAS_BASE_URL}/login?service=${encodeURIComponent(serviceUrl)}`;
     
     // Store pending authentication state
     PENDING_AUTH[state] = {
@@ -233,12 +236,15 @@ app.get('/api/auth/mobile/login', (req, res) => {
     };
     
     console.log('📱 [MOBILE AUTH] Generated login URL for mobile:', casLoginUrl);
+    console.log('📱 [MOBILE AUTH] Service URL:', serviceUrl);
+    console.log('📱 [MOBILE AUTH] CAS Base URL:', YALE_CAS_BASE_URL);
     console.log('📱 [MOBILE AUTH] Stored pending auth state:', state);
     
     res.json({
       success: true,
       loginUrl: casLoginUrl,
-      state: state
+      state: state,
+      casEnvironment: YALE_CAS_BASE_URL.includes('secure-tst') ? 'test' : 'production'
     });
   } catch (error) {
     console.error('💥 [MOBILE AUTH] Error generating login URL:', error);
@@ -630,63 +636,83 @@ app.get('/api/bookmarks/check', (req, res) => {
  * Health check endpoint
  */
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    casBaseUrl: YALE_CAS_BASE_URL,
+    casEnvironment: YALE_CAS_BASE_URL.includes('secure-tst') ? 'test' : 'production'
+  });
+});
+
+/**
+ * CAS connectivity test endpoint
+ * Tests if the CAS server is reachable
+ */
+app.get('/api/test-cas', async (req, res) => {
+  try {
+    // Test CAS server connectivity by making a simple request
+    const testUrl = `${YALE_CAS_BASE_URL}/login?service=http://localhost:3001/test`;
+    
+    console.log(`🧪 [CAS TEST] Testing CAS connectivity to: ${testUrl}`);
+    
+    const response = await axios.get(testUrl, {
+      timeout: 5000,
+      maxRedirects: 5,
+      validateStatus: (status) => status < 500 // Accept redirects and client errors
+    });
+    
+    console.log(`🧪 [CAS TEST] CAS server responded with status: ${response.status}`);
+    
+    // Check if response contains MFA error
+    const hasMfaError = response.data && (
+      typeof response.data === 'string' && 
+      (response.data.includes('MFA Provider Unavailable') || 
+       response.data.includes('MFA provider'))
+    );
+    
+    res.json({
+      status: 'OK',
+      casBaseUrl: YALE_CAS_BASE_URL,
+      casEnvironment: YALE_CAS_BASE_URL.includes('secure-tst') ? 'test' : 'production',
+      httpStatus: response.status,
+      reachable: true,
+      mfaError: hasMfaError,
+      message: hasMfaError 
+        ? 'CAS server is reachable but MFA provider is unavailable. Try using production CAS or contact Yale IT.'
+        : 'CAS server is reachable'
+    });
+  } catch (error) {
+    console.error('💥 [CAS TEST] Error testing CAS connectivity:', error.message);
+    res.status(500).json({
+      status: 'ERROR',
+      casBaseUrl: YALE_CAS_BASE_URL,
+      casEnvironment: YALE_CAS_BASE_URL.includes('secure-tst') ? 'test' : 'production',
+      reachable: false,
+      error: error.message,
+      message: 'CAS server is not reachable. Check your network connection or CAS URL configuration.'
+    });
+  }
 });
 
 
 /**
  * Start server
+ * Listens on all interfaces (0.0.0.0) to allow connections from mobile devices
  */
-const server = app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Backend server running on port ${PORT}`);
   console.log(`📱 Mobile auth endpoints available`);
   console.log(`🏥 Health check: http://localhost:${PORT}/health`);
-  console.log(`🗄️  Database test: http://localhost:${PORT}/test-db`);
-  console.log(`📚 API Documentation:`);
-  console.log(`   GET  /api/rides/search - Search rides`);
-  console.log(`   POST /api/rides - Create ride`);
-  console.log(`   GET  /api/rides/user - Get user rides`);
-  console.log(`   PUT  /api/rides/:id - Update ride`);
-  console.log(`   DELETE /api/rides/:id - Delete ride`);
-  console.log(`   GET  /api/bookmarks - Get bookmarks`);
-  console.log(`   POST /api/bookmarks/toggle - Toggle bookmark`);
-});
-
-/**
- * Graceful shutdown
- */
-process.on('SIGTERM', async () => {
-  console.log('🛑 SIGTERM received, shutting down gracefully...');
-  
-  server.close(() => {
-    console.log('📴 HTTP server closed.');
-  });
-  
-  try {
-    await disconnect();
-    console.log('🗄️  Database connection closed.');
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Error during shutdown:', error);
-    process.exit(1);
-  }
-});
-
-process.on('SIGINT', async () => {
-  console.log('🛑 SIGINT received, shutting down gracefully...');
-  
-  server.close(() => {
-    console.log('📴 HTTP server closed.');
-  });
-  
-  try {
-    await disconnect();
-    console.log('🗄️  Database connection closed.');
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Error during shutdown:', error);
-    process.exit(1);
-  }
+  console.log(`🧪 CAS test: http://localhost:${PORT}/api/test-cas`);
+  console.log(`🌐 CAS Base URL: ${YALE_CAS_BASE_URL}`);
+  console.log(`🌐 CAS Environment: ${YALE_CAS_BASE_URL.includes('secure-tst') ? 'TEST' : 'PRODUCTION'}`);
+  console.log(`\n💡 To switch CAS environments, set YALE_CAS_BASE_URL environment variable:`);
+  console.log(`   Test: YALE_CAS_BASE_URL=https://secure-tst.its.yale.edu/cas`);
+  console.log(`   Production: YALE_CAS_BASE_URL=https://secure.its.yale.edu/cas`);
+  console.log(`\n💡 For physical device testing, use your machine's IP address:`);
+  console.log(`   iOS Simulator: http://localhost:${PORT}`);
+  console.log(`   Android Emulator: http://10.0.2.2:${PORT}`);
+  console.log(`   Physical Device: http://<your-ip>:${PORT}`);
 });
 
 module.exports = app;

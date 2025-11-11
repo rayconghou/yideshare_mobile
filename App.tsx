@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
@@ -13,11 +13,10 @@ import LandingScreen from './src/screens/LandingScreen';
 import { RootNavigator } from './src/components/RootNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { lightColors, darkColors } from './src/constants/colors';
+import { lightColors } from './src/constants/colors';
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated, isLoading, isPolling, user } = useAuth();
-  const [activeTab, setActiveTab] = useState('home');
+  const { isAuthenticated, isLoading, isPolling } = useAuth();
 
   if (isLoading) {
     return (
