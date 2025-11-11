@@ -60,17 +60,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('✅ [AUTH] Deep link authentication successful:', data.netid);
         
         // Create user object from deep link data
-        const user: User = {
+        const deepLinkUser: User = {
           netid: data.netid,
         };
         
-        setUser(user);
+        setUser(deepLinkUser);
         stopPolling(); // Stop any ongoing polling
         
         // Fetch additional user data from Yalies
-        casService.getCurrentUserYaliesData().then(yaliesData => {
-          if (yaliesData) {
-            setYaliesData(yaliesData);
+        casService.getCurrentUserYaliesData().then(yaliesUserData => {
+          if (yaliesUserData) {
+            setYaliesData(yaliesUserData);
           }
         }).catch(error => {
           console.error('❌ [AUTH] Error fetching Yalies data:', error);
@@ -86,6 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       deepLinkService.removeListener(handleDeepLink);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check authentication status on app start
@@ -112,6 +113,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     checkAuthStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetch rides when user is authenticated
@@ -120,6 +122,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       fetchRides();
       fetchBookmarkedRides();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const login = async (): Promise<{ success: boolean; message: string }> => {
@@ -179,8 +182,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     try {
       console.log('🔖 [BOOKMARKS] Fetching bookmarked rides');
-      const bookmarkedRides = await rideService.getBookmarkedRides(user);
-      setBookmarkedRides(bookmarkedRides);
+      const fetchedBookmarkedRides = await rideService.getBookmarkedRides(user);
+      setBookmarkedRides(fetchedBookmarkedRides);
       console.log('✅ [BOOKMARKS] Fetched', bookmarkedRides.length, 'bookmarked rides');
     } catch (error) {
       console.error('❌ [BOOKMARKS] Error fetching bookmarked rides:', error);
@@ -292,6 +295,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       stopPolling();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value = {

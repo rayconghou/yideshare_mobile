@@ -8,10 +8,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { Ride } from '../services/RideService';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 import { rideCardStyles } from '../styles/RideCardStyles';
 import { 
   CalendarDotsIcon,  
@@ -24,7 +24,8 @@ import {
 const BookmarksScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { bookmarkedRides, toggleBookmark } = useAuth();
-  
+  const insets = useSafeAreaInsets();
+
   const handleBookmarkToggle = async (rideId: string) => {
     await toggleBookmark(rideId);
   };
@@ -97,9 +98,11 @@ const BookmarksScreen: React.FC = () => {
     );
 
   return (
-    <SafeAreaView style={[styles.container, isDarkMode && styles.darkContainer]}>
+    <View style={[styles.container, isDarkMode && styles.darkContainer]}>
+      <StatusBar barStyle="light-content" backgroundColor="#6B9080" />
+      
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 15 }]}>
         <Text style={styles.headerTitle}>Bookmarks</Text>
       </View>
       
@@ -117,7 +120,7 @@ const BookmarksScreen: React.FC = () => {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

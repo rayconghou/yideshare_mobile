@@ -8,16 +8,15 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors, darkColors } from '../constants/colors';
+import { lightColors } from '../constants/colors';
 
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../components/RootNavigator';
 import { rideCardStyles } from '../styles/RideCardStyles';
 
 // icon imports
-import { XIcon, MapPinSimpleIcon, CalendarDotsIcon, ClockIcon, MinusCircleIcon, PlusCircleIcon, Minus } from 'phosphor-react-native';
+import { XIcon, MapPinSimpleIcon, CalendarDotsIcon, ClockIcon, MinusCircleIcon, PlusCircleIcon } from 'phosphor-react-native';
 
 const mockData = [
   {
@@ -43,9 +42,7 @@ const PostRideScreen: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
     const [searchText, setSearchText] = useState('');
     const [openSeats, setOpenSeats] = useState(0);
-    const insets = useSafeAreaInsets();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'postRide'>>();
-    const route = useRoute<RouteProp<RootStackParamList, 'postRide'>>();
 
     // Handles clicking "X" button
     const handleNavBack = () => {
