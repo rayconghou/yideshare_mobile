@@ -47,10 +47,12 @@ const PostRideScreen: React.FC = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'postRide'>>();
     const route = useRoute<RouteProp<RootStackParamList, 'postRide'>>();
 
+    // Handles clicking "X" button
     const handleNavBack = () => {
       navigation.goBack();
     };
 
+    // Frontend handling of clicking minus and plus buttons
     const incrementSeats = (minus: Boolean) => {
       if (minus && openSeats > 0){
         setOpenSeats(openSeats - 1)
@@ -73,7 +75,7 @@ const PostRideScreen: React.FC = () => {
             {mockData.map((ride) => (
               <View key={ride.id} style={styles.rideInfoWrap}> 
                 <View style={rideCardStyles.locationRow}>
-                  <MapPinSimpleIcon size={iconSizeMedium} style={rideCardStyles.pinIcon} />
+                  <MapPinSimpleIcon size={iconSizeMedium}/>
                   <Text style={rideCardStyles.locationText}>{ride.from}</Text>
                 </View>
                 <View style={rideCardStyles.locationRow}>
@@ -81,16 +83,16 @@ const PostRideScreen: React.FC = () => {
                     size={iconSizeMedium}
                     color="#666"
                     weight="fill"
-                    style={[rideCardStyles.pinIcon, { transform: [{ rotate: '180deg' }] }]}
+                    style={{ transform: [{ rotate: '180deg' }] }}
                   />
                   <Text style={rideCardStyles.locationText}>{ride.to}</Text>
                 </View>
                 <View style={rideCardStyles.locationRow}>
-                  <CalendarDotsIcon size={iconSizeMedium} style={rideCardStyles.calendarIcon} color={lightColors.secondary} />
+                  <CalendarDotsIcon size={iconSizeMedium} color={lightColors.secondary} />
                 < Text style={styles.dateTimeText}>{ride.date}</Text>
                 </View>
                 <View style={rideCardStyles.locationRow}>
-                  <ClockIcon size={iconSizeMedium} style={rideCardStyles.clockIcon} color={lightColors.secondary} />
+                  <ClockIcon size={iconSizeMedium} color={lightColors.secondary} />
                   <Text style={styles.dateTimeText}>{ride.time}</Text>
                 </View>
               </View>
@@ -124,6 +126,7 @@ const PostRideScreen: React.FC = () => {
               </Pressable>
             </View>
           </View>
+          
           {/* Footer */}
           <View style={styles.footer}>
             <TouchableOpacity style={styles.footerPostRideButton}>

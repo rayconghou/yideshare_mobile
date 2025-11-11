@@ -38,28 +38,34 @@ const HomeScreen: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
+  // Handles logout
   const handleLogout = () => {
     logout();
   };
 
+  // Handles bookmarking
   const handleBookmarkToggle = async (rideId: string) => {
     await toggleBookmark(rideId);
   };
 
+  // Handles page refresh
   const handleRefresh = () => {
     fetchRides();
   };
   
+  // Handles pressing search box
   const handleNavSearch = () => {
     navigation.navigate('search');
   };
 
+  // Renders individual ride card
   const renderRideCard = (ride: Ride) => (
     <View key={ride.id} style={rideCardStyles.rideCard}>
+      {/* Location */}
       <View style={rideCardStyles.rideHeader}>
         <View style={rideCardStyles.routeInfo}>
           <View style={rideCardStyles.locationRow}>
-            <MapPinSimpleIcon size={iconSizeMedium} style={rideCardStyles.pinIcon} />
+            <MapPinSimpleIcon size={iconSizeMedium} />
             <Text style={rideCardStyles.locationText}>{ride.from}</Text>
           </View>
           <View style={rideCardStyles.locationRow}>
@@ -67,49 +73,54 @@ const HomeScreen: React.FC = () => {
               size={iconSizeMedium}
               color="#666"
               weight="fill"
-              style={[rideCardStyles.pinIcon, { transform: [{ rotate: '180deg' }] }]}
+              style={{ transform: [{ rotate: '180deg' }] }}
             />
             <Text style={rideCardStyles.locationText}>{ride.to}</Text>
           </View>
         </View>
-      </View>
-      
-      <View style={rideCardStyles.rideDetails}>
-        <View style={rideCardStyles.timeInfoLeft}>
-          <CalendarDotsIcon size={iconSizeSmall} style={rideCardStyles.calendarIcon} />
-          <Text style={rideCardStyles.dateText}>{ride.date}</Text>
-        </View>
-        <View style={rideCardStyles.timeInfoRight}>
-          <ClockIcon size={iconSizeSmall} style={rideCardStyles.clockIcon} />
-          <Text style={rideCardStyles.timeText}>{ride.time}</Text>
-        </View>
-      </View>
-      <View style={rideCardStyles.driverInfo}>
-        <View style={rideCardStyles.driverAvatar}>
-          <Text style={rideCardStyles.driverInitials}>{ride.driver.initials}</Text>
-        </View>
-        <View style={rideCardStyles.driverDetails}>
-          <View style={rideCardStyles.driverNameRow}>
-            <Text style={rideCardStyles.driverName}>{ride.driver.name}</Text>
-            <Text style={rideCardStyles.driverEmail}>{ride.driver.email}</Text>
+        {/* Date and time */}
+        <View style={rideCardStyles.rideDetails}>
+          <View style={rideCardStyles.timeInfoLeft}>
+            <CalendarDotsIcon size={iconSizeMedium} />
+            <Text style={rideCardStyles.dateText}>{ride.date}</Text>
+          </View>
+          <View style={rideCardStyles.timeInfoRight}>
+            <ClockIcon size={iconSizeMedium} />
+            <Text style={rideCardStyles.timeText}>{ride.time}</Text>
           </View>
         </View>
-        <View style={rideCardStyles.driverPhone}>
-          <Text style={rideCardStyles.driverPhoneText}>{ride.driver.phone}</Text>
-        </View>
       </View>
-      
-      <View style={rideCardStyles.rideFooter}>
-        <TouchableOpacity>
-          <Text style={rideCardStyles.seeNoteText}>See note</Text>
-        </TouchableOpacity>
-        <Text style={rideCardStyles.seatsText}>{ride.seats} open seats</Text>
-        <TouchableOpacity style={rideCardStyles.bookmarkButton} 
-          onPress={() => handleBookmarkToggle(ride.id)}>
-          <BookmarkSimpleIcon size={24} weight={ride.isBookmarked ? 'fill' : 'regular'} style={[
-            rideCardStyles.bookmarkIcon,
-            ride.isBookmarked && rideCardStyles.bookmarkIconActive]}/>
-        </TouchableOpacity>
+
+      {/* Driver info */}
+      <View style={rideCardStyles.cardContent}>
+        <View style={rideCardStyles.driverInfo}>
+          <View style={rideCardStyles.driverAvatar}>
+            <Text style={rideCardStyles.driverInitials}>{ride.driver.initials}</Text>
+          </View>
+          <View style={rideCardStyles.driverDetails}>
+            <View style={rideCardStyles.driverNameRow}>
+              <Text style={rideCardStyles.driverName}>{ride.driver.name}</Text>
+              <Text style={rideCardStyles.driverEmail}>{ride.driver.email}</Text>
+            </View>
+          </View>
+          <View style={rideCardStyles.driverPhone}>
+            <Text style={rideCardStyles.driverPhoneText}>{ride.driver.phone}</Text>
+          </View>
+        </View>
+        
+        {/* Note, seats, bookmark */}
+        <View style={rideCardStyles.rideFooter}>
+          <TouchableOpacity>
+            <Text style={rideCardStyles.seeNoteText}>See note</Text>
+          </TouchableOpacity>
+          <Text style={rideCardStyles.seatsText}>{ride.seats} open seats</Text>
+          <TouchableOpacity 
+            onPress={() => handleBookmarkToggle(ride.id)}>
+            <BookmarkSimpleIcon size={24} weight={ride.isBookmarked ? 'fill' : 'regular'} style={[
+              rideCardStyles.bookmarkIcon,
+              ride.isBookmarked && rideCardStyles.bookmarkIconActive]}/>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -143,10 +154,8 @@ const HomeScreen: React.FC = () => {
             <SlidersHorizontalIcon size={iconSizeLarge} color={lightColors.text} style={styles.filterIcon} />
           </TouchableOpacity>
         </View>
-        
         {rides.map(renderRideCard)}
       </ScrollView>
-      
     </SafeAreaView>
   );
 };
@@ -199,17 +208,22 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-    backgroundColor: lightColors.white
+    paddingHorizontal: 16,
+    backgroundColor: lightColors.white,
+    gap: 16, 
   },
   sectionHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 15,
+    position: 'relative',
   },
   sectionTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
     fontSize: 16,
     fontWeight: '400',
     color: lightColors.text,
@@ -219,6 +233,8 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 5,
+    marginLeft: 'auto',
+    zIndex: 1,
   },
   filterIcon: {
     // No size needed here since we use size prop

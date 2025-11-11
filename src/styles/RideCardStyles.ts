@@ -13,29 +13,26 @@ export const rideCardStyles = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     borderColor: lightColors.secondary,
+    gap: 12,
   },
   rideHeader: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    gap: 16,
   },
   routeInfo: {
-    flex: 1,
+    gap: 12, 
   },
   locationRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    gap: 8, 
   },
   locationText: {
     fontSize: 16,
     fontWeight: '400',
     color: lightColors.text,
     fontFamily: defaultFontFamily,
-  },
-  bookmarkButton: {
-    padding: 5,
   },
   bookmarkIcon: {
     fontSize: 18,
@@ -47,19 +44,20 @@ export const rideCardStyles = StyleSheet.create({
   },
   rideDetails: {
     flexDirection: 'row',
-    marginBottom: 12,
     justifyContent: 'space-between',
   },
   timeInfoLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+    gap: 8, 
   },
   timeInfoRight: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
     justifyContent: 'flex-end',
+    gap: 8, 
   },
   dateText: {
     fontSize: defaultTextSize,
@@ -80,9 +78,12 @@ export const rideCardStyles = StyleSheet.create({
     paddingTop: 12,
     borderTopColor: lightColors.primary,
     borderTopWidth: 1,
-    marginBottom: 12,
     fontFamily: defaultFontFamily,
     fontSize: smallTextSize,
+    gap: 8,
+  },
+  cardContent: {
+    gap: 12,
   },
   driverAvatar: {
     width: 32,
@@ -91,7 +92,6 @@ export const rideCardStyles = StyleSheet.create({
     backgroundColor: '#B0E0D0',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8,
   },
   driverInitials: {
     color: '#3D7A6A',
@@ -149,14 +149,5 @@ export const rideCardStyles = StyleSheet.create({
     color: lightColors.text,
     fontFamily: defaultFontFamily,
     fontWeight: 300,
-  },
-  pinIcon: {
-    marginRight: 8,
-  },
-  calendarIcon: {
-    marginRight: 6,
-  },
-  clockIcon: {
-    marginRight: 6,
   },
 });
