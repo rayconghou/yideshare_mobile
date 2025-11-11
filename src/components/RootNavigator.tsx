@@ -3,10 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
 import TabNavigator from './TabNavigator'
-import SearchScreen from '../screens/SearchScreen';
-import LocationSelectScreen from '../screens/LocationSelectScreen';
-import CalendarScreen from '../screens/CalendarScreen';
-import TimeSelectScreen from '../screens/TimeSelectScreen';
+import SearchScreen from '../screens/Search/SearchScreen';
+import LocationSelectScreen from '../screens/Search/LocationSelectScreen';
+import CalendarScreen from '../screens/Search/CalendarScreen';
+import TimeSelectScreen from '../screens/Search/TimeSelectScreen';
 import PostRideScreen from '../screens/PostRidesScreen';
 
 // Defines parameters passed from screen to screen

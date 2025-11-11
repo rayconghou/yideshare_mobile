@@ -10,11 +10,11 @@ import {
   Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors } from '../constants/colors';
+import { lightColors } from '../../constants/colors';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../components/RootNavigator';
+import { RootStackParamList } from '../../components/RootNavigator';
 
 // icon imports
 import { 

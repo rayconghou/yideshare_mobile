@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { lightColors } from '../constants/colors';
+import { lightColors } from '../../constants/colors';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../components/RootNavigator';
+import { RootStackParamList } from '../../components/RootNavigator';
 
 // icon imports
 import { XIcon, CaretDownIcon, CaretUpIcon, MinusIcon } from 'phosphor-react-native';

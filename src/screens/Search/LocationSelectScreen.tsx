@@ -8,11 +8,11 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import { lightColors } from '../constants/colors';
+import { lightColors } from '../../constants/colors';
 
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../components/RootNavigator';
+import { RootStackParamList } from '../../components/RootNavigator';
 
 // icon imports
 import { XIcon, AirplaneTiltIcon, MapPinIcon} from 'phosphor-react-native';
