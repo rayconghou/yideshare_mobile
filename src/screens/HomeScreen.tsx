@@ -125,7 +125,7 @@ const HomeScreen: React.FC = () => {
       <View style={[styles.header, { paddingTop: insets.top + 15 }]}>
         <Text style={styles.headerTitle}>Yideshare</Text>
         <Pressable style={styles.searchContainer} onPress={handleNavSearch}>
-          <MagnifyingGlassIcon size={iconSizeSmall} color="#999" style={styles.searchIcon} />
+          <MagnifyingGlassIcon size={iconSizeSmall} color="#999"/>
           <TextInput
             style={styles.searchInput}
             placeholder="Where to?"
@@ -185,10 +185,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 24,
     paddingVertical: 12,
-  },
-  searchIcon: {
-    marginRight: 10,
-    color: lightColors.secondary,
+    gap: 10,
   },
   searchInput: {
     flex: 1,

@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: lightColors.white,
     gap: 32,
-    marginTop: 56,
   },
   darkContainer: {
     backgroundColor: '#000000',
