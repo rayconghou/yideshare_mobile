@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    gap: 8,
   },
   dateTimeText: {
     fontSize: defaultTextSize,
